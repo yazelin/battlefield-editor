@@ -31,8 +31,12 @@
 | 子階段 | 內容 | 狀態 |
 |---|---|---|
 | P4.0 | 自檢 gate `tools/render-check.mjs`(headless 逐幕截圖 + console error)+ 座標 picker(Shift+點地圖)+ 設計 doc | ✅ ship |
-| P4.1 | AI 把官渡 3→8 幕(白馬/延津/退守官渡/土山樓櫓/霹靂破櫓/許攸來奔/烏巢夜襲/河北遂定)+ 烏巢守軍/前鋒 | ✅ ship,**待 yazelin 驗空間/時序** |
-| P4.2 | 官渡音訊:移植旁白 TTS(edge-tts)+ 寫 script/cues + synth 音效 + 音樂海選 audition | 待辦 |
+| P4.1 | AI 把官渡 3→8 幕 + 烏巢守軍/前鋒;再照形勢圖/維基**全重排地理**(黃河 NE→SW、白馬東北、延津西南、烏巢居中、許都正南、補鄴城/河內郡/濮水) | ✅ ship,**待 yazelin 驗空間/時序** |
+| P4.2 | 官渡音訊:旁白語音(edge-tts 雙聲 16 檔 + 字幕 cues)+ 戰場音效(synth + 複用 CC0 sword/battlecry)+ 背景音樂(複用 chibi CC0、依幕情緒對應) | ✅ ship,**待 yazelin 聽感驗收** |
+
+> 官渡現況:8 幕、旁白+字幕、音效、背景音樂齊備;render-check 0 error、31 音訊素材全解析。
+> 旁白用 edge-tts(授權灰色,CREDITS 已註,可換配音);音樂暫借 chibi CC0(可用海選換官渡專屬曲)。
+> 待人驗:① 空間/運鏡/節奏 ② 旁白發音(荀彧/張郃/許攸/淳于瓊 等已用破音替身,仍請耳檢)③ 音樂情緒貼合度。
 
 > P4.1 已過 validator + render-check(8 幕、0 console error);截圖在 `tools/render-out/guandu/`
 > (跑 `npm run render-check -- --pkg packages/guandu/battlefield.json` 重生)。
