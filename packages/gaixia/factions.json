@@ -1,0 +1,4 @@
+{
+  "chu": { "name": "楚軍", "flag": "楚", "css": "chu", "col": "#b5302f", "dark": "#6e1715", "light": "#e8918a", "panel": "楚軍", "legend": "楚（項羽）" },
+  "han": { "name": "漢軍", "flag": "漢", "css": "han", "col": "#2f6aa8", "dark": "#173a60", "light": "#86b4de", "panel": "漢軍", "legend": "漢（劉邦）" }
+}

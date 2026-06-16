@@ -1,0 +1,31 @@
+{
+  "name": "垓下之戰 前202",
+  "era": "漢五年（西元前 202）",
+  "description": "楚漢決戰——韓信三十萬合圍垓下，四面楚歌、霸王別姬；項羽夜潰圍南走，東城快戰，終自刎烏江，楚亡漢興。",
+  "engine": "battlefield-editor",
+  "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
+  "pending": [],
+  "meta": {
+    "title": "垓下之戰",
+    "subtitle": "漢五年・西元前二〇二",
+    "docTitle": "垓下之戰 前202 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "楚",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "漢五年",
+    "eraYear": "西元前 202 年・垓下",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "楚漢相爭五年，至此終局。漢五年冬，項羽兵敗退守垓下，韓信、彭越、英布會師，三十萬之眾四面合圍。是夜四面楚歌，軍心瓦解；項王帳中悲歌、霸王別姬，乃將八百騎夜潰圍南走。<br><br>本節目以 3D 運鏡重現末路：垓下合圍、四面楚歌、潰圍南奔、東城快戰、烏江自刎——一代霸王的最後一夜。",
+      "footHtml": "兵力為史學估計・標注「史」者見於《史記》，「演義」者出自傳說敷衍"
+    },
+    "finale": {
+      "title": "楚亡漢興",
+      "subtitle": "烏江一劍・天下歸漢"
+    },
+    "timeline": {
+      "start": "漢五年 十二月 合圍",
+      "mid": "戰 役 時 間 軸",
+      "end": "烏江 自刎"
+    }
+  }
+}

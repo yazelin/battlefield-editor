@@ -36,8 +36,12 @@ tools/
   terrain-fit.mjs       地形數值擬合工具
 docs/authoring/         AI 編輯 SOP(每層一份:怎麼改、欄位意義、可貼範例、驗收)
 packages/
-  chibi/                赤壁之戰(完整範例:9 幕 + 旁白語音 + 音樂 + 音效 + assets/)
-  guandu/               官渡之戰(最小範例:3 幕,音訊待補 —— 留作 AI 編輯的 dogfood)
+  chibi/                赤壁之戰(水戰:9 幕 + 旁白語音 + 音樂 + 音效)
+  guandu/               官渡之戰(陸戰:8 幕 + 旁白 + 音效 + 音樂,含渡口)
+  gaixia/               垓下之戰(包圍/追擊/末路:8 幕,四面楚歌・霸王別姬・烏江自刎;以 authoring skill 從 scaffold 編成)
+tools/new-package.mjs   scaffold:長出最小綠燈骨架包
+tools/residue-scan.mjs  殘留掃描 gate(抓 chibi 複製殘留)
+skills/author-battlefield/SKILL.md   AI 編寫戰場的可執行流程
 ```
 
 每個 package 自足:`battlefield.json`(manifest)指向同目錄的六層資料,素材放在自己的 `assets/`

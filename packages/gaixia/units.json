@@ -1,0 +1,8 @@
+{ "units": [
+  {"id":"chuMain","kind":"army","faction":"chu","n":56,"name":"項羽本軍","generals":"項羽・季布・鍾離眜","gait":"foot","start":{"x":0,"z":-124,"visible":true},"info":["楚軍主力","項王十萬之眾困守垓下,糧盡兵疲、外無援軍。"]},
+  {"id":"chuGuard","kind":"army","faction":"chu","n":16,"name":"項羽突圍騎","generals":"項羽（八百壯士）","gait":"cav","start":{"x":10,"z":-118,"visible":false},"info":["江東子弟","夜潰圍而出,渡淮後僅餘百餘騎,東城時止二十八騎。"]},
+  {"id":"hanCenter","kind":"army","faction":"han","n":60,"name":"韓信本陣","generals":"韓信・孔熙・陳賀","gait":"foot","start":{"x":0,"z":-40,"visible":true},"info":["漢軍中軍","韓信將三十萬居中,先進、佯退、誘楚出壁而夾擊。"]},
+  {"id":"hanLeftKong","kind":"army","faction":"han","n":26,"name":"孔將軍","generals":"孔熙","gait":"foot","start":{"x":-95,"z":-55,"visible":false},"info":["漢軍左翼","孔熙所部居左,與右翼費將軍夾擊已動之楚軍。"]},
+  {"id":"hanRightFei","kind":"army","faction":"han","n":26,"name":"費將軍","generals":"陳賀","gait":"foot","start":{"x":95,"z":-55,"visible":false},"info":["漢軍右翼","陳賀所部居右,兩翼合擊,楚軍大敗退保壁壘。"]},
+  {"id":"hanPursuit","kind":"army","faction":"han","n":14,"name":"灌嬰騎","generals":"灌嬰","gait":"cav","start":{"x":0,"z":-20,"visible":false},"info":["漢軍追騎","項王夜走,漢遣灌嬰將五千騎追之,及於東城、烏江。"]}
+] }

@@ -1,0 +1,19 @@
+{
+  "structures": [
+    { "id": "pengcheng", "type": "city", "x": 60,  "z": -235, "label": "彭城", "labelPos": [60, -223],  "labelClass": "big" },
+    { "id": "gaixia",    "type": "city", "x": 0,   "z": -130, "label": "垓下", "labelPos": [0, -118],   "labelClass": "big" },
+    { "id": "dongcheng", "type": "city", "x": -30, "z": 120,  "label": "東城", "labelPos": [-30, 132],  "labelClass": "big" },
+
+    { "id": "chuCamp", "type": "camp", "faction": "chu", "x": -15, "z": -110 },
+    { "id": "hanCamp", "type": "camp", "faction": "han", "x": 0,   "z": 10 },
+
+    { "id": "wujiang", "type": "ferry", "x": 40, "z": 160, "rot": 3.14159, "label": "烏江", "labelPos": [40, 150], "labelClass": "water" },
+
+    { "type": "marker", "label": "淮河", "x": -150, "z": 55,  "labelClass": "water" },
+    { "type": "marker", "label": "淮河", "x": 160,  "z": 52,  "labelClass": "water" },
+    { "type": "marker", "label": "長江", "x": 185,  "z": 197, "labelClass": "water" },
+    { "type": "marker", "label": "長江", "x": -200, "z": 199, "labelClass": "water" },
+    { "type": "marker", "label": "陰陵", "x": -70,  "z": 86 },
+    { "type": "marker", "label": "大澤", "x": -100, "z": 102, "labelClass": "water" }
+  ]
+}

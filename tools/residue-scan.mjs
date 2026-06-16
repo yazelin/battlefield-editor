@@ -20,8 +20,8 @@ const RESIDUE = [
   'caoNavy', 'caoRen', 'caoMain', 'sunFleet', 'hgFleet', 'liuArmy', 'liuFleet',
   // 結構 id
   'campWulin', 'campChibi', 'huarongPass', 'xiangyang', 'jiangling', 'xiakou', 'chaisang',
-  // 地名 / 典故字串
-  '赤壁', '長江', '烏林', '華容', '連環', '鐵索', '八十萬', '東風', '蒙衝', '黃蓋', '周瑜',
+  // 地名 / 典故字串(只列赤壁專屬;像「長江」這種跨戰役共用的地理特徵不列,會誤判)
+  '赤壁', '烏林', '華容', '連環計', '鐵索連環', '八十萬', '東風', '黃蓋', '周瑜',
 ];
 
 if (slug === 'chibi') { console.log('SKIP — chibi(赤壁)本身,殘留字屬合法'); process.exit(0); }

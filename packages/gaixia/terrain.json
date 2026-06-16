@@ -1,0 +1,24 @@
+{
+  "world": { "W": 620, "H": 560, "segX": 186, "segZ": 168 },
+  "colorRamp": [
+    { "maxH": 0, "color": "#26343a" },
+    { "maxH": 1.2, "color": "#7e7448" },
+    { "maxH": 7, "color": "#74703f", "lerpTo": "#867d49", "by": "fbm" },
+    { "maxH": 16, "color": "#867d49", "lerpTo": "#938654", "by": "ramp", "from": 7, "span": 9 },
+    { "maxH": null, "color": "#938654", "lerpTo": "#ab9f7c", "by": "ramp", "from": 16, "span": 14 }
+  ],
+  "rivers": [
+    { "id": "huaihe", "centerline": [[-310, 52], [-110, 58], [110, 50], [310, 56]], "halfWidth": 24, "depth": -7, "bankSlope": 0.2, "bankCap": 5, "bankFbm": { "scale": 0.012, "xOff": 7, "ampRate": 0.13, "ampCap": 14 } },
+    { "id": "changjiang", "centerline": [[-310, 196], [-60, 202], [120, 192], [310, 200]], "halfWidth": 32, "depth": -9, "bankSlope": 0.22, "bankCap": 6, "bankFbm": { "scale": 0.011, "xOff": 3, "ampRate": 0.13, "ampCap": 15 } }
+  ],
+  "bumps": [
+    { "id": "hill", "center": [110, -95], "radius": [44, 30], "height": 13, "tint": { "color": "#9a8c5d", "threshold": 0.2, "gain": 1.6, "max": 0.5, "minH": 2 } }
+  ],
+  "bands": [
+    { "axis": "z", "beyond": 230, "slope": 0.16, "fbm": { "scale": 0.02, "base": 0.4, "offset": 6 } }
+  ],
+  "regions": [
+    { "id": "gaixiaPlain", "center": [0, -90], "radius": [150, 90], "tint": { "color": "#857a45", "threshold": 0.25, "gain": 1.3, "max": 0.45, "minH": 0.5, "maxH": 9 } },
+    { "id": "daze", "center": [-70, 92], "radius": [70, 46], "tint": { "color": "#46503e", "threshold": 0.15, "gain": 1.8, "max": 0.7, "minH": 0.2, "maxH": 6 } }
+  ]
+}
