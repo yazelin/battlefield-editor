@@ -23,15 +23,20 @@
 | P2h | 引擎去赤壁化(旗/單位/火源/面板/combat/validator 全資料化)+ 對抗審查強健化 |
 | **P3** | **抽成本獨立 repo(engine + schema + tools + SOP + packages),素材基準改 manifest 相對** |
 
-## 下一步
+## P4 — AI authoring loop(進行中,設計見 docs/P4-ai-authoring-loop.md)
 
-### P4 — AI authoring skills(prompt → package → render → 人驗收)
-把 `docs/authoring/` 的 SOP 從「給 AI 讀的文件」升級成可執行流程:輸入意圖 → 產 / 改 package →
-跑 validator → 渲染 → 人看/聽驗收。客觀 gate = 「載入 + 生成 + validator 綠 + 無殘字」。
+把 SOP 升級成「AI 編寫 → 機器自檢 → 人驗收」迴圈,第一個 dogfood = 用編輯器把官渡補完。
+邊界:AI 編資料(歷史可考 + 結構可驗);人只判機器判不了的空間 / 時序 / 感官,並微修。
 
-### 第一個 dogfood:用編輯器把官渡補完
-`guandu` 刻意維持最小(3 幕、空音訊),當 P4 的 before 樣本。目標:用編輯器把它養成
-赤壁規格(更多幕 / 策略卡 / 旁白語音 / 音樂音效)——若工具能做到,就證明了整套 AI authoring。
+| 子階段 | 內容 | 狀態 |
+|---|---|---|
+| P4.0 | 自檢 gate `tools/render-check.mjs`(headless 逐幕截圖 + console error)+ 座標 picker(Shift+點地圖)+ 設計 doc | ✅ ship |
+| P4.1 | AI 把官渡 3→8 幕(白馬/延津/退守官渡/土山樓櫓/霹靂破櫓/許攸來奔/烏巢夜襲/河北遂定)+ 烏巢守軍/前鋒 | ✅ ship,**待 yazelin 驗空間/時序** |
+| P4.2 | 官渡音訊:移植旁白 TTS(edge-tts)+ 寫 script/cues + synth 音效 + 音樂海選 audition | 待辦 |
+
+> P4.1 已過 validator + render-check(8 幕、0 console error);截圖在 `tools/render-out/guandu/`
+> (跑 `npm run render-check -- --pkg packages/guandu/battlefield.json` 重生)。
+> 視覺/運鏡/節奏的「對不對」是人的工作 —— 這是「邊做邊驗」的驗收點。
 
 ## Backlog / 已知待辦
 
