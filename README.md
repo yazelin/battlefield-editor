@@ -56,17 +56,24 @@ node tools/validate-data.mjs                                    # 預設驗 chib
 node tools/validate-data.mjs --pkg packages/guandu/battlefield.json
 ```
 
-## 編一場新戰役
+## 編一場新戰役(AI authoring loop)
 
-1. 複製 `packages/guandu/` 當骨架,改 `battlefield.json` 的 `meta`(標題/年號/印章/終幕字)。
-2. 依 `docs/authoring/` 逐層編 `factions / terrain / structures / units / scene / audio`。
-   每份 SOP 都有欄位說明 + 可貼上的最小範例 + 驗收方式。
-3. `node tools/validate-data.mjs --pkg packages/<你的>/battlefield.json` 跑綠
-   (它會交叉檢查:scene 引用的 unit/structure/faction 是否存在、env 是否合法、每幕有沒有 shots…)。
-4. 開 `index.html?pkg=packages/<你的>/battlefield.json` 在瀏覽器看 —— **視覺/聽覺/編排的「對不對」由人驗收**。
+完整的 AI 編寫流程在 **[`skills/author-battlefield/SKILL.md`](skills/author-battlefield/SKILL.md)**
+(AI 照著走);人類速覽:
 
-> schema 過了不代表畫面對:地形河道、城營位置、運鏡、編排的「好不好」是人的工作;
-> 驗證器只保證「結構合法 + 引用完整 + 不會 throw」。
+1. **Scaffold**:`node tools/new-package.mjs <slug> "顯示名"` → 長出最小、已綠的骨架包。
+2. **依序編**六層(`factions → terrain → structures → units → scene → audio`),對照 `docs/authoring/`。
+3. **過機器三關**(綠了才往下):
+   ```
+   node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用
+   node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無 chibi 複製殘留
+   node tools/render-check.mjs   --pkg packages/<slug>/battlefield.json   # 載入 + 逐幕截圖 + 0 console error
+   ```
+4. **旁白/音訊**(選):`narration/generate.py`(edge-tts)生語音 + 字幕;音效用 synth、音樂用 CC0。
+5. **交人驗收**:開 `index.html?pkg=…` 看/聽 —— **空間、運鏡時序、感官品質、史實由人判**。
+
+> 機器三關保證「結構合法 + 引用完整 + 載入不炸」;但**畫面/聲音/編排的「對不對、好不好」是人的工作**。
+> 這條界線就是這個編輯器的核心:AI 編資料過機器關,人驗機器驗不了的。
 
 ## 資料六層
 
