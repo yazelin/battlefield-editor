@@ -1,18 +1,78 @@
 {
   "music": {
-    "scenes": [],
-    "theme": ""
+    "scenes": [
+      "assets/music/scene1.mp3",
+      "assets/music/scene2.mp3",
+      "assets/music/scene3.mp3",
+      "assets/music/scene4.mp3",
+      "assets/music/scene5.mp3",
+      "assets/music/scene6.mp3",
+      "assets/music/scene7.mp3",
+      "assets/music/scene8.mp3"
+    ],
+    "theme": "assets/music/scene8.mp3"
   },
   "narration": {
-    "voices": [],
-    "default": "",
-    "voiceLabels": {},
+    "voices": ["yunjhe", "hsiaochen"],
+    "default": "yunjhe",
+    "voiceLabels": { "yunjhe": "男聲", "hsiaochen": "女聲" },
     "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
-    "cues": ""
+    "cues": "assets/narration/cues.json"
   },
   "sfx": {
     "dir": "assets/sfx",
-    "files": []
+    "files": ["battlecry", "sword1", "sword2", "sword3", "sword4"]
   },
-  "cues": {}
+  "cues": {
+    "0": [
+      { "at": 4, "type": "synth", "inst": "drum", "v": 0.4 },
+      { "at": 12, "type": "synth", "inst": "drum", "v": 0.45 },
+      { "at": 20, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 27, "type": "synth", "inst": "drum", "v": 0.45 }
+    ],
+    "1": [
+      { "at": 5, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 7, "type": "sfx", "name": "battlecry", "v": 0.5 },
+      { "at": 8, "type": "sword", "v": 0.45 },
+      { "at": 11, "type": "synth", "inst": "boom", "v": 0.5 },
+      { "at": 16, "type": "sword", "v": 0.5 },
+      { "at": 20, "type": "synth", "inst": "drum", "v": 0.55 }
+    ],
+    "2": [
+      { "at": 6, "type": "synth", "inst": "drum", "v": 0.25 },
+      { "at": 14, "type": "synth", "inst": "drum", "v": 0.22 },
+      { "at": 20, "type": "synth", "inst": "drum", "v": 0.2 }
+    ],
+    "3": [
+      { "at": 26, "type": "synth", "inst": "boom", "v": 0.3 }
+    ],
+    "4": [
+      { "at": 3, "type": "synth", "inst": "drum", "v": 0.45 },
+      { "at": 6, "type": "sfx", "name": "battlecry", "v": 0.45 },
+      { "at": 8, "type": "sword", "v": 0.45 },
+      { "at": 12, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 18, "type": "synth", "inst": "drum", "v": 0.4 }
+    ],
+    "5": [
+      { "at": 4, "type": "synth", "inst": "drum", "v": 0.35 },
+      { "at": 12, "type": "synth", "inst": "boom", "v": 0.5 },
+      { "at": 20, "type": "synth", "inst": "drum", "v": 0.3 }
+    ],
+    "6": [
+      { "at": 5, "type": "sfx", "name": "battlecry", "v": 0.6 },
+      { "at": 7, "type": "sword", "v": 0.5 },
+      { "at": 9, "type": "synth", "inst": "boom", "v": 0.6 },
+      { "at": 11, "type": "burst", "inst": "boom", "n": 5, "interval": 0.5, "v": 0.6 },
+      { "at": 14, "type": "sword", "v": 0.5 },
+      { "at": 18, "type": "sfx", "name": "battlecry", "v": 0.5 },
+      { "at": 22, "type": "sword", "v": 0.45 }
+    ],
+    "7": [
+      { "at": 30, "type": "sfx", "name": "battlecry", "v": 0.45 },
+      { "at": 32, "type": "sword", "v": 0.45 },
+      { "at": 35, "type": "synth", "inst": "boom", "v": 0.5 },
+      { "at": 37, "type": "sword", "v": 0.4 },
+      { "at": 40, "type": "synth", "inst": "boom", "v": 0.55 }
+    ]
+  }
 }

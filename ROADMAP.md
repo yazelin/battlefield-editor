@@ -3,12 +3,13 @@
 本檔是此 repo 的進度與待辦單一來源。引擎抽出的完整設計脈絡在 red-cliffs-3d 的
 `docs/superpowers/specs/`(P3 design、P2g findings、P2h plan)。
 
-## 現況(2026-06-16)
+## 現況(2026-06-17)
 
 引擎已**完全資料驅動**,從 [`red-cliffs-3d`](https://github.com/yazelin/red-cliffs-3d) 抽出成本 repo。
-- 兩份範例 package 皆通過 headless 瀏覽器驗證(swiftshader WebGL):
-  - `chibi`(赤壁):9 幕 + 旁白語音 + 音樂 + 音效,0 console error。
-  - `guandu`(官渡):3 幕,0 console error;音訊待補。
+- 三份範例 package 皆通過 headless 瀏覽器驗證(swiftshader WebGL,0 console error):
+  - `chibi`(赤壁):9 幕 + 旁白語音 + 音樂 + 音效。
+  - `guandu`(官渡):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂。
+  - `gaixia`(垓下):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂;含烏江 ferry、淮河/長江雙河。
 - `tools/validate-data.mjs --pkg <manifest>` 對兩包皆 PASS(含跨檔引用檢查)。
 - 素材路徑改為「相對 manifest 目錄」解析(`assetUrl`),每份 package 自足擁有 `assets/`。
 
@@ -34,7 +35,7 @@
 | P4.1 | AI 把官渡 3→8 幕 + 烏巢守軍/前鋒;再照形勢圖/維基**全重排地理**(黃河 NE→SW、白馬東北、延津西南、烏巢居中、許都正南、補鄴城/河內郡/濮水) | ✅ ship,**待 yazelin 驗空間/時序** |
 | P4.2 | 官渡音訊:旁白語音(edge-tts 雙聲 16 檔 + 字幕 cues)+ 戰場音效(synth + 複用 CC0 sword/battlecry)+ 背景音樂(複用 chibi CC0、依幕情緒對應) | ✅ ship,**待 yazelin 聽感驗收** |
 | P4.3 | **把 SOP 變可執行的 authoring skill**:`tools/new-package.mjs`(scaffold 綠燈骨架)+ `tools/residue-scan.mjs`(抓 chibi 複製殘留 gate)+ `skills/author-battlefield/SKILL.md`(AI 照走的迴圈:依序編→機器三關→交人)+ render-check 洩漏修正 | ✅ ship |
-| P4.4 | **第三戰場 dogfood — 垓下之戰**:全程用 authoring skill 從 scaffold 編成(8 幕:垓下合圍→韓信誘敵→四面楚歌→霸王別姬→潰圍南走→陰陵迷道→東城快戰→烏江自刎;含烏江 ferry 渡口、淮河/長江雙河)。過機器三關;dogfood 還抓到 residue-scan 把「長江」誤判的 bug 並修掉。**音訊待補、待 yazelin 驗空間/時序** | ✅ ship(視覺),音訊待補 |
+| P4.4 | **第三戰場 dogfood — 垓下之戰**:全程用 authoring skill 從 scaffold 編成(8 幕:垓下合圍→韓信誘敵→四面楚歌→霸王別姬→潰圍南走→陰陵迷道→東城快戰→烏江自刎;含烏江 ferry 渡口、淮河/長江雙河)。過機器三關;dogfood 還抓到 residue-scan 把「長江」誤判的 bug 並修掉。音訊已補(旁白雙聲 16 檔 + 字幕、synth + CC0 音效、依幕情緒對應 CC0 配樂;逐幕量旁白長度延長幕長避免被切,終幕烏江延到 48s)。**待 yazelin 驗空間/時序/聽感** | ✅ ship |
 
 > 官渡現況:8 幕、旁白+字幕、音效、背景音樂齊備;render-check 0 error、31 音訊素材全解析。
 > 旁白用 edge-tts(授權灰色,CREDITS 已註,可換配音);音樂暫借 chibi CC0(可用海選換官渡專屬曲)。
