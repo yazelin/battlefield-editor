@@ -10,6 +10,7 @@
 
     { "type": "marker", "label": "黃河", "x": 20,   "z": -136, "labelClass": "water" },
     { "type": "marker", "label": "白馬", "x": -210, "z": -90 },
+    { "type": "marker", "label": "延津", "x": -150, "z": -118 },
     { "type": "marker", "label": "陽武", "x": -90,  "z": -40 },
     { "type": "marker", "label": "烏巢", "x": 120,  "z": -70, "labelClass": "big" }
   ]
