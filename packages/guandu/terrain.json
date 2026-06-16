@@ -1,5 +1,5 @@
 {
-  "world": { "W": 680, "H": 460, "segX": 200, "segZ": 140 },
+  "world": { "W": 680, "H": 580, "segX": 200, "segZ": 172 },
   "colorRamp": [
     { "maxH": 0, "color": "#2c3b3f" },
     { "maxH": 1.2, "color": "#8a7a4e" },

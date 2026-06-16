@@ -1571,6 +1571,9 @@ const Sfx=(()=>{
 })();
 
 window.__audio={engine:AudioEngine,music:Music,narr:Narration,sfx:Sfx};   // debug/驗證用
+let inspect=false;   // 檢視模式:固定相機(給作者俯視檢查擺位 / headless 驗證用)
+window.__cam=(p,l)=>{inspect=true;setCinema(false);camera.position.set(p[0],p[1],p[2]);camera.lookAt(l[0],l[1],l[2]);};
+window.__topdown=()=>window.__cam([0,640,40],[0,0,40]);   // 正上方俯視整張地圖
 
 /* ════════ phase engine ════════ */
 let T=0,phase=-1,phaseT=0,playing=true,speed=1,cinema=true,ended=false;
@@ -1890,7 +1893,7 @@ function loop(){
   marchMats.forEach(m=>{m.map.offset.x-=rdt*.6;});
   // camera
   if(cinema&&phase>=0)director(dt);
-  else controls.update();
+  else if(!inspect)controls.update();
   // compass
   _v1.set(0,0,-1).applyQuaternion(camera.quaternion);
   document.getElementById('needle').style.transform='rotate('+Math.atan2(_v1.x,-_v1.z)+'rad)';
