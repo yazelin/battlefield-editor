@@ -44,6 +44,9 @@
 
 ## Backlog / 已知待辦
 
+- [ ] **`RZ` 河中線函式是赤壁長江硬編碼**(`index.html` `const RZ=x=>18*sin(...)`):`marker followRiver`
+      只對赤壁正確,他包會把水標放錯位。應改成讀該包 `terrain.json` 河中線插值(需驗證赤壁標籤不位移)。
+      暫解:非赤壁包水名直接給 `z`(官渡已改)。
 - [ ] **WDIR 風向常數**仍寫死在引擎(東南風);不阻擋任何 package,之後資料化到 `scene`/`meta`。
 - [ ] **戰力長條深色端**:赤壁 cao/sun 由 `factions.dark` 提供(與旗幟共用),與抽出前的舊 CSS
       字面(#1d4488/#7e1f1f)有肉眼難辨的微差;若要 pixel-exact 再加 `barDark` 欄位。
