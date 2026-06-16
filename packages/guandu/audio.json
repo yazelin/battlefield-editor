@@ -4,14 +4,62 @@
     "theme": ""
   },
   "narration": {
-    "voices": [],
-    "default": "",
+    "voices": ["yunjhe", "hsiaochen"],
+    "default": "yunjhe",
+    "voiceLabels": { "yunjhe": "男聲", "hsiaochen": "女聲" },
     "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
-    "cues": ""
+    "cues": "assets/narration/cues.json"
   },
   "sfx": {
     "dir": "assets/sfx",
-    "files": []
+    "files": ["battlecry", "sword1", "sword2", "sword3", "sword4"]
   },
-  "cues": {}
+  "cues": {
+    "0": [
+      { "at": 2, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 6, "type": "synth", "inst": "drum", "v": 0.55 },
+      { "at": 7.5, "type": "sfx", "name": "battlecry", "v": 0.5 },
+      { "at": 8.2, "type": "sword", "v": 0.45 },
+      { "at": 13, "type": "sword", "v": 0.5 },
+      { "at": 13.4, "type": "synth", "inst": "drum", "v": 0.6 }
+    ],
+    "1": [
+      { "at": 3, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 7, "type": "sfx", "name": "battlecry", "v": 0.5 },
+      { "at": 7.6, "type": "sword", "v": 0.45 },
+      { "at": 9, "type": "synth", "inst": "boom", "v": 0.5 },
+      { "at": 12, "type": "sword", "v": 0.5 }
+    ],
+    "2": [
+      { "at": 4, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 9, "type": "synth", "inst": "drum", "v": 0.55 },
+      { "at": 14, "type": "synth", "inst": "drum", "v": 0.5 }
+    ],
+    "3": [
+      { "at": 6, "type": "synth", "inst": "drum", "v": 0.6 },
+      { "at": 11, "type": "synth", "inst": "drum", "v": 0.6 },
+      { "at": 16, "type": "synth", "inst": "drum", "v": 0.55 }
+    ],
+    "4": [
+      { "at": 7, "type": "synth", "inst": "boom", "v": 0.7 },
+      { "at": 8, "type": "synth", "inst": "boom", "v": 0.6 },
+      { "at": 13, "type": "synth", "inst": "boom", "v": 0.65 }
+    ],
+    "5": [
+      { "at": 4, "type": "synth", "inst": "drum", "v": 0.35 },
+      { "at": 13, "type": "synth", "inst": "drum", "v": 0.4 }
+    ],
+    "6": [
+      { "at": 5, "type": "sfx", "name": "battlecry", "v": 0.55 },
+      { "at": 7, "type": "sword", "v": 0.5 },
+      { "at": 9, "type": "synth", "inst": "boom", "v": 0.7 },
+      { "at": 11, "type": "burst", "inst": "boom", "n": 5, "interval": 0.5, "v": 0.7 },
+      { "at": 13, "type": "sword", "v": 0.45 }
+    ],
+    "7": [
+      { "at": 6, "type": "synth", "inst": "boom", "v": 0.6 },
+      { "at": 12, "type": "synth", "inst": "drum", "v": 0.45 },
+      { "at": 18, "type": "synth", "inst": "drum", "v": 0.4 }
+    ]
+  }
 }
