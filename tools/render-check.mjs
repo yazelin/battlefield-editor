@@ -59,38 +59,38 @@ async function main() {
   const port = server.address().port;
   const base = `http://localhost:${port}`;
 
-  const browser = await puppeteer.launch({ executablePath: chromePath(), headless: 'new',
-    args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader',
-      '--ignore-gpu-blocklist', '--enable-webgl', '--window-size=1280,720'],
-    defaultViewport: { width: 1280, height: 720 } });
-  const page = await browser.newPage();
-  const errs = [];
-  page.on('console', m => m.type() === 'error' && errs.push(m.text()));
-  page.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
+  const errs = [], titles = [];
+  let browser, meta = {}, ok = false;
+  try {
+    browser = await puppeteer.launch({ executablePath: chromePath(), headless: 'new',
+      args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader',
+        '--ignore-gpu-blocklist', '--enable-webgl', '--window-size=1280,720'],
+      defaultViewport: { width: 1280, height: 720 } });
+    const page = await browser.newPage();
+    page.on('console', m => m.type() === 'error' && errs.push(m.text()));
+    page.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
 
-  const url = `${base}/index.html?pkg=${PKG}`;
-  await page.goto(url, { waitUntil: 'load', timeout: 45000 });
-  await sleep(2500);
-
-  const meta = await page.evaluate(() => ({
-    title: document.getElementById('brdTitle')?.textContent,
-    nodes: document.querySelectorAll('.node').length,
-    canvas: !!document.querySelector('canvas'),
-  }));
-  try { await page.click('#btnAuto'); } catch {}
-  await sleep(2000);
-
-  const titles = [];
-  for (let k = 0; k < meta.nodes; k++) {
-    await page.evaluate(i => { const n = document.querySelectorAll('.node')[i]; if (n) n.click(); }, k);
-    await sleep(k === meta.nodes - 1 ? 3500 : 2800);
-    titles.push(await page.evaluate(() => document.getElementById('phTitle')?.textContent));
-    await page.screenshot({ path: join(OUT, `act-${String(k + 1).padStart(2, '0')}.png`) });
+    await page.goto(`${base}/index.html?pkg=${PKG}`, { waitUntil: 'load', timeout: 45000 });
+    await sleep(2500);
+    meta = await page.evaluate(() => ({
+      title: document.getElementById('brdTitle')?.textContent,
+      nodes: document.querySelectorAll('.node').length,
+      canvas: !!document.querySelector('canvas'),
+    }));
+    try { await page.click('#btnAuto'); } catch {}
+    await sleep(2000);
+    for (let k = 0; k < meta.nodes; k++) {
+      await page.evaluate(i => { const n = document.querySelectorAll('.node')[i]; if (n) n.click(); }, k);
+      await sleep(k === meta.nodes - 1 ? 3500 : 2800);
+      titles.push(await page.evaluate(() => document.getElementById('phTitle')?.textContent));
+      await page.screenshot({ path: join(OUT, `act-${String(k + 1).padStart(2, '0')}.png`) });
+    }
+    ok = meta.nodes > 0 && errs.length === 0 && meta.canvas;
+  } finally {
+    if (browser) await browser.close().catch(() => {});   // 一定關瀏覽器,避免洩漏 chrome 進程耗盡資源
+    server.close();
   }
-  await browser.close();
-  server.close();
 
-  const ok = meta.nodes > 0 && errs.length === 0 && meta.canvas;
   console.log(`${ok ? 'PASS' : 'FAIL'} [${meta.title}] — ${meta.nodes} 幕, canvas=${meta.canvas}`);
   console.log('  acts:', JSON.stringify(titles));
   console.log('  screenshots:', OUT.replace(ROOT + '/', ''));
