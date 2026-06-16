@@ -1,17 +1,19 @@
 {
   "structures": [
-    { "id": "liyang",  "type": "city", "x": -120, "z": -205, "label": "黎陽", "labelPos": [-120, -193], "labelClass": "big" },
-    { "id": "guandu",  "type": "city", "x": -20,  "z": 12,   "label": "官渡", "labelPos": [-20, 24],    "labelClass": "big" },
-    { "id": "xudu",    "type": "city", "x": 40,   "z": 160,  "label": "許都", "labelPos": [40, 172],    "labelClass": "big" },
+    { "id": "liyang",  "type": "city", "x": 10,   "z": -185, "label": "黎陽", "labelPos": [10, -173],  "labelClass": "big" },
+    { "id": "guandu",  "type": "city", "x": -20,  "z": 60,   "label": "官渡", "labelPos": [-20, 72],   "labelClass": "big" },
+    { "id": "xudu",    "type": "city", "x": -20,  "z": 195,  "label": "許都", "labelPos": [-20, 183],  "labelClass": "big" },
 
-    { "id": "campYuan", "type": "camp", "faction": "yuan", "x": -150, "z": -50 },
-    { "id": "campCao",  "type": "camp", "faction": "cao",  "x": -60,  "z": 50 },
-    { "id": "campWuchao", "type": "camp", "faction": "yuan", "x": 120, "z": -68, "fire": { "scale": 2.4, "yOff": 2 } },
+    { "id": "campYuan",   "type": "camp", "faction": "yuan", "x": -55, "z": -45 },
+    { "id": "campCao",    "type": "camp", "faction": "cao",  "x": -25, "z": 40 },
+    { "id": "campWuchao", "type": "camp", "faction": "yuan", "x": 42,  "z": -24, "fire": { "scale": 2.4, "yOff": 2 } },
 
-    { "type": "marker", "label": "黃河", "x": 20,   "z": -136, "labelClass": "water" },
-    { "type": "marker", "label": "白馬", "x": -210, "z": -90 },
-    { "type": "marker", "label": "延津", "x": -150, "z": -118 },
-    { "type": "marker", "label": "陽武", "x": -90,  "z": -40 },
-    { "type": "marker", "label": "烏巢", "x": 120,  "z": -70, "labelClass": "big" }
+    { "type": "marker", "label": "黃河", "x": 150,  "followRiver": true, "labelClass": "water" },
+    { "type": "marker", "label": "黃河", "x": -120, "followRiver": true, "labelClass": "water" },
+    { "type": "marker", "label": "白馬津", "x": 100, "followRiver": true, "labelClass": "water" },
+    { "type": "marker", "label": "白馬", "x": 95,  "z": -118 },
+    { "type": "marker", "label": "延津", "x": -40, "z": -78 },
+    { "type": "marker", "label": "陽武", "x": -70, "z": -10 },
+    { "type": "marker", "label": "烏巢", "x": 40,  "z": -20, "labelClass": "big" }
   ]
 }

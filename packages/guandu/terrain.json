@@ -11,13 +11,12 @@
     {
       "id": "huanghe",
       "centerline": [
-        [-340, -150],
-        [-220, -138],
-        [-100, -148],
-        [20, -136],
-        [140, -150],
-        [260, -140],
-        [340, -152]
+        [340, -205],
+        [200, -185],
+        [100, -152],
+        [-40, -95],
+        [-180, -42],
+        [-340, -8]
       ],
       "halfWidth": 30,
       "depth": -8,
@@ -29,20 +28,20 @@
   "bumps": [
     {
       "id": "wuchaoHill",
-      "center": [120, -70],
-      "radius": [34, 22],
-      "height": 16,
+      "center": [40, -22],
+      "radius": [30, 22],
+      "height": 15,
       "tint": { "color": "#a89a64", "threshold": 0.2, "gain": 1.8, "max": 0.7, "minH": 2 }
     }
   ],
   "bands": [
-    { "axis": "z", "beyond": 150, "slope": 0.18, "fbm": { "scale": 0.02, "base": 0.4, "offset": 6 } }
+    { "axis": "z", "beyond": 160, "slope": 0.18, "fbm": { "scale": 0.02, "base": 0.4, "offset": 6 } }
   ],
   "regions": [
     {
       "id": "guanduPlain",
-      "center": [-20, 30],
-      "radius": [120, 70],
+      "center": [-20, 70],
+      "radius": [120, 80],
       "tint": { "color": "#857a45", "threshold": 0.25, "gain": 1.4, "max": 0.55, "minH": 0.5, "maxH": 9 }
     }
   ]
