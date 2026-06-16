@@ -393,7 +393,7 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
     <div class="hd">兵 力 識 別</div>
   </div>
   <div id="compass"><div id="needle"></div></div>
-  <div id="hint">拖曳　旋轉視角<br>滾輪　遠近縮放<br>右鍵　平移戰場<br>點擊部隊　查看詳情</div>
+  <div id="hint">拖曳　旋轉視角<br>滾輪　遠近縮放<br>右鍵　平移戰場<br>點擊部隊　查看詳情<br>Shift+點　取座標</div>
 </div>
 
 <div id="unitCard">
@@ -1766,10 +1766,27 @@ document.getElementById('bReplay').onclick=()=>{gotoPhase(0,true);if(!playing)to
 /* unit click */
 const ray=new THREE.Raycaster();const mouse=new THREE.Vector2();
 let downXY=null;
+/* ── 座標 picker(Shift+點地圖 → 讀回 [x,z] 並複製;給人微修 JSON 座標用)── */
+const PICK_PLANE=new THREE.Plane(new THREE.Vector3(0,1,0),0);
+const _pickPt=new THREE.Vector3();
+const pickHud=document.createElement('div');
+pickHud.id='pickHud';
+pickHud.style.cssText='position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:60;padding:7px 14px;border-radius:6px;background:rgba(8,10,14,.88);border:1px solid rgba(201,162,77,.5);color:#e8dcc3;font:600 13px/1.3 "Noto Serif TC",serif;letter-spacing:1px;opacity:0;transition:opacity .25s;pointer-events:none';
+document.body.appendChild(pickHud);
+function pickCoord(e){
+  mouse.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);
+  ray.setFromCamera(mouse,camera);
+  if(!ray.ray.intersectPlane(PICK_PLANE,_pickPt))return;
+  const x=Math.round(_pickPt.x),z=Math.round(_pickPt.z);
+  pickHud.textContent=`座標 [${x}, ${z}]　已複製`;pickHud.style.opacity='1';
+  clearTimeout(pickHud._t);pickHud._t=setTimeout(()=>pickHud.style.opacity='0',2500);
+  if(navigator.clipboard)navigator.clipboard.writeText(`[${x}, ${z}]`).catch(()=>{});
+}
 renderer.domElement.addEventListener('pointerdown',e=>{downXY=[e.clientX,e.clientY];});
 renderer.domElement.addEventListener('pointerup',e=>{
   if(!downXY)return;
   if(Math.hypot(e.clientX-downXY[0],e.clientY-downXY[1])>6){downXY=null;return;}
+  if(e.shiftKey){pickCoord(e);downXY=null;return;}   // Shift+點 = 取座標
   mouse.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);
   ray.setFromCamera(mouse,camera);
   const hits=ray.intersectObjects(clickables.filter(c=>c.parent.visible),false);

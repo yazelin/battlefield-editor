@@ -5,6 +5,12 @@ Thumbs.db
 .vscode/
 .idea/
 
+# node deps (render-check tool; engine itself stays zero-build)
+node_modules/
+
+# render-check output (screenshots)
+tools/render-out/
+
 # local scratch
 /tmp/
 *.log

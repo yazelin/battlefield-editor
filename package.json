@@ -1,0 +1,15 @@
+{
+  "name": "battlefield-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AI 戰場編輯器 — 資料驅動的單檔 3D 戰場引擎",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node tools/validate-data.mjs",
+    "render-check": "node tools/render-check.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.0.0"
+  }
+}
