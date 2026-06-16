@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["world", "colorRamp", "rivers"],
+  "properties": {
+    "world": {
+      "type": "object",
+      "required": ["W", "H", "segX", "segZ"],
+      "properties": { "W": {"type":"number"}, "H": {"type":"number"}, "segX": {"type":"number"}, "segZ": {"type":"number"} }
+    },
+    "colorRamp": {
+      "type": "array", "minItems": 1,
+      "items": { "type": "object", "required": ["color"],
+        "properties": {
+          "maxH": { "type": ["number","null"] },
+          "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+          "lerpTo": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+          "by": { "enum": ["fbm","ramp"] }, "from": {"type":"number"}, "span": {"type":"number"} } }
+    },
+    "rivers": {
+      "type": "array", "minItems": 1,
+      "items": { "type": "object", "required": ["centerline","halfWidth","depth"],
+        "properties": {
+          "id": {"type":"string"},
+          "centerline": { "type":"array", "minItems":2, "items": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2} },
+          "halfWidth": {"type":"number"}, "depth": {"type":"number"},
+          "bankSlope": {"type":"number"}, "bankCap": {"type":"number"},
+          "bankFbm": {"type":"object"} } }
+    },
+    "bumps": {
+      "type": "array",
+      "items": { "type":"object", "required": ["center","height"],
+        "anyOf": [ {"required":["radius"]}, {"required":["k"]} ],
+        "properties": {
+          "id": {"type":"string"},
+          "center": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+          "k": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+          "radius": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+          "height": {"type":"number"}, "tint": {"type":"object"} } }
+    },
+    "bands": { "type":"array", "items": {"type":"object","required":["axis","beyond","slope"],
+      "properties": {"axis":{"enum":["x","z"]},"beyond":{"type":"number"},"slope":{"type":"number"},"fbm":{"type":"object"}} } },
+    "regions": { "type":"array", "items": {"type":"object","required":["center","tint"],
+      "anyOf": [ {"required":["radius"]}, {"required":["k"]} ],
+      "properties": {"id":{"type":"string"},"center":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+        "k":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+        "radius":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},"tint":{"type":"object"}} } }
+  }
+}

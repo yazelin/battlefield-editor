@@ -1,0 +1,5 @@
+{
+  "cao": { "name": "曹軍", "flag": "曹", "css": "cao", "col": "#3d7de0", "dark": "#1d3f78", "light": "#8db4f0", "panel": "曹操軍", "legend": "曹操（北軍）" },
+  "sun": { "name": "吳軍", "flag": "孫", "css": "sun", "col": "#d84040", "dark": "#7e2020", "light": "#f09a93", "panel": "孫權軍", "legend": "孫權（江東）" },
+  "liu": { "name": "劉軍", "flag": "劉", "css": "liu", "col": "#3fae6a", "dark": "#1e5e38", "light": "#8fd6ae", "panel": "劉備軍", "legend": "劉備（客軍）" }
+}

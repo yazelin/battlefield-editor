@@ -1,0 +1,64 @@
+{
+  "music": {
+    "scenes": [
+      "assets/music/scene1.mp3",
+      "assets/music/scene2.mp3",
+      "assets/music/scene3.mp3",
+      "assets/music/scene4.mp3",
+      "assets/music/scene5.mp3",
+      "assets/music/scene6.mp3",
+      "assets/music/scene7.mp3",
+      "assets/music/scene8.mp3",
+      "assets/music/scene9.mp3"
+    ],
+    "theme": "assets/music/scene9.mp3"
+  },
+  "narration": {
+    "voices": ["yunjhe", "hsiaochen"],
+    "default": "yunjhe",
+    "voiceLabels": { "yunjhe": "男聲", "hsiaochen": "女聲" },
+    "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
+    "cues": "assets/narration/cues.json"
+  },
+  "sfx": {
+    "dir": "assets/sfx",
+    "files": ["battlecry", "chains", "sword1", "sword2", "sword3", "sword4"]
+  },
+  "cues": {
+    "0": [
+      { "at": 2, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 6, "type": "synth", "inst": "drum", "v": 0.6 },
+      { "at": 10.5, "type": "synth", "inst": "drum", "v": 0.5 },
+      { "at": 18.5, "type": "synth", "inst": "drum", "v": 0.65 },
+      { "at": 24, "type": "synth", "inst": "drum", "v": 0.45 }
+    ],
+    "2": [
+      { "at": 9.5, "type": "synth", "inst": "drum", "v": 0.8 },
+      { "at": 9.5, "type": "sfx", "name": "battlecry", "v": 0.55 },
+      { "at": 10.4, "type": "sword", "v": 0.45 },
+      { "at": 11.8, "type": "sword", "v": 0.35 },
+      { "at": 13.1, "type": "sword", "v": 0.4 },
+      { "at": 14.9, "type": "sword", "v": 0.3 }
+    ],
+    "3": [
+      { "at": 5, "type": "sfx", "name": "chains", "v": 0.7 }
+    ],
+    "6": [
+      { "at": 4.5, "type": "synth", "inst": "boom", "v": 0.55 },
+      { "at": 10, "type": "synth", "inst": "boom", "v": 1 },
+      { "at": 10, "type": "sfx", "name": "battlecry", "v": 0.85 },
+      { "at": 12, "type": "synth", "inst": "boom", "v": 0.8 },
+      { "at": 13.2, "type": "sword", "v": 0.5 },
+      { "at": 15, "type": "sword", "v": 0.38 },
+      { "at": 16.8, "type": "sword", "v": 0.45 },
+      { "at": 18.4, "type": "sword", "v": 0.35 },
+      { "at": 20.2, "type": "sword", "v": 0.42 },
+      { "at": 23.4, "type": "burst", "inst": "drum", "n": 6, "interval": 0.4, "v": 0.75 },
+      { "at": 23.4, "type": "sfx", "name": "battlecry", "v": 0.5 },
+      { "at": 25, "type": "sword", "v": 0.4 }
+    ],
+    "8": [
+      { "at": 13, "type": "synth", "inst": "drum", "v": 0.7 }
+    ]
+  }
+}

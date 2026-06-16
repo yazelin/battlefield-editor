@@ -1,0 +1,49 @@
+{
+  "world": { "W": 680, "H": 460, "segX": 200, "segZ": 140 },
+  "colorRamp": [
+    { "maxH": 0, "color": "#2c3b3f" },
+    { "maxH": 1.2, "color": "#8a7a4e" },
+    { "maxH": 7, "color": "#7d7448", "lerpTo": "#90854f", "by": "fbm" },
+    { "maxH": 16, "color": "#90854f", "lerpTo": "#9a8c5d", "by": "ramp", "from": 7, "span": 9 },
+    { "maxH": null, "color": "#9a8c5d", "lerpTo": "#b3a987", "by": "ramp", "from": 16, "span": 14 }
+  ],
+  "rivers": [
+    {
+      "id": "huanghe",
+      "centerline": [
+        [-340, -150],
+        [-220, -138],
+        [-100, -148],
+        [20, -136],
+        [140, -150],
+        [260, -140],
+        [340, -152]
+      ],
+      "halfWidth": 30,
+      "depth": -8,
+      "bankSlope": 0.2,
+      "bankCap": 5,
+      "bankFbm": { "scale": 0.012, "xOff": 7, "ampRate": 0.13, "ampCap": 14 }
+    }
+  ],
+  "bumps": [
+    {
+      "id": "wuchaoHill",
+      "center": [120, -70],
+      "radius": [34, 22],
+      "height": 16,
+      "tint": { "color": "#a89a64", "threshold": 0.2, "gain": 1.8, "max": 0.7, "minH": 2 }
+    }
+  ],
+  "bands": [
+    { "axis": "z", "beyond": 150, "slope": 0.18, "fbm": { "scale": 0.02, "base": 0.4, "offset": 6 } }
+  ],
+  "regions": [
+    {
+      "id": "guanduPlain",
+      "center": [-20, 30],
+      "radius": [120, 70],
+      "tint": { "color": "#857a45", "threshold": 0.25, "gain": 1.4, "max": 0.55, "minH": 0.5, "maxH": 9 }
+    }
+  ]
+}

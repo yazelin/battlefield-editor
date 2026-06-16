@@ -1,0 +1,190 @@
+{
+  "world": {
+    "W": 680,
+    "H": 460,
+    "segX": 200,
+    "segZ": 140
+  },
+  "colorRamp": [
+    {
+      "maxH": 0,
+      "color": "#27343a"
+    },
+    {
+      "maxH": 1.2,
+      "color": "#6e6549"
+    },
+    {
+      "maxH": 7,
+      "color": "#46523a",
+      "lerpTo": "#5a6242",
+      "by": "fbm"
+    },
+    {
+      "maxH": 16,
+      "color": "#5a6242",
+      "lerpTo": "#5d5a45",
+      "by": "ramp",
+      "from": 7,
+      "span": 9
+    },
+    {
+      "maxH": null,
+      "color": "#5d5a45",
+      "lerpTo": "#716d63",
+      "by": "ramp",
+      "from": 16,
+      "span": 14
+    }
+  ],
+  "rivers": [
+    {
+      "id": "changjiang",
+      "centerline": [
+        [
+          -340,
+          55.3191
+        ],
+        [
+          -260,
+          30.8114
+        ],
+        [
+          -180,
+          6.6351
+        ],
+        [
+          -100,
+          -4.7767
+        ],
+        [
+          -20,
+          -1.8786
+        ],
+        [
+          60,
+          4.6689
+        ],
+        [
+          140,
+          1.0928
+        ],
+        [
+          180,
+          -6.6351
+        ],
+        [
+          220,
+          -17.7452
+        ],
+        [
+          300,
+          -43.9654
+        ],
+        [
+          340,
+          -55.3191
+        ]
+      ],
+      "halfWidth": 34,
+      "depth": -7,
+      "bankSlope": 0.18,
+      "bankCap": 4,
+      "bankFbm": {
+        "scale": 0.013,
+        "xOff": 5,
+        "ampRate": 0.14,
+        "ampCap": 16
+      }
+    },
+    {
+      "id": "hanshui",
+      "centerline": [
+        [
+          127.0471,
+          -230
+        ],
+        [
+          132.0471,
+          -180
+        ],
+        [
+          138.0471,
+          -120
+        ],
+        [
+          144.0471,
+          -60
+        ],
+        [
+          150,
+          -0.4707
+        ]
+      ],
+      "halfWidth": 13,
+      "depth": -7,
+      "bankSlope": 0.18,
+      "bankCap": 4,
+      "bankFbm": {
+        "scale": 0.013,
+        "xOff": 5,
+        "ampRate": 0.14,
+        "ampCap": 16
+      }
+    }
+  ],
+  "bumps": [
+    {
+      "id": "chibi",
+      "center": [
+        30,
+        44
+      ],
+      "radius": [
+        26.4575,
+        13.4164
+      ],
+      "height": 24,
+      "tint": {
+        "color": "#7c4034",
+        "threshold": 0.18,
+        "gain": 2.2,
+        "max": 0.85,
+        "minH": 2
+      }
+    }
+  ],
+  "bands": [
+    {
+      "axis": "z",
+      "beyond": 118,
+      "slope": 0.22,
+      "fbm": {
+        "scale": 0.02,
+        "base": 0.4,
+        "offset": 7
+      }
+    }
+  ],
+  "regions": [
+    {
+      "id": "huarong",
+      "center": [
+        -110,
+        -86
+      ],
+      "radius": [
+        38.7298,
+        26.4575
+      ],
+      "tint": {
+        "color": "#39473e",
+        "threshold": 0.25,
+        "gain": 1.6,
+        "max": 0.8,
+        "minH": 0.5,
+        "maxH": 8
+      }
+    }
+  ]
+}

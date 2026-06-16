@@ -1,0 +1,9 @@
+{ "units": [
+  {"id":"caoMain","kind":"army","faction":"cao","n":60,"name":"曹操本軍","generals":"曹操・張遼・徐晃・于禁","gait":"cav","start":{"x":-250,"z":-150,"visible":true},"info":["北軍主力","步騎約十五六萬，新收荊州降卒七八萬，號稱八十萬。遠來疲弊、不習水土。"]},
+  {"id":"caoNavy","kind":"fleet","faction":"cao","n":24,"name":"曹軍水師","generals":"蔡瑁・張允 編練","chainable":true,"start":{"x":-225,"z":-2,"visible":false,"formation":"loose"},"info":["荊州降附水師","得劉表蒙衝鬥艦數以千計，後以鐵環連鎖減低風浪搖晃。"]},
+  {"id":"caoRen","kind":"army","faction":"cao","n":20,"name":"江陵守軍","generals":"曹仁・徐晃","start":{"x":-226,"z":-24,"visible":false},"info":["江陵留守","戰後曹仁、徐晃守江陵，拒周瑜年餘。"]},
+  {"id":"liuArmy","kind":"army","faction":"liu","n":34,"name":"劉備軍","generals":"劉備・關羽・張飛・趙雲","start":{"x":-150,"z":-104,"visible":true},"info":["劉備直屬","長坂新敗後收攏關羽水軍與劉琦江夏兵，合約兩萬。"]},
+  {"id":"liuFleet","kind":"fleet","faction":"liu","n":5,"name":"江夏水軍","generals":"劉琦・關羽","start":{"x":160,"z":-8,"visible":true},"info":["江夏水軍","劉琦所部江夏戰士萬人，屯夏口、樊口。"]},
+  {"id":"sunFleet","kind":"fleet","faction":"sun","n":14,"name":"周瑜水師","generals":"周瑜・程普・魯肅","start":{"x":258,"z":-6,"visible":true},"info":["江東精銳","周瑜、程普領三萬水師溯江而上，與曹軍遇於赤壁。"]},
+  {"id":"hgFleet","kind":"fleet","faction":"sun","n":6,"fireShip":true,"name":"黃蓋先鋒","generals":"黃蓋・蒙衝鬥艦十艘","start":{"x":52,"z":22,"visible":false},"info":["火攻先鋒","黃蓋取蒙衝鬥艦十艘，實以薪草膏油，外以帷幕偽降。"]}
+] }

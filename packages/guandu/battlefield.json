@@ -1,0 +1,31 @@
+{
+  "name": "官渡之戰 200",
+  "era": "東漢建安五年(200)",
+  "description": "黃河南岸的決戰——曹操以寡擊眾，夜襲烏巢焚糧，大破袁紹，奠定統一河北之基",
+  "engine": "battlefield-editor",
+  "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
+  "pending": [],
+  "meta": {
+    "title": "官渡之戰",
+    "subtitle": "建安五年・西元二〇〇",
+    "docTitle": "官渡之戰 200 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "官",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "建安五年",
+    "eraYear": "西元 200 年・黃河官渡",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "建安五年，袁紹擁四州之眾十餘萬南渡黃河，欲一舉吞併許都。曹操以三萬之師扼守官渡，深溝高壘、相持半載——一場烏巢夜火，焚盡袁軍糧穀，定下了統一河北的勝局。<br><br>本節目以 3D 運鏡重現戰役全程：渡河南下、官渡對峙、霹靂破櫓、夜襲焚糧，盡在眼前。",
+      "footHtml": "兵力為史學估計・標注「史」者見於正史，「演義」者出自三國演義"
+    },
+    "finale": {
+      "title": "河北遂定",
+      "subtitle": "烏巢一炬・北方歸曹"
+    },
+    "timeline": {
+      "start": "建安五年 春二月",
+      "mid": "戰 役 時 間 軸",
+      "end": "建安五年 冬十月"
+    }
+  }
+}

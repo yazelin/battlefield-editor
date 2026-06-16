@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["name", "flag", "css", "col", "dark"],
+    "properties": {
+      "name": { "type": "string" },
+      "flag": { "type": "string" },
+      "css": { "type": "string" },
+      "col": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+      "dark": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+    }
+  }
+}

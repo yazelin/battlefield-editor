@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["music", "narration", "sfx", "cues"],
+  "properties": {
+    "music": {
+      "type": "object",
+      "required": ["scenes", "theme"],
+      "properties": {
+        "scenes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "theme": { "type": "string" }
+      }
+    },
+    "narration": {
+      "type": "object",
+      "required": ["voices", "default", "pathPattern", "cues"],
+      "properties": {
+        "voices": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "default": { "type": "string" },
+        "pathPattern": { "type": "string" },
+        "cues": { "type": "string" }
+      }
+    },
+    "sfx": {
+      "type": "object",
+      "required": ["dir", "files"],
+      "properties": {
+        "dir": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "cues": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["at", "type"],
+          "properties": {
+            "at": { "type": "number" },
+            "type": { "enum": ["synth", "sfx", "sword", "burst"] },
+            "inst": { "type": "string" },
+            "name": { "type": "string" },
+            "v": { "type": "number" },
+            "n": { "type": "number" },
+            "interval": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

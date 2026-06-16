@@ -1,0 +1,16 @@
+{
+  "structures": [
+    { "id": "liyang",  "type": "city", "x": -120, "z": -205, "label": "黎陽", "labelPos": [-120, -193], "labelClass": "big" },
+    { "id": "guandu",  "type": "city", "x": -20,  "z": 12,   "label": "官渡", "labelPos": [-20, 24],    "labelClass": "big" },
+    { "id": "xudu",    "type": "city", "x": 40,   "z": 160,  "label": "許都", "labelPos": [40, 172],    "labelClass": "big" },
+
+    { "id": "campYuan", "type": "camp", "faction": "yuan", "x": -150, "z": -50 },
+    { "id": "campCao",  "type": "camp", "faction": "cao",  "x": -60,  "z": 50 },
+    { "id": "campWuchao", "type": "camp", "faction": "yuan", "x": 120, "z": -68, "fire": { "scale": 2.4, "yOff": 2 } },
+
+    { "type": "marker", "label": "黃河", "x": 20,   "z": -136, "labelClass": "water" },
+    { "type": "marker", "label": "白馬", "x": -210, "z": -90 },
+    { "type": "marker", "label": "陽武", "x": -90,  "z": -40 },
+    { "type": "marker", "label": "烏巢", "x": 120,  "z": -70, "labelClass": "big" }
+  ]
+}

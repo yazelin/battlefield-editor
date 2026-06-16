@@ -1,0 +1,17 @@
+{
+  "music": {
+    "scenes": [],
+    "theme": ""
+  },
+  "narration": {
+    "voices": [],
+    "default": "",
+    "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
+    "cues": ""
+  },
+  "sfx": {
+    "dir": "assets/sfx",
+    "files": []
+  },
+  "cues": {}
+}

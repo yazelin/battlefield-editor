@@ -1,0 +1,23 @@
+{
+  "structures": [
+    { "id": "xiangyang", "type": "city", "x": -250, "z": -160, "label": "襄陽", "labelPos": [-250, -148], "labelClass": "big" },
+    { "id": "jiangling", "type": "city", "x": -240, "z": -36, "label": "江陵", "labelPos": [-240, -24], "labelClass": "big" },
+    { "id": "xiakou",    "type": "city", "x": 174,  "z": -58, "label": "夏口", "labelPos": [176, -48],  "labelClass": "big" },
+    { "id": "chaisang",  "type": "city", "x": 272,  "z": 21,  "label": "柴桑", "labelPos": [272, 33],   "labelClass": "big" },
+
+    { "id": "campWulin", "type": "camp", "faction": "cao", "x": -45, "z": -52, "fire": { "scale": 2.2, "yOff": 2 } },
+    { "id": "campChibi", "type": "camp", "faction": "sun", "x": 36,  "z": 44 },
+
+    { "type": "marker", "label": "長江", "x": -160, "followRiver": true, "labelClass": "water" },
+    { "type": "marker", "label": "長江", "x": 210,  "followRiver": true, "labelClass": "water" },
+
+    { "type": "marker", "label": "長坂坡", "x": -150, "z": -104 },
+    { "type": "marker", "label": "華容道", "x": -110, "z": -80 },
+    { "id": "huarongPass", "type": "pass", "x": -95, "z": -72, "label": "華容隘口" },
+    { "type": "marker", "label": "烏林",   "x": -45,  "z": -50 },
+    { "type": "marker", "label": "赤壁",   "x": 30,   "z": 52, "labelClass": "big" },
+    { "type": "marker", "label": "陸口",   "x": 105,  "z": 50 },
+    { "type": "marker", "label": "樊口",   "x": 185,  "z": 37 },
+    { "type": "marker", "label": "漢水",   "x": 158,  "z": -120, "labelClass": "water" }
+  ]
+}

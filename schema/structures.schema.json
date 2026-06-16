@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["structures"],
+  "properties": {
+    "structures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "x", "z"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "enum": ["city", "camp", "pass", "marker"] },
+          "faction": { "enum": ["cao", "sun", "liu"] },
+          "x": { "type": "number" },
+          "z": { "type": "number" },
+          "label": { "type": "string" },
+          "labelPos": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "labelClass": { "type": "string" }
+        },
+        "allOf": [
+          { "if": { "properties": { "type": { "const": "camp" } } }, "then": { "required": ["faction"] } }
+        ]
+      }
+    }
+  }
+}

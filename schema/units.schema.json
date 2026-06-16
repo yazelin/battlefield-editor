@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["units"],
+  "properties": {
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "faction", "n"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "enum": ["army", "fleet"] },
+          "faction": { "enum": ["cao", "sun", "liu"] },
+          "n": { "type": "number" },
+          "name": { "type": "string" },
+          "generals": { "type": "string" },
+          "fireShip": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

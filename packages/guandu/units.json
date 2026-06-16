@@ -1,0 +1,6 @@
+{ "units": [
+  {"id":"yuanArmy","kind":"army","faction":"yuan","n":60,"name":"袁紹本軍","generals":"袁紹・顏良・文醜・淳于瓊","start":{"x":-120,"z":-200,"visible":true},"info":["河北雄兵","袁紹擁冀青幽并四州，眾十餘萬，糧秣充足，南渡黎陽逼官渡。"]},
+  {"id":"yuanCav","kind":"army","faction":"yuan","n":28,"name":"袁軍鐵騎","generals":"張郃・高覽","gait":"cav","start":{"x":-150,"z":-52,"visible":false},"info":["河北鐵騎","張郃、高覽所部精騎,屢攻曹營;後烏巢既焚,二將降曹。"]},
+  {"id":"caoArmy","kind":"army","faction":"cao","n":30,"name":"曹操本軍","generals":"曹操・荀攸・許褚","start":{"x":-40,"z":40,"visible":true},"info":["中原孤軍","曹操兵不滿萬,據官渡築壘拒袁,糧將盡而不退。"]},
+  {"id":"caoGuard","kind":"army","faction":"cao","n":12,"name":"曹軍奇襲","generals":"曹操・樂進・徐晃","gait":"cav","start":{"x":-40,"z":8,"visible":false},"info":["奇襲烏巢","曹操親將步騎五千,夜襲烏巢,焚袁軍糧車,一戰定河北。"]}
+] }

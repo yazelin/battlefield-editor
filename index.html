@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赤壁之戰 208 — 全 3D 戰場重現｜歷史特別節目</title>
+<meta name="description" content="以電視特別節目的 3D 運鏡與特效重現赤壁之戰：九幕時間軸呈現陣型移動、將領、計策發動（連環計、苦肉計、借東風、火攻）、東南風與艦隊狀態，可自動播映或自由視角互動探索。曹操藍、孫權紅、劉備綠，軍旗清楚識別。">
+<meta name="keywords" content="赤壁之戰, 三國, 3D, 視覺化, 互動歷史, 曹操, 周瑜, 黃蓋, 火燒赤壁, Three.js">
+<meta name="author" content="yazelin">
+<meta name="theme-color" content="#0a0d12">
+<link rel="canonical" href="https://yazelin.github.io/red-cliffs-3d/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="赤壁之戰 208 — 全 3D 戰場重現">
+<meta property="og:title" content="赤壁之戰 208 — 全 3D 戰場重現">
+<meta property="og:description" content="九幕時間軸重現赤壁之戰：陣型移動、計策發動、東南風與火攻特效，像歷史節目自動播映，也能像遊戲自由操作鏡頭。">
+<meta property="og:url" content="https://yazelin.github.io/red-cliffs-3d/">
+<meta property="og:image" content="https://yazelin.github.io/red-cliffs-3d/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="火燒赤壁：3D 戰場中曹軍連環船陷入火海">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="赤壁之戰 208 — 全 3D 戰場重現">
+<meta name="twitter:description" content="九幕時間軸重現赤壁之戰：陣型、計策、東風與火攻，可互動可自動播映。">
+<meta name="twitter:image" content="https://yazelin.github.io/red-cliffs-3d/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23b3382c'/%3E%3Ctext x='32' y='44' font-size='38' font-family='serif' font-weight='900' fill='%23f3e4cf' text-anchor='middle'%3E赤%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CreativeWork","name":"赤壁之戰 208 — 全 3D 戰場重現",
+"description":"以 3D 運鏡與特效重現赤壁之戰的互動式歷史視覺化：時間軸、陣型移動、計策發動、火攻與天氣特效。",
+"url":"https://yazelin.github.io/red-cliffs-3d/","inLanguage":"zh-Hant",
+"about":{"@type":"Event","name":"赤壁之戰","startDate":"0208","location":{"@type":"Place","name":"長江赤壁（今湖北省赤壁市）"}},
+"author":{"@type":"Person","name":"yazelin","url":"https://github.com/yazelin"}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0d12; --ink2:#11161e; --paper:#e8dcc3; --paper-dim:#b8ad97;
+  --gold:#c9a35c; --gold-dim:#8a7245; --verm:#b3382c;
+  --cao:#3d7de0; --sun:#d84040; --liu:#3fae6a;
+  --panel:rgba(10,13,18,.82); --line:rgba(201,163,92,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--ink)}
+body{font-family:'Noto Sans TC',sans-serif;color:var(--paper);-webkit-font-smoothing:antialiased}
+#stage{position:fixed;inset:0}
+#stage canvas{display:block}
+#labels{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#labels>div{pointer-events:none}
+
+/* ── film grain + vignette ───────────────────── */
+#vignette{position:fixed;inset:0;pointer-events:none;z-index:5;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%)}
+#grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:5;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  animation:grain .6s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,2%)}100%{transform:translate(2%,-1%)}}
+
+/* ── letterbox (cinema mode) ─────────────────── */
+.lbox{position:fixed;left:0;right:0;height:0;background:#000;z-index:6;pointer-events:none;transition:height .9s cubic-bezier(.7,0,.3,1)}
+#lboxT{top:0}#lboxB{bottom:0}
+body.cinema .lbox{height:6.5vh}
+
+/* ── top broadcast bar ───────────────────────── */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:flex-start;
+  justify-content:space-between;padding:calc(6.5vh + 10px) 26px 0;transition:padding .9s cubic-bezier(.7,0,.3,1);pointer-events:none}
+body:not(.cinema) #topbar{padding-top:14px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .seal{width:44px;height:44px;background:var(--verm);color:#f3e4cf;display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif TC',serif;font-weight:900;font-size:22px;border-radius:4px;box-shadow:0 2px 14px rgba(179,56,44,.5);letter-spacing:0}
+.brand h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:24px;letter-spacing:6px;color:var(--paper);text-shadow:0 2px 10px #000}
+.brand .chip{font-size:10.5px;letter-spacing:3px;color:var(--gold);border:1px solid var(--line);padding:3px 9px;border-radius:2px;
+  background:rgba(10,13,18,.6);margin-top:4px;display:inline-block}
+.brand .sub{display:flex;flex-direction:column;gap:5px}
+#eraBox{text-align:right;font-family:'Noto Serif TC',serif}
+#eraBox .era{font-size:17px;font-weight:700;letter-spacing:3px;color:var(--gold)}
+#eraBox .yr{font-size:11px;letter-spacing:2px;color:var(--paper-dim);margin-top:3px}
+#liveDot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--verm);margin-right:7px;
+  animation:blink 1.6s infinite;vertical-align:1px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ── left intel panel ────────────────────────── */
+#intel{position:fixed;left:26px;top:50%;transform:translateY(-52%);width:316px;z-index:9;
+  background:var(--panel);border:1px solid var(--line);border-radius:6px;backdrop-filter:blur(8px);
+  padding:18px 20px;transition:opacity .5s,transform .5s}
+#intel::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;background:linear-gradient(var(--gold),transparent);border-radius:2px}
+#phTag{font-size:10.5px;letter-spacing:4px;color:var(--gold);margin-bottom:6px}
+#phTitle{font-family:'Noto Serif TC',serif;font-weight:900;font-size:30px;letter-spacing:5px;line-height:1.2;margin-bottom:10px}
+#phNarr{font-size:13px;line-height:1.85;color:var(--paper-dim);font-weight:300;margin-bottom:14px;min-height:72px}
+#powers{display:flex;flex-direction:column;gap:11px;border-top:1px dashed var(--line);padding-top:13px}
+.pw .row1{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.pw .nm{font-family:'Noto Serif TC',serif;font-weight:700;font-size:14px;letter-spacing:2px}
+.pw .num{font-size:11px;color:var(--paper-dim);letter-spacing:.5px}
+.pw .bar{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.pw .bar i{display:block;height:100%;border-radius:3px;transition:width 1.6s cubic-bezier(.6,0,.3,1)}
+.pw .st{font-size:10.5px;color:var(--gold-dim);margin-top:4px;letter-spacing:1px}
+.pw.cao .nm{color:var(--cao)} .pw.cao .bar i{background:linear-gradient(90deg,#1d4488,var(--cao))}
+.pw.sun .nm{color:var(--sun)} .pw.sun .bar i{background:linear-gradient(90deg,#7e1f1f,var(--sun))}
+.pw.liu .nm{color:var(--liu)} .pw.liu .bar i{background:linear-gradient(90deg,#1e5e38,var(--liu))}
+
+/* ── bottom timeline ─────────────────────────── */
+#deck{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(6.5vh + 14px);z-index:10;width:min(880px,92vw);
+  transition:bottom .9s cubic-bezier(.7,0,.3,1)}
+body:not(.cinema) #deck{bottom:16px}
+#tl{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:8px;backdrop-filter:blur(8px);
+  padding:14px 18px 12px}
+#tlTrack{position:relative;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin:10px 8px 6px}
+#tlFill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));border-radius:2px;width:0%}
+#tlNodes{position:absolute;inset:0}
+.node{position:absolute;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;
+  background:var(--ink2);border:2px solid var(--gold-dim);cursor:pointer;pointer-events:auto;transition:.25s}
+.node:hover{border-color:var(--gold);transform:translate(-50%,-50%) scale(1.3)}
+.node.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px var(--gold)}
+.node .tip{position:absolute;bottom:170%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;
+  letter-spacing:1px;color:var(--paper-dim);opacity:0;transition:.25s;pointer-events:none;
+  background:rgba(0,0,0,.75);padding:4px 8px;border-radius:3px;border:1px solid var(--line)}
+.node:hover .tip,.node.on .tip{opacity:1;color:var(--paper)}
+.node.on .tip{color:var(--gold)}
+#ctrls{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:9px;flex-wrap:wrap}
+.btn{pointer-events:auto;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--paper);
+  font-family:'Noto Sans TC',sans-serif;font-size:12px;letter-spacing:2px;padding:6px 14px;border-radius:4px;cursor:pointer;transition:.2s}
+.btn:hover{background:rgba(201,163,92,.15);border-color:var(--gold)}
+.btn.hot{background:rgba(201,163,92,.2);border-color:var(--gold);color:var(--gold)}
+.btn.mini{padding:6px 10px;font-size:11px}
+
+/* ── right legend / compass ──────────────────── */
+#side{position:fixed;right:26px;top:50%;transform:translateY(-52%);z-index:9;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+#legend{background:var(--panel);border:1px solid var(--line);border-radius:6px;backdrop-filter:blur(8px);padding:13px 16px;font-size:12px}
+#legend .lg{display:flex;align-items:center;gap:9px;margin:6px 0;letter-spacing:2px}
+#legend .sw{width:22px;height:10px;border-radius:2px}
+#legend .hd{font-size:10px;letter-spacing:3px;color:var(--gold-dim);margin-bottom:3px}
+#compass{width:64px;height:64px;border-radius:50%;background:var(--panel);border:1px solid var(--line);position:relative;backdrop-filter:blur(8px)}
+#needle{position:absolute;inset:0;transition:none}
+#needle::before{content:"北";position:absolute;top:5px;left:50%;transform:translateX(-50%);
+  font-family:'Noto Serif TC',serif;font-size:12px;color:var(--verm);font-weight:700}
+#needle::after{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:12px solid var(--verm)}
+#hint{font-size:10.5px;color:var(--paper-dim);letter-spacing:1px;text-align:right;line-height:1.9;
+  background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 13px;backdrop-filter:blur(8px)}
+
+/* ── unit info card ──────────────────────────── */
+#unitCard{position:fixed;right:26px;bottom:calc(6.5vh + 20px);z-index:11;width:262px;background:var(--panel);
+  border:1px solid var(--gold);border-radius:6px;backdrop-filter:blur(10px);padding:15px 17px;
+  opacity:0;transform:translateY(12px);transition:.35s;pointer-events:none}
+#unitCard.show{opacity:1;transform:none;pointer-events:auto}
+#ucFac{font-size:10px;letter-spacing:3px;margin-bottom:4px}
+#ucName{font-family:'Noto Serif TC',serif;font-weight:900;font-size:21px;letter-spacing:3px;margin-bottom:8px}
+#ucBody{font-size:12px;line-height:1.8;color:var(--paper-dim)}
+#ucBody b{color:var(--paper);font-weight:500}
+#ucClose{position:absolute;top:8px;right:11px;cursor:pointer;color:var(--paper-dim);font-size:14px;pointer-events:auto}
+
+/* ── 3D labels ───────────────────────────────── */
+.loc{font-family:'Noto Serif TC',serif;color:var(--gold);font-size:15px;font-weight:700;letter-spacing:4px;
+  text-shadow:0 1px 6px #000,0 0 18px rgba(0,0,0,.9);white-space:nowrap}
+.loc::after{content:"";display:block;width:5px;height:5px;border:1px solid var(--gold);transform:rotate(45deg);margin:5px auto 0;opacity:.8}
+.loc.water{color:#9fc6cf;font-size:13px;letter-spacing:8px;opacity:.85}
+.loc.water::after{display:none}
+.loc.big{font-size:18px}
+.uLab{white-space:nowrap;text-align:center}
+.uLab .box{display:inline-block;background:rgba(8,10,14,.78);border:1px solid;border-radius:4px;padding:4px 10px;backdrop-filter:blur(3px)}
+.uLab .t1{font-family:'Noto Serif TC',serif;font-weight:700;font-size:14px;letter-spacing:2px;color:var(--paper)}
+.uLab .t2{font-size:10px;letter-spacing:1px;color:var(--paper-dim);margin-top:1px}
+.uLab.cao .box{border-color:rgba(61,125,224,.7)} .uLab.cao .t1{color:#8db4f0}
+.uLab.sun .box{border-color:rgba(216,64,64,.7)} .uLab.sun .t1{color:#f09a93}
+.uLab.liu .box{border-color:rgba(63,174,106,.7)} .uLab.liu .t1{color:#8fd6ae}
+.evt{white-space:nowrap;animation:evtIn .7s cubic-bezier(.2,1.2,.3,1)}
+.evt .card{background:rgba(8,10,14,.88);border:1px solid var(--gold);border-radius:4px;padding:7px 13px;text-align:left;
+  box-shadow:0 4px 24px rgba(0,0,0,.6)}
+.evt .tag{display:inline-block;font-size:9px;letter-spacing:2px;padding:1px 6px;border-radius:2px;margin-right:7px;vertical-align:1px}
+.evt .tag.hist{background:rgba(201,163,92,.2);color:var(--gold);border:1px solid var(--gold-dim)}
+.evt .tag.novel{background:rgba(179,56,44,.25);color:#e8917f;border:1px solid #7e3329}
+.evt .tx{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;letter-spacing:1.5px;color:var(--paper)}
+.evt::after{content:"";display:block;width:1px;height:26px;background:linear-gradient(var(--gold),transparent);margin:2px auto 0}
+@keyframes evtIn{0%{opacity:0;transform:translateY(-14px) scale(.92)}100%{opacity:1}}
+
+/* ── stratagem card ──────────────────────────── */
+#strat{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;pointer-events:none;
+  opacity:0;display:flex;align-items:center;gap:30px}
+#strat.show{animation:stratIn 7.5s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes stratIn{0%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}6%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  85%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(.98)}}
+#stratName{writing-mode:vertical-rl;font-family:'Noto Serif TC',serif;font-weight:900;font-size:88px;letter-spacing:14px;
+  color:var(--paper);text-shadow:0 0 40px rgba(201,163,92,.5),0 4px 18px #000;position:relative;padding:18px 6px}
+#stratName::before,#stratName::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(transparent,var(--gold),transparent)}
+#stratName::before{left:-12px}#stratName::after{right:-12px}
+#stratSeal{position:absolute;bottom:-34px;right:-40px;width:62px;height:62px;background:var(--verm);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:#f3e4cf;
+  font-family:'Noto Serif TC',serif;box-shadow:0 4px 20px rgba(179,56,44,.6);transform:rotate(-7deg) scale(0)}
+#strat.show #stratSeal{animation:seal .5s .8s cubic-bezier(.3,1.6,.4,1) forwards}
+@keyframes seal{to{transform:rotate(-7deg) scale(1)}}
+#stratInfo{max-width:330px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verm);
+  border-radius:4px;padding:16px 20px;backdrop-filter:blur(8px)}
+#stratBy{font-size:11px;letter-spacing:3px;color:var(--gold);margin-bottom:7px}
+#stratDesc{font-size:13px;line-height:1.9;color:var(--paper-dim);font-weight:300}
+
+/* ── intro ───────────────────────────────────── */
+#intro{position:fixed;inset:0;z-index:50;background:radial-gradient(ellipse at 64% 40%,#1a2230 0%,#0a0d12 62%);
+  display:flex;align-items:center;justify-content:center;transition:opacity 1.2s,visibility 1.2s}
+#intro.off{opacity:0;visibility:hidden}
+#intro .blot{position:absolute;width:46vmin;height:46vmin;left:18%;top:24%;border-radius:50%;
+  background:radial-gradient(circle,rgba(179,56,44,.30),transparent 65%);filter:blur(28px)}
+#intro .inner{position:relative;display:flex;gap:7vmin;align-items:center}
+#inTitle{writing-mode:vertical-rl;font-family:'Noto Serif TC',serif;font-weight:900;font-size:11vmin;letter-spacing:1.8vmin;
+  color:var(--paper);text-shadow:0 6px 40px #000;line-height:1}
+#inTitle small{font-size:2vmin;letter-spacing:1vmin;color:var(--gold);font-weight:600;margin-top:3vmin}
+#inMeta{max-width:380px}
+#inMeta .chip{font-size:11px;letter-spacing:4px;color:var(--gold);border:1px solid var(--line);padding:5px 12px;display:inline-block;margin-bottom:18px}
+#inMeta p{font-size:14px;line-height:2.1;color:var(--paper-dim);font-weight:300;margin-bottom:26px}
+#inBtns{display:flex;gap:14px;flex-wrap:wrap}
+.bigbtn{font-family:'Noto Serif TC',serif;font-size:16px;letter-spacing:5px;padding:13px 30px;cursor:pointer;border-radius:4px;transition:.25s}
+#btnAuto{background:var(--verm);border:1px solid #d2604f;color:#f6ead6;box-shadow:0 4px 26px rgba(179,56,44,.45)}
+#btnAuto:hover{transform:translateY(-2px);box-shadow:0 8px 34px rgba(179,56,44,.6)}
+#btnFree{background:transparent;border:1px solid var(--line);color:var(--paper)}
+#btnFree:hover{border-color:var(--gold);color:var(--gold)}
+#inFoot{position:absolute;bottom:4vh;left:0;right:0;text-align:center;font-size:10.5px;letter-spacing:2px;color:#5a5446}
+
+/* ── finale ──────────────────────────────────── */
+#finale{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transition:opacity 2s}
+#finale.show{opacity:1}
+#finale .t{font-family:'Noto Serif TC',serif;font-weight:900;font-size:9vmin;letter-spacing:3vmin;color:var(--paper);
+  text-shadow:0 0 60px rgba(201,163,92,.4),0 6px 30px #000}
+#finale .s{position:absolute;margin-top:16vmin;font-size:13px;letter-spacing:6px;color:var(--gold)}
+
+#loadMsg{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--ink);
+  color:var(--gold);font-size:13px;letter-spacing:4px;transition:opacity .8s,visibility .8s}
+#loadMsg.off{opacity:0;visibility:hidden}
+
+/* ── subtitle & audio ctrls ─────────────────── */
+#subtitle{position:fixed;left:50%;bottom:126px;transform:translateX(-50%);z-index:11;pointer-events:none;
+  max-width:min(72vw,760px);text-align:center;font-family:'Noto Serif TC',serif;font-size:17px;line-height:1.7;
+  letter-spacing:2px;color:var(--paper);text-shadow:0 2px 10px #000,0 0 26px rgba(0,0,0,.85);
+  background:rgba(10,12,16,.42);border-radius:4px;padding:4px 16px;opacity:0;
+  transition:opacity .35s,bottom .9s cubic-bezier(.7,0,.3,1)}
+#subtitle.show{opacity:1}
+body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
+#vol{width:64px;accent-color:var(--gold-dim);cursor:pointer}
+@media (max-width:900px){#subtitle{font-size:14px;max-width:86vw;bottom:156px}
+  body.cinema #subtitle{bottom:calc(6.5vh + 154px)}}
+
+@media (max-width:900px){
+  #intel{width:250px;left:12px;padding:13px 15px}
+  #phTitle{font-size:22px} #phNarr{font-size:12px;min-height:60px}
+  #side{display:none}
+  .brand h1{font-size:18px;letter-spacing:3px}
+  #stratName{font-size:54px}
+  #strat{flex-direction:column;gap:18px}
+}
+
+@media (max-width:700px){
+  body.cinema .lbox{height:4vh}
+  #topbar,
+  body:not(.cinema) #topbar{
+    padding:calc(env(safe-area-inset-top,0px) + 10px) 12px 0;
+    align-items:center;
+    gap:10px;
+  }
+  .brand{gap:9px;min-width:0}
+  .brand .seal{width:34px;height:34px;font-size:18px;flex:0 0 auto}
+  .brand h1{font-size:18px;letter-spacing:3px;white-space:nowrap}
+  .brand .chip{display:none}
+  #eraBox{flex:0 0 auto}
+  #eraBox .era{font-size:13px;letter-spacing:2px}
+  #eraBox .yr{display:none}
+
+  #intel{
+    left:10px;right:10px;top:calc(env(safe-area-inset-top,0px) + 54px);
+    width:auto;transform:none;padding:10px 13px;max-height:22dvh;overflow:hidden;
+  }
+  #intel::before{top:10px;bottom:10px}
+  #phTag{font-size:10px;letter-spacing:2px;margin-bottom:3px}
+  #phTitle{font-size:20px;letter-spacing:3px;margin-bottom:5px}
+  #phNarr{
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    overflow:hidden;min-height:0;margin-bottom:0;font-size:12px;line-height:1.65;
+  }
+  #powers{display:none}
+
+  #deck,
+  body:not(.cinema) #deck{
+    width:calc(100vw - 16px);
+    bottom:calc(env(safe-area-inset-bottom,0px) + 8px);
+  }
+  #tl{padding:10px 10px 8px}
+  #tl>div:first-child{display:none!important}
+  #tlTrack{height:4px;margin:6px 11px 8px}
+  .node{width:15px;height:15px}
+  .node .tip{display:none}
+  #ctrls{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    margin-top:8px;
+  }
+  .btn,.btn.mini{
+    width:100%;min-width:0;padding:8px 4px;font-size:10.5px;line-height:1;
+    letter-spacing:1px;white-space:nowrap;
+  }
+  #vol{grid-column:1/-1;width:100%;height:28px}
+
+  #subtitle,
+  body.cinema #subtitle{
+    bottom:calc(env(safe-area-inset-bottom,0px) + 188px);
+    max-width:92vw;font-size:13px;line-height:1.55;letter-spacing:1px;
+    padding:5px 10px;max-height:4.9em;overflow:hidden;
+  }
+  #unitCard{
+    left:10px;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 188px);
+    width:auto;padding:13px 15px;
+  }
+
+  .loc{font-size:12px;letter-spacing:2px}
+  .loc.big{font-size:14px}
+  .uLab .box{padding:3px 7px}
+  .uLab .t1{font-size:12px;letter-spacing:1px}
+  .uLab .t2{font-size:9px}
+  .evt .card{padding:6px 9px}
+  .evt .tx{font-size:12px;letter-spacing:1px}
+
+  #strat{width:calc(100vw - 28px)}
+  #stratName{font-size:44px;letter-spacing:9px}
+  #stratInfo{max-width:none;width:100%;padding:12px 14px}
+  #stratDesc{font-size:12px;line-height:1.7}
+
+  #intro{align-items:flex-start;justify-content:flex-start;padding:32px 18px 68px;overflow:hidden}
+  #intro .inner{flex-direction:column-reverse;gap:16px;align-items:flex-start;width:100%;max-width:560px}
+  #inMeta{max-width:none}
+  #inMeta .chip{display:none}
+  #inMeta p{
+    display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;
+    overflow:hidden;font-size:13px;line-height:1.75;margin-bottom:18px;
+  }
+  #inBtns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%}
+  #inTitle{
+    writing-mode:horizontal-tb;font-size:42px;letter-spacing:4px;line-height:1.1;
+  }
+  #inTitle small{
+    display:block;font-size:13px;letter-spacing:2px;margin-top:8px;line-height:1.4;
+  }
+  .bigbtn{flex:1 1 136px;padding:12px 14px;font-size:15px;letter-spacing:3px}
+  #inFoot{left:14px;right:14px;font-size:9.5px;line-height:1.7}
+}
+
+@media (max-width:700px) and (max-height:620px){
+  #intel{display:none}
+  #deck,
+  body:not(.cinema) #deck{bottom:calc(env(safe-area-inset-bottom,0px) + 6px)}
+  #tlTrack{display:none}
+  #ctrls{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .btn,.btn.mini{font-size:10px;padding:7px 3px}
+  #bCam{grid-column:span 2}
+  #vol{grid-column:span 3;height:24px}
+  #subtitle,
+  body.cinema #subtitle{bottom:calc(env(safe-area-inset-bottom,0px) + 130px)}
+  #unitCard{bottom:calc(env(safe-area-inset-bottom,0px) + 130px)}
+  #intro{padding:18px 24px;align-items:flex-start;justify-content:flex-start}
+  #intro .inner{gap:12px;max-width:520px}
+  #inTitle{font-size:34px;letter-spacing:3px}
+  #inTitle small{font-size:11px;margin-top:5px}
+  #inMeta p{-webkit-line-clamp:3;font-size:12px;line-height:1.6;margin-bottom:12px}
+  .bigbtn{padding:10px 12px;font-size:14px}
+  #inFoot{display:none}
+}
+</style>
+</head>
+<body class="cinema">
+<div id="loadMsg">載 入 戰 場 ⋯</div>
+<div id="stage"></div>
+<div id="labels"></div>
+<div id="vignette"></div><div id="grain"></div>
+<div class="lbox" id="lboxT"></div><div class="lbox" id="lboxB"></div>
+
+<div id="topbar">
+  <div class="brand">
+    <div class="seal" id="brdSeal">赤</div>
+    <div class="sub">
+      <h1 id="brdTitle">赤壁之戰</h1>
+      <span class="chip" id="brdTag"><span id="liveDot"></span>歷史特別節目・全 3D 戰場重現</span>
+    </div>
+  </div>
+  <div id="eraBox"><div class="era" id="eraTxt">建安十三年</div><div class="yr" id="eraYr">西元 208 年・長江赤壁</div></div>
+</div>
+
+<div id="intel">
+  <div id="phTag">第一幕</div>
+  <div id="phTitle">大軍南下</div>
+  <div id="phNarr"></div>
+  <div id="powers"></div>
+</div>
+
+<div id="side">
+  <div id="legend">
+    <div class="hd">兵 力 識 別</div>
+  </div>
+  <div id="compass"><div id="needle"></div></div>
+  <div id="hint">拖曳　旋轉視角<br>滾輪　遠近縮放<br>右鍵　平移戰場<br>點擊部隊　查看詳情</div>
+</div>
+
+<div id="unitCard">
+  <div id="ucClose">✕</div>
+  <div id="ucFac"></div><div id="ucName"></div><div id="ucBody"></div>
+</div>
+
+<div id="strat">
+  <div id="stratInfo"><div id="stratBy"></div><div id="stratDesc"></div></div>
+  <div id="stratName">連環計<div id="stratSeal">計</div></div>
+</div>
+
+<div id="finale"><div class="t">天下三分</div><div class="s">赤壁一炬・鼎足之勢成</div></div>
+
+<div id="deck">
+  <div id="tl">
+    <div style="display:flex;justify-content:space-between;font-size:10px;letter-spacing:3px;color:var(--gold-dim)">
+      <span id="tlStart">建安十三年 秋七月</span><span id="tlMid">戰 役 時 間 軸</span><span id="tlEnd">建安十四年 春</span>
+    </div>
+    <div id="tlTrack"><div id="tlFill"></div><div id="tlNodes"></div></div>
+    <div id="ctrls">
+      <button class="btn mini" id="bPrev">◀ 上一幕</button>
+      <button class="btn hot" id="bPlay">暫停</button>
+      <button class="btn mini" id="bNext">下一幕 ▶</button>
+      <button class="btn mini" id="bSpeed">速度 1×</button>
+      <button class="btn" id="bCam">電影運鏡中</button>
+      <button class="btn mini" id="bReplay">重播</button>
+      <button class="btn mini" id="bNarrTg">旁白 開</button>
+      <button class="btn mini" id="bSubTg">字幕 開</button>
+      <button class="btn mini" id="bVoiceTg">男聲</button>
+      <input type="range" id="vol" min="0" max="100" value="80" title="音量">
+    </div>
+  </div>
+</div>
+
+<div id="subtitle"></div>
+
+<div id="intro">
+  <div class="blot"></div>
+  <div class="inner">
+    <div id="inMeta">
+      <span class="chip" id="inTag">歷史特別節目・3D 戰場重現</span>
+      <p id="inBody">建安十三年冬，曹操揮師二十餘萬南下，欲一舉吞併江東。孫權、劉備結盟，以五萬之眾迎戰於長江赤壁——一場大火，燒出了三分天下。<br><br>本節目以 3D 運鏡重現戰役全程：陣型調動、計策發動、東風與火攻，盡在眼前。</p>
+      <div id="inBtns">
+        <button class="bigbtn" id="btnAuto">自動播映</button>
+        <button class="bigbtn" id="btnFree">自由探索</button>
+      </div>
+    </div>
+    <div id="inTitle">赤壁之戰<small>建安十三年・西元二〇八</small></div>
+  </div>
+  <div id="inFoot">兵力為史學估計・標注「史」者見於正史，「演義」者出自三國演義・<a href="classic.html" style="color:inherit">無聲原版</a>・<a href="audition.html" style="color:inherit">選曲記錄</a></div>
+</div>
+
+<script type="importmap">
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+
+const PKG_URL = new URLSearchParams(location.search).get('pkg') || 'packages/chibi/battlefield.json';
+const PKG = await (await fetch(PKG_URL)).json();
+const PKG_BASE = PKG_URL.replace(/[^/]*$/, '');  // dir of the manifest
+const assetUrl = p => PKG_BASE + p;              // 素材路徑相對 manifest 目錄(package 自足)
+
+/* ════════ meta text (戰役文案) ════════ */
+function applyMeta(){
+  const m = PKG.meta; if(!m) return;
+  const setText=(id,v)=>{const el=document.getElementById(id); if(el&&v!=null) el.textContent=v;};
+  const setHtml=(id,v)=>{const el=document.getElementById(id); if(el&&v!=null) el.innerHTML=v;};
+  if(m.docTitle) document.title=m.docTitle;
+  setText('brdSeal', m.seal);
+  setText('brdTitle', m.title);
+  if(m.broadcastTag!=null){const c=document.getElementById('brdTag'); if(c) c.innerHTML='<span id="liveDot"></span>'+m.broadcastTag;}
+  setText('eraTxt', m.era);
+  setText('eraYr', m.eraYear);
+  if(m.finale){
+    const f=document.getElementById('finale');
+    if(f){const t=f.querySelector('.t'),s=f.querySelector('.s');
+      if(t&&m.finale.title!=null) t.textContent=m.finale.title;
+      if(s&&m.finale.subtitle!=null) s.textContent=m.finale.subtitle;}
+  }
+  if(m.timeline){ setText('tlStart',m.timeline.start); setText('tlMid',m.timeline.mid); setText('tlEnd',m.timeline.end); }
+  if(m.intro){
+    setText('inTag', m.intro.tag);
+    setHtml('inBody', m.intro.bodyHtml);
+    const it=document.getElementById('inTitle');
+    if(it&&m.title!=null) it.innerHTML=m.title+'<small>'+(m.subtitle||'')+'</small>';
+    setHtml('inFoot', m.intro.footHtml);
+  }
+}
+applyMeta();
+
+/* ════════ basic helpers ════════ */
+const RZ=x=>18*Math.sin(x*0.012)-x*0.12;           // river centreline
+const hash=(x,y)=>{const s=Math.sin(x*127.1+y*311.7)*43758.5453;return s-Math.floor(s);};
+function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
+  const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+  return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
+function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
+const TERRAIN = await (await fetch(PKG_BASE + PKG.data.terrain)).json();
+const UNITS = await (await fetch(PKG_BASE + PKG.data.units)).json();
+function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
+  const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
+  return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
+function _densify(ctrl,perSeg){ if(ctrl.length<2) return ctrl.slice();
+  const e=[ctrl[0],...ctrl,ctrl[ctrl.length-1]], out=[];
+  for(let i=1;i<e.length-2;i++) for(let s=0;s<perSeg;s++) out.push(_catmull(e[i-1],e[i],e[i+1],e[i+2],s/perSeg));
+  out.push(e[e.length-2]); return out;}
+for(const r of TERRAIN.rivers) r._dense=_densify(r.centerline,12);
+function _distSeg(px,pz,a,b){const vx=b[0]-a[0],vz=b[1]-a[1];const wx=px-a[0],wz=pz-a[1];
+  const L=vx*vx+vz*vz||1e-9;let t=Math.max(0,Math.min(1,(wx*vx+wz*vz)/L));
+  return Math.hypot(px-(a[0]+t*vx),pz-(a[1]+t*vz));}
+function _distPoly(x,z,pts){let m=Infinity;for(let i=0;i<pts.length-1;i++)m=Math.min(m,_distSeg(x,z,pts[i],pts[i+1]));return m;}
+function terrainHeight(x,z){
+  let carved=null,nearD=Infinity,nearR=null;
+  for(const r of TERRAIN.rivers){const d=_distPoly(x,z,r._dense);
+    if(d<nearD){nearD=d;nearR=r;} if(d<r.halfWidth){const ch=r.depth*(1-d/r.halfWidth);carved=carved===null?ch:Math.min(carved,ch);}}
+  let h; if(carved!==null)h=carved;
+  else{const r=nearR,t=nearD-r.halfWidth,bf=r.bankFbm;
+    h=Math.min(t*r.bankSlope,r.bankCap)+fbm(x*bf.scale+(bf.xOff||0),z*bf.scale)*Math.min(t*(bf.ampRate||0.14),bf.ampCap);}
+  for(const b of TERRAIN.bands){const v=Math.abs(b.axis==='z'?z:x);
+    h+=Math.max(0,v-b.beyond)*b.slope*(b.fbm.base+fbm(x*b.fbm.scale,z*b.fbm.scale+b.fbm.offset));}
+  for(const bm of TERRAIN.bumps){const kx=bm.radius?bm.radius[0]*bm.radius[0]:bm.k[0],kz=bm.radius?bm.radius[1]*bm.radius[1]:bm.k[1];
+    h+=bm.height*Math.exp(-(((x-bm.center[0])**2)/kx+((z-bm.center[1])**2)/kz));}
+  return h;
+}
+function ground(x, z){ return terrainHeight(x, z); }
+const lerp=(a,b,t)=>a+(b-a)*t;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const _ramp=TERRAIN.colorRamp.map(s=>({maxH:s.maxH,c:new THREE.Color(s.color),
+  c2:s.lerpTo?new THREE.Color(s.lerpTo):null,by:s.by,from:s.from,span:s.span}));
+const _tintC=new Map();
+const _tint=hex=>{let c=_tintC.get(hex);if(!c){c=new THREE.Color(hex);_tintC.set(hex,c);}return c;};
+function terrainColor(x,z){
+  const h=terrainHeight(x,z), n=fbm(x*0.05,z*0.05), out=new THREE.Color();
+  const seg=_ramp.find(s=>s.maxH===null||h<s.maxH)||_ramp[_ramp.length-1];
+  out.copy(seg.c);
+  if(seg.c2){const t=seg.by==='fbm'?n:clamp((h-seg.from)/seg.span,0,1);out.lerp(seg.c2,t);}
+  for(const bm of TERRAIN.bumps){if(!bm.tint)continue;const ti=bm.tint;
+    const kx=bm.radius?bm.radius[0]*bm.radius[0]:bm.k[0],kz=bm.radius?bm.radius[1]*bm.radius[1]:bm.k[1];
+    const cf=Math.exp(-(((x-bm.center[0])**2)/kx+((z-bm.center[1])**2)/kz));
+    const th=ti.threshold??0.2,gn=ti.gain??2,mx=ti.max??0.8,mn=ti.minH??0;
+    if(cf>th&&h>mn)out.lerp(_tint(ti.color),clamp((cf-th)*gn,0,1)*mx);}
+  for(const rg of TERRAIN.regions){const ti=rg.tint;
+    const kx=rg.radius?rg.radius[0]*rg.radius[0]:rg.k[0],kz=rg.radius?rg.radius[1]*rg.radius[1]:rg.k[1];
+    const mf=Math.exp(-(((x-rg.center[0])**2)/kx+((z-rg.center[1])**2)/kz));
+    const th=ti.threshold??0.2,gn=ti.gain??2,mx=ti.max??0.8,mn=ti.minH??0,mH=ti.maxH??Infinity;
+    if(mf>th&&h>mn&&h<mH)out.lerp(_tint(ti.color),clamp((mf-th)*gn,0,1)*mx);}
+  return out;
+}
+const smooth=t=>t*t*(3-2*t);
+const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+
+const FAC = await (async () => {
+  const raw = await (await fetch(PKG_BASE + PKG.data.factions)).json();
+  const out = {};
+  for (const [k, v] of Object.entries(raw)) {
+    out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col, darkHex: v.dark,
+               light: v.light || v.col, panel: v.panel || v.name, legend: v.legend || v.name,
+               col: parseInt(v.col.slice(1), 16), dark: parseInt(v.dark.slice(1), 16) };
+  }
+  return out;
+})();
+
+/* 單位標籤的陣營配色由 factions.json 動態產生 .uLab.<css> 規則(取代寫死 cao/sun/liu) */
+(function buildFactionCSS(){
+  const a7 = h => h + 'b3';   // #RRGGBB → 0.7 alpha
+  const css = Object.values(FAC).map(f =>
+    `.uLab.${f.css} .box{border-color:${a7(f.hex)}} .uLab.${f.css} .t1{color:${f.light}}`).join('\n');
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+})();
+
+/* 戰力面板 + 圖例由 factions.json 產生(支援任意陣營數) */
+(function buildPanels(){
+  const pw = document.getElementById('powers'); pw.innerHTML = '';
+  const lg = document.getElementById('legend');
+  for (const fac of Object.keys(FAC)) {
+    const f = FAC[fac];
+    const row = document.createElement('div'); row.className = 'pw';
+    row.innerHTML =
+      `<div class="row1"><span class="nm" style="color:${f.hex}">${f.panel}</span><span class="num" id="n_${fac}"></span></div>`
+      + `<div class="bar"><i id="b_${fac}" style="background:linear-gradient(90deg,${f.darkHex},${f.hex})"></i></div>`
+      + `<div class="st" id="s_${fac}"></div>`;
+    pw.appendChild(row);
+    const l = document.createElement('div'); l.className = 'lg';
+    l.innerHTML = `<span class="sw" style="background:${f.hex}"></span>${f.legend}`;
+    lg.appendChild(l);
+  }
+})();
+
+/* ════════ renderer / scene ════════ */
+const stage=document.getElementById('stage');
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+stage.appendChild(renderer.domElement);
+const labelRenderer=new CSS2DRenderer({element:document.getElementById('labels')});
+labelRenderer.setSize(innerWidth,innerHeight);
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x2a3442,0.0018);
+const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,1,3000);
+camera.position.set(-420,260,320);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=.07;
+controls.maxPolarAngle=Math.PI*0.49;controls.minDistance=20;controls.maxDistance=900;
+controls.enabled=false;
+
+const hemi=new THREE.HemisphereLight(0xbcc8d8,0x2a2620,0.85);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1d6,1.6);sun.position.set(-200,300,150);scene.add(sun);
+const fireLight=new THREE.PointLight(0xff7a26,0,420,1.6);fireLight.position.set(-42,18,-11);scene.add(fireLight);
+
+/* sky dome */
+const skyU={top:{value:new THREE.Color(0x39506e)},bot:{value:new THREE.Color(0x8a8f8a)}};
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(1400,24,12),
+  new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,uniforms:skyU,
+    vertexShader:`varying vec3 vP;void main(){vP=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+    fragmentShader:`uniform vec3 top,bot;varying vec3 vP;
+      void main(){float h=clamp(normalize(vP).y*1.6+.25,0.,1.);gl_FragColor=vec4(mix(bot,top,pow(h,.8)),1.);}`})));
+
+/* ════════ terrain ════════ */
+{
+  const {W,H,segX:sx,segZ:sz}=TERRAIN.world;
+  const geo=new THREE.PlaneGeometry(W,H,sx,sz);geo.rotateX(-Math.PI/2);
+  const pos=geo.attributes.position,col=[];
+  for(let i=0;i<pos.count;i++){
+    const x=pos.getX(i),z=pos.getZ(i);
+    pos.setY(i, terrainHeight(x,z));
+    const c=terrainColor(x,z); col.push(c.r,c.g,c.b);
+  }
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
+  geo.computeVertexNormals();
+  scene.add(new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true})));
+}
+
+/* water */
+const waterU={uT:{value:0},uGlow:{value:0}};
+{
+  const m=new THREE.ShaderMaterial({transparent:true,uniforms:waterU,
+    vertexShader:`varying vec2 vUv;varying vec3 vW;
+      void main(){vUv=uv;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}`,
+    fragmentShader:`uniform float uT,uGlow;varying vec2 vUv;varying vec3 vW;
+      float wv(vec2 p){return sin(p.x*1.4+uT*.9)*sin(p.y*1.1-uT*.7)*.5+.5;}
+      void main(){
+        vec2 p=vW.xz*.08;
+        float a=wv(p)*.55+wv(p*2.3+4.)*.3+wv(p*5.1+9.)*.15;
+        vec3 deep=vec3(.066,.13,.16),lit=vec3(.13,.23,.27);
+        vec3 c=mix(deep,lit,a);
+        c+=uGlow*vec3(.55,.18,.03)*pow(a,2.2);
+        gl_FragColor=vec4(c,.92);
+      }`});
+  const w=new THREE.Mesh(new THREE.PlaneGeometry(TERRAIN.world.W, TERRAIN.world.H),m);
+  w.rotation.x=-Math.PI/2;w.position.y=0.05;scene.add(w);
+}
+
+/* trees */
+{
+  const g=new THREE.ConeGeometry(1.8,5.5,5);g.translate(0,2.7,0);
+  const m=new THREE.MeshLambertMaterial({color:0x2c3a26});
+  const inst=new THREE.InstancedMesh(g,m,240);
+  const M=new THREE.Matrix4();let k=0;
+  for(let i=0;i<2200&&k<240;i++){
+    const x=(hash(i,3)-.5)*640,z=(hash(i,7)-.5)*430,h=ground(x,z);
+    if(h>4&&h<26&&hash(i,11)>.55){
+      const s=.7+hash(i,13)*1.1;
+      M.makeScale(s,s,s).setPosition(x,h,z);inst.setMatrixAt(k++,M);
+    }
+  }
+  inst.count=k;scene.add(inst);
+}
+
+/* ════════ flags (canvas texture) ════════ */
+const flagCanvases=[];
+function flagTexture(fac){
+  const cv=document.createElement('canvas');cv.width=256;cv.height=176;
+  const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;
+  const draw=()=>{
+    const c=cv.getContext('2d');
+    const g=c.createLinearGradient(0,0,256,176);
+    const base=FAC[fac].hex;
+    g.addColorStop(0,base);g.addColorStop(1,'#'+new THREE.Color(FAC[fac].dark).getHexString());
+    c.fillStyle=g;c.fillRect(0,0,256,176);
+    c.strokeStyle='rgba(232,220,195,.9)';c.lineWidth=10;c.strokeRect(7,7,242,162);
+    c.strokeStyle='rgba(0,0,0,.25)';c.lineWidth=3;c.strokeRect(17,17,222,142);
+    c.font='900 108px "Noto Serif TC",serif';c.textAlign='center';c.textBaseline='middle';
+    c.shadowColor='rgba(0,0,0,.55)';c.shadowBlur=10;c.shadowOffsetY=4;
+    c.fillStyle='#f3ead8';c.fillText(FAC[fac].flag,128,96);
+    tex.needsUpdate=true;
+  };
+  draw();flagCanvases.push(draw);
+  return tex;
+}
+const flagTex={};
+for(const fac of Object.keys(FAC))flagTex[fac]=flagTexture(fac);
+document.fonts.ready.then(()=>flagCanvases.forEach(f=>f()));
+
+const wavingFlags=[];   // {mesh, base(Float32Array), amp, seed}
+function makeBanner(fac,big=false){
+  const grp=new THREE.Group();
+  const hPole=big?16:11;
+  const pole=new THREE.Mesh(new THREE.CylinderGeometry(.16,.22,hPole,5),new THREE.MeshLambertMaterial({color:0x2b2117}));
+  pole.position.y=hPole/2;grp.add(pole);
+  const fw=big?10:7,fh=fw*.66;
+  const g=new THREE.PlaneGeometry(fw,fh,14,8);g.translate(fw/2,0,0);
+  const f=new THREE.Mesh(g,new THREE.MeshLambertMaterial({map:flagTex[fac],side:THREE.DoubleSide}));
+  f.position.y=hPole-fh/2-.3;grp.add(f);
+  wavingFlags.push({mesh:f,base:g.attributes.position.array.slice(),amp:1,seed:Math.random()*9,w:fw});
+  return grp;
+}
+let flagWind=1;   // global wind multiplier
+
+/* ════════ ships ════════ */
+function makeShip(fac,opts={}){
+  const{big=false,fireShip=false}=opts;
+  const grp=new THREE.Group();
+  const wood=new THREE.MeshLambertMaterial({color:fireShip?0x33281c:0x4a3826});
+  const hull=new THREE.Mesh(new THREE.BoxGeometry(7,1.5,2.6),wood);hull.position.y=.95;grp.add(hull);
+  const bow=new THREE.Mesh(new THREE.ConeGeometry(1.25,2.6,4),wood);
+  bow.rotation.z=-Math.PI/2;bow.rotation.x=Math.PI/4;bow.position.set(4.5,.95,0);grp.add(bow);
+  const trim=new THREE.Mesh(new THREE.BoxGeometry(7.15,.3,2.75),
+    new THREE.MeshLambertMaterial({color:FAC[fac].col}));trim.position.y=1.75;grp.add(trim);
+  const castle=new THREE.Mesh(new THREE.BoxGeometry(2,1.5,2.1),wood);castle.position.set(-2,2.5,0);grp.add(castle);
+  const mast=new THREE.Mesh(new THREE.CylinderGeometry(.12,.16,7.5,5),wood);mast.position.set(.6,5.2,0);grp.add(mast);
+  const sailMat=new THREE.MeshLambertMaterial({color:0xd9cdab,side:THREE.DoubleSide});
+  const sail=new THREE.Mesh(new THREE.PlaneGeometry(.1,4.4),sailMat);
+  sail.geometry=new THREE.PlaneGeometry(4.4,4.6,8,1);
+  sail.geometry.attributes.position.array.forEach(()=>{});
+  sail.position.set(.6,5.2,0);grp.add(sail);
+  if(fireShip){
+    const straw=new THREE.Mesh(new THREE.BoxGeometry(4.4,1,2.2),new THREE.MeshLambertMaterial({color:0xc08a3e}));
+    straw.position.set(1.2,2,0);grp.add(straw);
+  }
+  // small mast flag
+  const fg=new THREE.PlaneGeometry(2.6,1.7,8,4);fg.translate(1.3,0,0);
+  const fm=new THREE.Mesh(fg,new THREE.MeshLambertMaterial({map:flagTex[fac],side:THREE.DoubleSide}));
+  fm.position.set(.6,9.2,0);grp.add(fm);
+  wavingFlags.push({mesh:fm,base:fg.attributes.position.array.slice(),amp:.5,seed:Math.random()*9,w:2.6});
+  if(big)grp.scale.setScalar(1.4);
+  grp.userData.sail=sailMat;
+  return grp;
+}
+
+/* ════════ GPU fire & smoke ════════ */
+function makeParticles(o){
+  const N=o.n,pos=new Float32Array(N*3),seed=new Float32Array(N);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5);pos[i*3+1]=0;pos[i*3+2]=(Math.random()-.5);seed[i]=Math.random();}
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setAttribute('aSeed',new THREE.BufferAttribute(seed,1));
+  const u={uT:{value:0},uI:{value:0},uS:{value:o.scale}};
+  const m=new THREE.ShaderMaterial({transparent:true,depthWrite:false,
+    blending:o.fire?THREE.AdditiveBlending:THREE.NormalBlending,uniforms:u,
+    vertexShader:`attribute float aSeed;uniform float uT,uI,uS;varying float vL;varying float vS;
+      void main(){
+        float life=fract(aSeed*7.31+uT*${o.fire?'.55':'.28'});vL=life;vS=aSeed;
+        float ang=aSeed*40.+uT*1.5+life*4.;
+        float r=(${o.fire?'1.6':'2.6'}+life*${o.fire?'2.':'5.'})*uS;
+        vec3 p=position*uS*3.;
+        p.x+=cos(ang)*r*.35;p.z+=sin(ang)*r*.35;
+        p.y+=life*${o.fire?'11.':'24.'}*uS;
+        ${o.fire?'':'p.x-=life*9.*uS;p.z-=life*6.*uS;'}
+        vec4 mv=modelViewMatrix*vec4(p,1.);
+        float sz=uS*(${o.fire?'(1.-life*.7)*9.':'(.45+life)*13.'})*uI;
+        gl_PointSize=sz*(220./-mv.z);
+        gl_Position=projectionMatrix*mv;
+      }`,
+    fragmentShader:o.fire?
+      `varying float vL;varying float vS;uniform float uI;
+       void main(){
+         vec2 d=gl_PointCoord-.5;float a=smoothstep(.5,.08,length(d));
+         vec3 c=mix(vec3(1.,.85,.35),vec3(1.,.3,.05),vL);
+         c=mix(c,vec3(.35,.04,.01),smoothstep(.6,1.,vL));
+         gl_FragColor=vec4(c,a*(1.-vL)*uI);
+       }`:
+      `varying float vL;uniform float uI;
+       void main(){
+         vec2 d=gl_PointCoord-.5;float a=smoothstep(.5,.12,length(d));
+         gl_FragColor=vec4(vec3(.16,.15,.14),a*(1.-vL)*.4*uI);
+       }`});
+  const pts=new THREE.Points(g,m);pts.frustumCulled=false;
+  return {obj:pts,u};
+}
+const emitters=[];  // {fire,smoke,target,cur}
+function attachFire(parent,scale,yOff=1.5){
+  const fire=makeParticles({n:90,fire:true,scale}),smoke=makeParticles({n:50,fire:false,scale});
+  fire.obj.position.y=yOff;smoke.obj.position.y=yOff+2;
+  parent.add(fire.obj,smoke.obj);
+  const e={fire,smoke,target:0,cur:0,smokeOnly:false};
+  emitters.push(e);return e;
+}
+
+/* ════════ wind streaks ════════ */
+const WIND_N=240;
+let windTarget=0,windCur=0;
+const windGeo=new THREE.BufferGeometry();
+const windPos=new Float32Array(WIND_N*6);
+const windDat=[];
+for(let i=0;i<WIND_N;i++){windDat.push({x:(Math.random()-.5)*600,y:3+Math.random()*45,z:(Math.random()-.5)*400,v:26+Math.random()*30});}
+windGeo.setAttribute('position',new THREE.BufferAttribute(windPos,3));
+const windMat=new THREE.LineBasicMaterial({color:0x9fd8d8,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+const windLines=new THREE.LineSegments(windGeo,windMat);windLines.frustumCulled=false;scene.add(windLines);
+const WDIR=V3(-0.78,0,-0.63).normalize();    // 東南風 → 吹向西北
+
+/* ════════ arrows (volleys) ════════ */
+function arrowPool(fire){
+  const g=new THREE.ConeGeometry(.22,3.2,4);g.rotateX(Math.PI/2);
+  const m=fire?new THREE.MeshBasicMaterial({color:0xffae4f}):new THREE.MeshBasicMaterial({color:0xd8d2c0});
+  const im=new THREE.InstancedMesh(g,m,160);im.count=0;im.frustumCulled=false;scene.add(im);return im;
+}
+const poolA=arrowPool(false),poolF=arrowPool(true);
+const volleys=[];   // {from,to,n,start,dur,fire,seeds}
+function fireVolley(from,to,n,fire){
+  if(typeof Sfx!=='undefined')Sfx.play('whoosh',{v:Math.min(.25+n*.006,.6)});
+  volleys.push({from:V3(from[0],3,from[1]),to:V3(to[0],2,to[1]),n,start:T,dur:2.6,fire,
+    seeds:Array.from({length:n},()=>Math.random())});
+}
+const _m4=new THREE.Matrix4(),_q=new THREE.Quaternion(),_v1=V3(),_v2=V3(),_v3=V3(),_up=V3(0,1,0);
+function updateVolleys(){
+  let ka=0,kf=0;
+  for(let vi=volleys.length-1;vi>=0;vi--){
+    const v=volleys[vi];const age=T-v.start;
+    if(age>v.dur+1){volleys.splice(vi,1);continue;}
+    const dist=v.from.distanceTo(v.to);
+    for(let i=0;i<v.n;i++){
+      const s=v.seeds[i];const t=clamp((age-s*.8)/(v.dur*.7),0,1);
+      if(t<=0||t>=1)continue;
+      _v1.lerpVectors(v.from,v.to,t);
+      _v1.x+=(s-.5)*26;_v1.z+=(hash(i,vi+1)-.5)*26;
+      _v1.y+=Math.sin(t*Math.PI)*dist*.16;
+      const dt2=.02;const t2=clamp(t+dt2,0,1);
+      _v2.lerpVectors(v.from,v.to,t2);_v2.x+=(s-.5)*26;_v2.z+=(hash(i,vi+1)-.5)*26;
+      _v2.y+=Math.sin(t2*Math.PI)*dist*.16;
+      _v3.subVectors(_v2,_v1).normalize();
+      _q.setFromUnitVectors(V3(0,0,1),_v3);
+      _m4.makeRotationFromQuaternion(_q).setPosition(_v1);
+      if(v.fire){if(kf<160)poolF.setMatrixAt(kf++,_m4);}
+      else{if(ka<160)poolA.setMatrixAt(ka++,_m4);}
+    }
+  }
+  poolA.count=ka;poolA.instanceMatrix.needsUpdate=true;
+  poolF.count=kf;poolF.instanceMatrix.needsUpdate=true;
+}
+
+/* ════════ march arrows ════════ */
+const chevCv=document.createElement('canvas');chevCv.width=64;chevCv.height=32;
+{const c=chevCv.getContext('2d');c.fillStyle='#fff';
+ c.beginPath();c.moveTo(8,4);c.lineTo(34,16);c.lineTo(8,28);c.lineTo(20,16);c.closePath();c.fill();}
+const chevTex=new THREE.CanvasTexture(chevCv);chevTex.wrapS=THREE.RepeatWrapping;
+const marchGroup=new THREE.Group();scene.add(marchGroup);
+const marchMats=[];
+function clearMarch(){marchGroup.clear();marchMats.length=0;}
+function addMarch(pts,fac){
+  const col=FAC[fac]?FAC[fac].col:0xcccccc;   // 未知陣營退中性色,不 throw
+  const v3s=pts.map(p=>V3(p[0],Math.max(ground(p[0],p[1]),0)+2.2,p[1]));
+  const curve=new THREE.CatmullRomCurve3(v3s);
+  const len=curve.getLength();
+  const tex=chevTex.clone();tex.needsUpdate=true;tex.wrapS=THREE.RepeatWrapping;tex.repeat.set(len/10,1);
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.8,color:col,
+    depthWrite:false,side:THREE.DoubleSide});
+  marchMats.push(mat);
+  const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,40,1.1,5,false),mat);
+  marchGroup.add(tube);
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(2.6,6,6),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.85}));
+  const end=curve.getPoint(1),tan=curve.getTangent(1);
+  tip.position.copy(end);tip.quaternion.setFromUnitVectors(V3(0,1,0),tan);
+  marchGroup.add(tip);
+}
+
+/* ════════ cities & camps ════════ */
+function makeCity(x, z) {
+  const g = new THREE.Group(); const h = ground(x, z);
+  const wallMat = new THREE.MeshLambertMaterial({ color: 0x6b6258 });
+  const stoneMat = new THREE.MeshLambertMaterial({ color: 0x555057 });
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x4b3030 });
+  const R = 11, WH = 5;                                  // 半邊長、牆高
+  const seg = (w, d, px, pz) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, WH, d), wallMat); m.position.set(px, WH / 2, pz); g.add(m); };
+  seg(2 * R, 1.6, 0, -R);                                // 北牆
+  seg(2 * R, 1.6, 0, R); seg(1.6, 2 * R, -R, 0); seg(1.6, 2 * R, R, 0); // 南/西/東
+  const gate = new THREE.Mesh(new THREE.BoxGeometry(5, 2.2, 1.6), stoneMat); gate.position.set(0, WH - 1.1, R); g.add(gate);
+  for (const [sx, sz] of [[-R, -R], [R, -R], [-R, R], [R, R]]) {
+    const t = new THREE.Mesh(new THREE.BoxGeometry(3.2, WH + 2.5, 3.2), stoneMat); t.position.set(sx, (WH + 2.5) / 2, sz); g.add(t);
+    const tr = new THREE.Mesh(new THREE.ConeGeometry(2.6, 1.8, 4), roofMat); tr.position.set(sx, WH + 2.5 + 0.9, sz); tr.rotation.y = Math.PI / 4; g.add(tr);
+  }
+  const keep = new THREE.Mesh(new THREE.BoxGeometry(6, 5, 6), new THREE.MeshLambertMaterial({ color: 0x666069 }));
+  keep.position.y = WH + 2.5; g.add(keep);
+  const roof = new THREE.Mesh(new THREE.ConeGeometry(5.2, 3, 4), roofMat);
+  roof.position.y = WH + 2.5 + 4; roof.rotation.y = Math.PI / 4; g.add(roof);
+  g.position.set(x, h, z); scene.add(g); return g;
+}
+function makePass(x, z) {
+  const g = new THREE.Group(); const h = ground(x, z);
+  const stoneMat = new THREE.MeshLambertMaterial({ color: 0x595158 });
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x3f2a2a });
+  for (const sx of [-7, 7]) {
+    const tower = new THREE.Mesh(new THREE.BoxGeometry(5, 9, 6), stoneMat); tower.position.set(sx, 4.5, 0); g.add(tower);
+    const tr = new THREE.Mesh(new THREE.ConeGeometry(4, 2.4, 4), roofMat); tr.position.set(sx, 9 + 1.2, 0); tr.rotation.y = Math.PI / 4; g.add(tr);
+  }
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(9, 2.4, 4), stoneMat); lintel.position.set(0, 8, 0); g.add(lintel);
+  const arch = new THREE.Mesh(new THREE.TorusGeometry(4.5, 0.6, 8, 24, Math.PI), roofMat);
+  arch.position.set(0, 1.5, 0); g.add(arch);
+  g.position.set(x, h, z); scene.add(g); return g;
+}
+function makeCamp(fac,x,z){
+  const g=new THREE.Group();const h=Math.max(ground(x,z),.5);
+  const tm=new THREE.MeshLambertMaterial({color:0xcdc4ab});
+  for(let i=0;i<8;i++){
+    const t=new THREE.Mesh(new THREE.ConeGeometry(2.4,3,6),tm);
+    const a=i/8*Math.PI*2;
+    const tx=Math.cos(a)*9+(hash(i,2)-.5)*4, tz=Math.sin(a)*7+(hash(i,5)-.5)*4;
+    t.position.set(tx, 1.5 + (Math.max(ground(x+tx,z+tz),.5) - h), tz);  // 每頂貼所在地形高
+    g.add(t);
+  }
+  g.add(makeBanner(fac,true));
+  g.position.set(x,h,z);g.visible=false;scene.add(g);
+  return g;
+}
+
+/* ════════ unit classes ════════ */
+const clickables=[];
+class Unit{
+  constructor(id,fac,kind){
+    this.id=id;this.fac=fac;this.kind=kind;
+    this.group=new THREE.Group();scene.add(this.group);
+    this.path=null;this.t0=0;this.dur=0;this.face=0;this.combat=false;
+    const hit=new THREE.Mesh(new THREE.SphereGeometry(13,8,6),
+      new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+    hit.position.y=6;hit.userData.unit=this;this.group.add(hit);clickables.push(hit);
+  }
+  setLabel(name,gens){
+    const d=document.createElement('div');d.className='uLab '+FAC[this.fac].css;
+    d.innerHTML=`<div class="box"><div class="t1">${name}</div><div class="t2">${gens}</div></div>`;
+    this.labelEl=d;
+    this.label=new CSS2DObject(d);this.label.position.set(0,this.kind==='fleet'?15:19,0);
+    this.group.add(this.label);
+  }
+  place(x,z,inst=true){
+    this.group.position.set(x,this.kind==='fleet'?0:Math.max(ground(x,z),0),z);
+    this.path=null;
+  }
+  moveTo(pts,dur){
+    const from=[this.group.position.x,this.group.position.z];
+    const all=[from,...pts];
+    this.path=new THREE.CatmullRomCurve3(all.map(p=>V3(p[0],0,p[1])));
+    this.t0=T;this.dur=dur;
+  }
+  setVisible(v){this.group.visible=v;if(this.label)this.label.visible=v;}
+  easeHeading(target){let d=target-this.group.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));this.group.rotation.y+=d*.06;}
+  update(){
+    if(this.combat&&!this.path){
+      const cur=this.group.rotation.y;
+      const d0=Math.abs(Math.atan2(Math.sin(cur),Math.cos(cur)));
+      const dP=Math.abs(Math.atan2(Math.sin(cur-Math.PI),Math.cos(cur-Math.PI)));
+      this.easeHeading(d0<=dP?0:Math.PI);   // 交戰側身:靠最近的 {0,π},不轉 180
+    }
+    if(this.path){
+      const t=clamp((T-this.t0)/this.dur,0,1);
+      const p=this.path.getPoint(smooth(t));
+      const tan=this.path.getTangent(clamp(smooth(t),0.01,0.99));
+      this.group.position.x=p.x;this.group.position.z=p.z;
+      if(this.kind!=='fleet')this.group.position.y=Math.max(ground(p.x,p.z),0);
+      if(tan.lengthSq()>0.0001){
+        const target=this.kind==='fleet'?Math.atan2(-tan.z,tan.x):Math.atan2(tan.x,tan.z); // 船首+X 對齊行進
+        this.easeHeading(target);
+      }
+      if(t>=1)this.path=null;
+    }
+  }
+}
+
+class Army extends Unit{
+  constructor(id,fac,n){
+    super(id,fac,'army');
+    const geo=new THREE.CylinderGeometry(.22,.5,1.8,5);geo.translate(0,.9,0);
+    const im=new THREE.InstancedMesh(geo,new THREE.MeshLambertMaterial({color:FAC[fac].col}),n);
+    const cols=Math.ceil(Math.sqrt(n*1.7)),M=new THREE.Matrix4();
+    for(let i=0;i<n;i++){
+      const r=Math.floor(i/cols),c=i%cols;
+      M.setPosition((c-cols/2)*1.7+(hash(i,1)-.5)*.5,0,(r)*1.8+(hash(i,4)-.5)*.5);
+      im.setMatrixAt(i,M);
+    }
+    this.group.add(im);
+    this.group.add(makeBanner(fac,true));
+  }
+}
+
+class Fleet extends Unit{
+  constructor(id,fac,n,opts={}){
+    super(id,fac,'fleet');
+    this.ships=[];
+    const cols=Math.ceil(Math.sqrt(n*1.5));
+    for(let i=0;i<n;i++){
+      const ship=makeShip(fac,{big:i===0,fireShip:opts.fireShip});
+      const r=Math.floor(i/cols),c=i%cols;
+      const loose=[(c-(cols-1)/2)*17+(hash(i,2)-.5)*5,(r-(Math.ceil(n/cols)-1)/2)*13+(hash(i,6)-.5)*4];
+      const tight=[loose[0]*.55,loose[1]*.55];
+      const s={mesh:ship,loose,tight,cur:[...loose],seed:Math.random()*9,
+        fire:null,burn:0,burnDelay:hash(i,9)*4,sunk:false,sinkY:0,tilt:0};
+      ship.position.set(loose[0],0,loose[1]);
+      this.group.add(ship);this.ships.push(s);
+    }
+    if(opts.fireShip)this.ships.forEach(s=>{s.burnDelay=hash(s.seed*7,3)*1.2;});
+    this.formation='loose';this.state='normal';
+    this.group.add(makeBanner(fac,true));
+  }
+  setFormation(f){this.formation=f;}
+  setState(st,inst=false){
+    this.state=st;this.stateT=T;
+    if(st==='burn'){
+      this.ships.forEach(s=>{if(!s.fire)s.fire=attachFire(s.mesh,1,2);});
+    }
+    if(st==='wreck'){
+      this.ships.forEach((s,i)=>{
+        if(!s.fire)s.fire=attachFire(s.mesh,1,2);
+        s.fire.smokeOnly=true;s.fire.target=Math.max(s.fire.target,.9);
+        if(s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0x2a2018);
+        if(i%3!==0){s.sunk=true;}
+      });
+    }
+    if(inst&&st==='burn')this.ships.forEach(s=>{s.burn=1;if(s.fire)s.fire.target=1;});
+  }
+  update(dt){
+    super.update();
+    for(const s of this.ships){
+      // formation lerp
+      const tgt=this.formation==='tight'?s.tight:s.loose;
+      s.cur[0]=lerp(s.cur[0],tgt[0],dt*.8);s.cur[1]=lerp(s.cur[1],tgt[1],dt*.8);
+      // burn ramp
+      if(this.state==='burn'&&s.burn<1){
+        if(T-this.stateT>s.burnDelay){s.burn=Math.min(1,s.burn+dt*.5);if(s.fire)s.fire.target=s.burn;}
+      }
+      if(s.fire&&s.fire.smokeOnly){s.fire.target=Math.max(0,s.fire.target-dt*.2);}
+      if(s.burn>0&&s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0x2a2018);
+      // sink
+      if(s.sunk&&s.sinkY>-2.6){s.sinkY-=dt*.5;s.tilt=Math.min(s.tilt+dt*.12,.5);}
+      const bob=s.sunk?0:Math.sin(T*1.3+s.seed)*0.18;
+      s.mesh.position.set(s.cur[0],bob+s.sinkY,s.cur[1]);
+      s.mesh.rotation.z=s.sunk?s.tilt:Math.sin(T*1.1+s.seed*2)*.03;
+    }
+  }
+}
+
+/* chains between cao ships */
+let chainLines=null,chainsOn=false;
+function buildChains(fleet){
+  if(chainLines)scene.remove(chainLines);
+  const pts=[];
+  const sh=fleet.ships;
+  const cols=Math.ceil(Math.sqrt(sh.length*1.5));
+  for(let i=0;i<sh.length;i++){
+    if(i%cols<cols-1&&i+1<sh.length){pts.push(i,i+1);}
+    if(i+cols<sh.length){pts.push(i,i+cols);}
+  }
+  chainLines={pairs:pts,geo:new THREE.BufferGeometry(),fleet};
+  chainLines.geo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pts.length*3),3));
+  const l=new THREE.LineSegments(chainLines.geo,new THREE.LineBasicMaterial({color:0x14110d}));
+  l.frustumCulled=false;chainLines.obj=l;scene.add(l);
+}
+function updateChains(){
+  if(!chainLines||!chainsOn){if(chainLines)chainLines.obj.visible=false;return;}
+  chainLines.obj.visible=true;
+  const a=chainLines.geo.attributes.position.array;
+  const f=chainLines.fleet;const wp=f.group.position;const rot=f.group.rotation.y;
+  const cos=Math.cos(rot),sin=Math.sin(rot);
+  chainLines.pairs.forEach((idx,k)=>{
+    const s=f.ships[idx];
+    const x=s.cur[0]*cos+s.cur[1]*sin,z=-s.cur[0]*sin+s.cur[1]*cos;
+    a[k*3]=wp.x+x;a[k*3+1]=1.1+s.sinkY;a[k*3+2]=wp.z+z;
+  });
+  chainLines.geo.attributes.position.needsUpdate=true;
+}
+
+/* ════════ locations ════════ */
+function locLabel(txt,x,z,cls=''){
+  const d=document.createElement('div');d.className='loc '+cls;d.textContent=txt;
+  const o=new CSS2DObject(d);o.position.set(x,Math.max(ground(x,z),0)+(cls.includes('water')?2:10),z);
+  scene.add(o);return o;
+}
+/* ════════ structures catalog(資料驅動) ════════ */
+const STRUCT_BUILDERS = {
+  city: s => makeCity(s.x, s.z),
+  camp: s => makeCamp(s.faction, s.x, s.z),
+  pass: s => makePass(s.x, s.z),          // makePass 由 Task 4 新增
+};
+const STRUCT = {};                         // id -> THREE.Group
+const STRUCT_DATA = await (await fetch(PKG_BASE + PKG.data.structures)).json();
+for (const s of STRUCT_DATA.structures) {
+  if (s.type === 'marker') {
+    const z = s.followRiver ? RZ(s.x) : s.z;   // followRiver:沿河曲線放置(z 由 RZ 算)
+    locLabel(s.label, s.x, z, s.labelClass || '');
+    continue;
+  }
+  const build = STRUCT_BUILDERS[s.type];
+  if (!build) { console.warn('未知結構 type:', s.type, s); continue; }
+  let g;
+  try { g = build(s); } catch (e) { console.warn('結構建構失敗,跳過:', s, e); continue; }
+  if (s.id) STRUCT[s.id] = g;
+  if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
+}
+// 火源 emitter:對宣告 fire 的結構附加(資料驅動,取代寫死的 campWulinFire)
+const fireEmitters = {};   // structId -> emitter
+for (const s of STRUCT_DATA.structures) {
+  if (s.fire && STRUCT[s.id]) fireEmitters[s.id] = attachFire(STRUCT[s.id], s.fire.scale, s.fire.yOff);
+}
+
+/* ════════ units ════════ */
+const U={};
+for(const u of UNITS.units){
+  U[u.id] = u.kind==='army' ? new Army(u.id,u.faction,u.n) : new Fleet(u.id,u.faction,u.n, u.fireShip?{fireShip:true}:{});
+  U[u.id].setLabel(u.name, u.generals);
+}
+// 連環:對宣告 chainable 的艦隊建鎖鏈(無則跳過)
+for(const u of UNITS.units){ if(u.chainable && U[u.id]) buildChains(U[u.id]); }
+
+// 單位詳情由 units.json info 提供
+const UNIT_INFO={};
+for(const u of UNITS.units) if(u.info) UNIT_INFO[u.id]=u.info;
+
+/* initial placement(由 units.json start 驅動) */
+function initPlace(){
+  for(const u of UNITS.units){
+    const st=u.start||{};
+    U[u.id].place(st.x||0, st.z||0);
+    U[u.id].setVisible(!!st.visible);
+    if(st.formation && U[u.id].setFormation) U[u.id].setFormation(st.formation);
+  }
+  for(const s of STRUCT_DATA.structures){ if(s.type==='camp' && s.id && STRUCT[s.id]) STRUCT[s.id].visible=false; }
+  chainsOn=false;
+}
+
+/* ════════ environments ════════ */
+const ENV={
+  day:    {top:0x46638a,bot:0x9aa091,fog:0x39465a,fd:.0016,sc:0xfff1d6,si:1.5,amb:.85,glow:0},
+  cold:   {top:0x3a506e,bot:0x8d9189,fog:0x33414f,fd:.0019,sc:0xe8e4d8,si:1.2,amb:.8,glow:0},
+  dusk:   {top:0x2c3a55,bot:0xb07848,fog:0x3a3a48,fd:.0021,sc:0xffb070,si:1.0,amb:.6,glow:0},
+  night:  {top:0x0d1524,bot:0x27313e,fog:0x131a26,fd:.0024,sc:0x8fa8d0,si:.45,amb:.4,glow:0},
+  inferno:{top:0x140e16,bot:0x57281a,fog:0x241318,fd:.0026,sc:0x7088b0,si:.35,amb:.42,glow:1},
+  dawn:   {top:0x37455c,bot:0x9d8d76,fog:0x3d4350,fd:.002,sc:0xf0d8b8,si:.9,amb:.7,glow:.12},
+};
+const envCur={top:new THREE.Color(ENV.day.top),bot:new THREE.Color(ENV.day.bot),fog:new THREE.Color(ENV.day.fog),
+  fd:.0016,sc:new THREE.Color(ENV.day.sc),si:1.5,amb:.85,glow:0};
+let envTgt=ENV.day;
+function applyEnv(){
+  const k=.025;
+  envCur.top.lerp(new THREE.Color(envTgt.top),k);envCur.bot.lerp(new THREE.Color(envTgt.bot),k);
+  envCur.fog.lerp(new THREE.Color(envTgt.fog),k);envCur.sc.lerp(new THREE.Color(envTgt.sc),k);
+  envCur.fd=lerp(envCur.fd,envTgt.fd,k);envCur.si=lerp(envCur.si,envTgt.si,k);
+  envCur.amb=lerp(envCur.amb,envTgt.amb,k);envCur.glow=lerp(envCur.glow,envTgt.glow,k);
+  skyU.top.value.copy(envCur.top);skyU.bot.value.copy(envCur.bot);
+  scene.fog.color.copy(envCur.fog);scene.fog.density=envCur.fd;
+  sun.color.copy(envCur.sc);sun.intensity=envCur.si;hemi.intensity=envCur.amb;
+  waterU.uGlow.value=envCur.glow;
+  fireLight.intensity=envCur.glow*(34+Math.sin(T*9)*7+Math.sin(T*23)*4);
+}
+
+/* ════════ phases data ════════ */
+const SCENE=await (await fetch(PKG_BASE + PKG.data.scene)).json();
+const PHASES=SCENE.acts;
+const AUDIO = await (await fetch(PKG_BASE + PKG.data.audio)).json();
+
+/* ════════ audio engine ════════ */
+const AudioEngine=(()=>{
+  let ctx=null,master,music,sfx,narr,unlocked=false;
+  function unlock(){
+    if(unlocked)return;unlocked=true;
+    ctx=new (window.AudioContext||window.webkitAudioContext)();
+    master=ctx.createGain();master.gain.value=.8;master.connect(ctx.destination);
+    music=ctx.createGain();sfx=ctx.createGain();narr=ctx.createGain();
+    const comp=ctx.createDynamicsCompressor();
+    comp.threshold.value=-14;comp.ratio.value=6;comp.knee.value=8;
+    sfx.connect(comp);comp.connect(master);
+    [music,narr].forEach(g=>g.connect(master));
+    music.gain.value=.8;sfx.gain.value=.9;narr.gain.value=1.0;
+    if(ctx.state==='suspended')ctx.resume();
+    if(typeof Music!=='undefined')Music.init();
+    if(typeof Narration!=='undefined')Narration.init();
+    if(typeof Sfx!=='undefined')Sfx.init();
+  }
+  function duck(on){
+    if(!ctx)return;const t=ctx.currentTime;
+    music.gain.cancelScheduledValues(t);
+    music.gain.setValueAtTime(music.gain.value,t);
+    music.gain.linearRampToValueAtTime(on?.3:.8,t+.6);
+    sfx.gain.cancelScheduledValues(t);
+    sfx.gain.setValueAtTime(sfx.gain.value,t);
+    sfx.gain.linearRampToValueAtTime(on?.45:.9,t+.6);
+  }
+  function setVolume(v){if(master)master.gain.value=v;}
+  function setPaused(p){
+    if(!ctx)return;
+    if(p)ctx.suspend();else ctx.resume();
+  }
+  return {unlock,duck,setVolume,setPaused,
+    get ctx(){return ctx},get musicBus(){return music},
+    get sfxBus(){return sfx},get narrBus(){return narr}};
+})();
+const Music=(()=>{
+  // 每幕音源:{file:'...'} 或 {synth:'cueName'}(找不到合適 CC0 時退合成,T8 提供)
+  const SRC=AUDIO.music.scenes.map(file=>({file}));
+  const buffers={};let cur=null,curIdx=-1,inited=false;
+  function init(){inited=true;}
+  async function loadBuf(url){
+    if(buffers[url]!==undefined)return buffers[url];
+    try{
+      const r=await fetch(url);
+      if(!r.ok)throw 0;
+      buffers[url]=await AudioEngine.ctx.decodeAudioData(await r.arrayBuffer());
+    }catch(e){buffers[url]=null;console.warn('music missing:',url);}
+    return buffers[url];
+  }
+  function crossfadeTo(node){
+    const t=AudioEngine.ctx.currentTime;
+    if(cur){
+      cur.gain.gain.cancelScheduledValues(t);
+      cur.gain.gain.setValueAtTime(cur.gain.gain.value,t);
+      cur.gain.gain.linearRampToValueAtTime(0,t+1.5);
+      const old=cur;setTimeout(()=>{try{old.src.stop();}catch(e){}},1700);
+    }
+    cur=node;
+    if(node){
+      node.gain.gain.setValueAtTime(0,t);
+      node.gain.gain.linearRampToValueAtTime(1,t+1.5);
+    }
+  }
+  async function playTheme(){           // 開場主題曲:終幕「天下三分」loop
+    if(!inited||curIdx!==-1)return;
+    if(!AUDIO.music.theme)return;       // 無主題曲(精簡音訊包)
+    curIdx=-2;
+    const buf=await loadBuf(assetUrl(AUDIO.music.theme));
+    if(curIdx!==-2||!buf)return;
+    const s=AudioEngine.ctx.createBufferSource();
+    s.buffer=buf;s.loop=true;
+    const g=AudioEngine.ctx.createGain();
+    s.connect(g);g.connect(AudioEngine.musicBus);
+    s.start();
+    crossfadeTo({src:s,gain:g});
+  }
+  async function play(i){
+    if(!inited||i===curIdx)return;curIdx=i;
+    const src=SRC[i];
+    if(!src){crossfadeTo(null);return;}   // 該幕無音樂(精簡音訊包)
+    if(src.file){
+      const buf=await loadBuf(assetUrl(src.file));
+      if(curIdx!==i)return;            // 等待解碼期間又跳幕
+      if(!buf){crossfadeTo(null);return;}
+      const s=AudioEngine.ctx.createBufferSource();
+      s.buffer=buf;s.loop=true;
+      const g=AudioEngine.ctx.createGain();
+      s.connect(g);g.connect(AudioEngine.musicBus);
+      s.start();
+      crossfadeTo({src:s,gain:g});
+    }else if(src.synth&&typeof Sfx!=='undefined'&&Sfx.musicCue){
+      crossfadeTo(Sfx.musicCue(src.synth));
+    }
+  }
+  return {init,play,playTheme,SRC};
+})();
+
+const Narration=(()=>{
+  let el=null,cues=null,voice=AUDIO.narration.default,enabled=true,subOn=true,curScene=-1;
+  const narrUrl=(voice,n)=>assetUrl(AUDIO.narration.pathPattern.replace('{voice}',voice).replace('{n}',n));
+  const subEl=()=>document.getElementById('subtitle');
+  if(AUDIO.narration.cues)fetch(assetUrl(AUDIO.narration.cues)).then(r=>r.json()).then(j=>{cues=j;}).catch(()=>{});
+  function init(){
+    el=new Audio();el.preload='auto';el.crossOrigin='anonymous';
+    const node=AudioEngine.ctx.createMediaElementSource(el);
+    node.connect(AudioEngine.narrBus);
+    el.addEventListener('play',()=>AudioEngine.duck(true));
+    el.addEventListener('ended',()=>{AudioEngine.duck(false);hideSub();});
+    el.addEventListener('timeupdate',tick);
+  }
+  function hideSub(){subEl().classList.remove('show');}
+  function tick(){
+    if(!subOn||!cues||curScene<0){hideSub();return;}
+    const sc=cues[String(curScene+1)];if(!sc)return;
+    const lines=sc[voice].lines,t=el.currentTime;
+    let curLine=null;
+    for(const l of lines){if(t>=l.t)curLine=l;else break;}
+    if(curLine){subEl().textContent=curLine.text;subEl().classList.add('show');}
+  }
+  function play(i){
+    curScene=i;
+    if(!el||!voice)return;   // 無旁白音軌(精簡音訊包)
+    hideSub();
+    el.src=narrUrl(voice, i+1);
+    el.playbackRate=speed;
+    try{el.preservesPitch=true;}catch(e){}
+    if(enabled)el.play().catch(()=>{});
+    else AudioEngine.duck(false);
+  }
+  function stop(){if(el){el.pause();el.removeAttribute('src');el.load();}hideSub();AudioEngine.duck(false);}
+  function setPaused(p){
+    if(!el)return;
+    if(p)el.pause();
+    else if(enabled&&el.src&&!el.ended)el.play().catch(()=>{});
+  }
+  function setRate(r){if(el)el.playbackRate=r;}
+  function toggle(){
+    enabled=!enabled;
+    if(!enabled){el&&el.pause();hideSub();AudioEngine.duck(false);}
+    else if(el&&el.src&&!el.ended)el.play().catch(()=>{});
+    return enabled;
+  }
+  function toggleSub(){subOn=!subOn;if(!subOn)hideSub();return subOn;}
+  function switchVoice(){
+    const vs=AUDIO.narration.voices;
+    if(!vs||vs.length<2)return voice;
+    voice=vs[(vs.indexOf(voice)+1)%vs.length];
+    if(el&&enabled&&curScene>=0&&!el.ended&&!el.paused){
+      const t=el.currentTime;
+      el.src=narrUrl(voice, curScene+1);
+      el.currentTime=t;el.playbackRate=speed;el.play().catch(()=>{});
+    }
+    return voice;
+  }
+  // 切換鈕標籤由資料提供(取代寫死 yunjhe→男聲/女聲)
+  function voiceLabel(v){const m=AUDIO.narration.voiceLabels||{};const k=v||voice;return m[k]||k;}
+  // 場景計時器驅動字幕:無語音音軌時的 fallback(有語音則交給 audio 的 timeupdate→tick)
+  function subTick(t){
+    if(el&&voice&&el.src&&!el.paused&&!el.ended)return;   // 語音正在播,不搶
+    if(!subOn||!cues||curScene<0)return;
+    const sc=cues[String(curScene+1)];if(!sc)return;
+    const vk=(sc[voice]&&sc[voice].lines)?voice:Object.keys(sc).find(k=>sc[k]&&sc[k].lines);
+    const track=vk&&sc[vk];if(!track||!track.lines)return;
+    let curLine=null;
+    for(const l of track.lines){if(t>=l.t)curLine=l;else break;}
+    if(curLine){subEl().textContent=curLine.text;subEl().classList.add('show');}
+  }
+  return {init,play,stop,setPaused,setRate,toggle,toggleSub,switchVoice,voiceLabel,subTick};
+})();
+
+const Sfx=(()=>{
+  let inited=false,noiseBuf=null;
+  const fileBufs={};
+  let wind=null,river=null,fireN=null,crackleTimer=0;
+
+  function makeNoise(ctx){
+    const b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+    const d=b.getChannelData(0);
+    let brown=0;
+    for(let i=0;i<d.length;i++){brown=(brown+(Math.random()*2-1)*.02)*.985;d[i]=Math.random()*2-1+brown*3;}
+    return b;
+  }
+  function noiseSrc(ctx,buf){const s=ctx.createBufferSource();s.buffer=buf||noiseBuf;s.loop=true;return s;}
+
+  /* ── one-shot builders:fn(ctx,dest,t0,o)→使用既定包絡,放完自斷 ── */
+  const BUILD={
+    drum(ctx,dest,t0,o={}){
+      const v=o.v??.8;
+      const osc=ctx.createOscillator(),g=ctx.createGain();
+      osc.frequency.setValueAtTime(58,t0);osc.frequency.exponentialRampToValueAtTime(36,t0+.28);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+.55);
+      osc.connect(g);g.connect(dest);osc.start(t0);osc.stop(t0+.6);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='lowpass';f.frequency.value=300;
+      ng.gain.setValueAtTime(v*.5,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+.2);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+.25);
+    },
+    hoof(ctx,dest,t0,o={}){
+      const v=o.v??.25;
+      for(const dt of [0,.09]){
+        const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+        f.type='bandpass';f.frequency.value=620+Math.random()*160;f.Q.value=2.2;
+        g.gain.setValueAtTime(v,t0+dt);g.gain.exponentialRampToValueAtTime(.001,t0+dt+.07);
+        n.connect(f);f.connect(g);g.connect(dest);n.start(t0+dt);n.stop(t0+dt+.09);
+      }
+    },
+    step(ctx,dest,t0,o={}){
+      const v=o.v??.3;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='lowpass';f.frequency.value=240;
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+.13);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.15);
+    },
+    whoosh(ctx,dest,t0,o={}){
+      const v=o.v??.5;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.Q.value=1.4;
+      f.frequency.setValueAtTime(900,t0);f.frequency.exponentialRampToValueAtTime(3200,t0+.45);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+.12);
+      g.gain.exponentialRampToValueAtTime(.001,t0+.55);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.6);
+    },
+    clash(ctx,dest,t0,o={}){
+      const v=o.v??.3,fc=o.fc??2800;
+      const car=ctx.createOscillator(),mod=ctx.createOscillator(),mg=ctx.createGain(),g=ctx.createGain();
+      car.frequency.value=fc;mod.frequency.value=420;mg.gain.value=fc*.7;
+      mod.connect(mg);mg.connect(car.frequency);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+(o.dec??.16));
+      car.connect(g);g.connect(dest);
+      car.start(t0);car.stop(t0+.3);mod.start(t0);mod.stop(t0+.3);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='highpass';f.frequency.value=3500;
+      ng.gain.setValueAtTime(v*.6,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+.1);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+.12);
+    },
+    chain(ctx,dest,t0,o={}){
+      for(let k=0;k<3;k++)BUILD.clash(ctx,dest,t0+k*.17+Math.random()*.05,{v:.22,fc:1500+Math.random()*500,dec:.4,noise:o.noise});
+    },
+    boom(ctx,dest,t0,o={}){
+      const v=(o.v??.9)*.7;
+      const osc=ctx.createOscillator(),g=ctx.createGain();
+      osc.frequency.setValueAtTime(44,t0);osc.frequency.exponentialRampToValueAtTime(26,t0+1.1);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+1.3);
+      osc.connect(g);g.connect(dest);osc.start(t0);osc.stop(t0+1.4);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='lowpass';f.frequency.setValueAtTime(900,t0);f.frequency.exponentialRampToValueAtTime(140,t0+.9);
+      ng.gain.setValueAtTime(v*.8,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+1.0);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+1.1);
+      for(let k=0;k<6;k++){
+        const dt=.3+Math.random()*.8;
+        const cn=noiseSrc(ctx,o.noise),cf=ctx.createBiquadFilter(),cg=ctx.createGain();
+        cf.type='highpass';cf.frequency.value=1800;
+        cg.gain.setValueAtTime(v*.12,t0+dt);cg.gain.exponentialRampToValueAtTime(.001,t0+dt+.06);
+        cn.connect(cf);cf.connect(cg);cg.connect(dest);cn.start(t0+dt);cn.stop(t0+dt+.08);
+      }
+    },
+    chime(ctx,dest,t0,o={}){
+      const v=o.v??.34;
+      [1318.5,1760,2637].forEach((fq,k)=>{
+        const osc=ctx.createOscillator(),g=ctx.createGain();
+        osc.frequency.value=fq;
+        const tt=t0+k*.14;
+        g.gain.setValueAtTime(.0001,tt);g.gain.exponentialRampToValueAtTime(v*(1-k*.22),tt+.02);
+        g.gain.exponentialRampToValueAtTime(.001,tt+1.6);
+        osc.connect(g);g.connect(dest);osc.start(tt);osc.stop(tt+1.7);
+      });
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.Q.value=1;
+      f.frequency.setValueAtTime(1200,t0);f.frequency.exponentialRampToValueAtTime(5200,t0+.5);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v*.4,t0+.18);
+      g.gain.exponentialRampToValueAtTime(.001,t0+.6);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.65);
+    },
+    crowd(ctx,dest,t0,o={}){      // battlecry 真檔缺時的合成備援:遠方人浪
+      const v=o.v??.5;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.frequency.value=480;f.Q.value=.8;
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+.8);
+      g.gain.setValueAtTime(v,t0+2.2);g.gain.exponentialRampToValueAtTime(.001,t0+3.6);
+      const lfo=ctx.createOscillator(),lg=ctx.createGain();
+      lfo.frequency.value=6.3;lg.gain.value=v*.35;
+      lfo.connect(lg);lg.connect(g.gain);lfo.start(t0);lfo.stop(t0+3.6);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+3.7);
+    },
+  };
+
+  function init(){
+    if(inited)return;inited=true;
+    const ctx=AudioEngine.ctx;
+    noiseBuf=makeNoise(ctx);
+    // 環境層:風 / 江水 / 火
+    const mk=(type,fq,q)=>{
+      const s=noiseSrc(ctx),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type=type;f.frequency.value=fq;if(q)f.Q.value=q;
+      g.gain.value=0;s.connect(f);f.connect(g);g.connect(AudioEngine.sfxBus);s.start();
+      return {g,f};
+    };
+    wind=mk('bandpass',620,.45);
+    river=mk('lowpass',190);
+    fireN=mk('lowpass',460);
+    const lfo=ctx.createOscillator(),lg=ctx.createGain();
+    lfo.frequency.value=.07;lg.gain.value=.035;
+    lfo.connect(lg);lg.connect(river.g.gain);lfo.start();
+  }
+  function play(name,opts={}){
+    if(!inited)return;
+    BUILD[name](AudioEngine.ctx,AudioEngine.sfxBus,AudioEngine.ctx.currentTime+.01,opts);
+  }
+  const activeFiles=[];
+  async function playFile(name,v=0.8){
+    if(!inited)return;
+    const ctx=AudioEngine.ctx,url=assetUrl(`${AUDIO.sfx.dir}/${name}.mp3`);
+    if(fileBufs[url]===undefined){
+      try{const r=await fetch(url);if(!r.ok)throw 0;
+        fileBufs[url]=await ctx.decodeAudioData(await r.arrayBuffer());}
+      catch(e){fileBufs[url]=null;}
+    }
+    if(!fileBufs[url]){if(name==='battlecry')play('crowd',{v});return;}
+    const s=ctx.createBufferSource(),g=ctx.createGain();
+    s.buffer=fileBufs[url];g.gain.value=v;
+    s.connect(g);g.connect(AudioEngine.sfxBus);s.start();
+    const rec={s,g};activeFiles.push(rec);
+    s.onended=()=>{const k=activeFiles.indexOf(rec);if(k>=0)activeFiles.splice(k,1);};
+  }
+  function sword(v=.5){     // 真實刀劍錄音,4 變體隨機
+    playFile('sword'+(1+Math.floor(Math.random()*4)),v*(0.8+Math.random()*.4));
+  }
+  function stopFiles(){     // 跨幕長音(吶喊/鐵索)淡出收掉
+    const ctx=AudioEngine.ctx;if(!ctx)return;
+    for(const r of activeFiles){
+      const t=ctx.currentTime;
+      r.g.gain.cancelScheduledValues(t);
+      r.g.gain.setValueAtTime(r.g.gain.value,t);
+      r.g.gain.linearRampToValueAtTime(0,t+.5);
+      try{r.s.stop(t+.55);}catch(e){}
+    }
+    activeFiles.length=0;
+  }
+  /* 行軍/馬蹄:登記 dur 秒的節奏迴圈(只有陸軍;艦隊移動交給江水/風,不配腳步) */
+  const LAND_UNITS={};
+  for(const u of UNITS.units) if(u.kind==='army') LAND_UNITS[u.id]=u.gait||'foot';
+  const marches=[];
+  function march(id,dur,T0){
+    if(!inited||!LAND_UNITS[id])return;
+    const cav=LAND_UNITS[id]==='cav';
+    marches.push({until:performance.now()/1000+Math.min(dur,12),cav,next:0});
+  }
+  function frame(windAmt,fireAmt,dt){
+    if(!inited)return;
+    wind.g.gain.value=.03+windAmt*.2;
+    river.g.gain.value=.09;
+    fireN.g.gain.value=fireAmt*.5;
+    const now=performance.now()/1000;
+    // 火場嗶剝
+    if(fireAmt>.12){
+      crackleTimer-=dt;
+      if(crackleTimer<=0){
+        crackleTimer=.07+Math.random()*.3/fireAmt;
+        const ctx=AudioEngine.ctx,n=noiseSrc(ctx),f=ctx.createBiquadFilter(),g=ctx.createGain();
+        const t0=ctx.currentTime;
+        f.type='highpass';f.frequency.value=2000+Math.random()*2500;
+        g.gain.setValueAtTime(fireAmt*(.06+Math.random()*.1),t0);
+        g.gain.exponentialRampToValueAtTime(.001,t0+.04);
+        n.connect(f);f.connect(g);g.connect(AudioEngine.sfxBus);n.start(t0);n.stop(t0+.05);
+      }
+    }
+    // 行軍節奏
+    for(let i=marches.length-1;i>=0;i--){
+      const m=marches[i];
+      if(now>m.until){marches.splice(i,1);continue;}
+      if(now>=m.next){
+        m.next=now+(m.cav?.24:.46)+Math.random()*.04;
+        play(m.cav?'hoof':'step',{v:m.cav?.16:.14});
+      }
+    }
+  }
+  /* 每幕事件音效 cue(0-based 幕序),掛進 phase engine 的 pending */
+  /* 宣告式音效事件詞彙(AUDIO.cues)→ dispatchAudioCue,等價於原 AUDIO_CUES 閉包 */
+  function dispatchAudioCue(e){
+    switch(e.type){
+      case 'synth': play(e.inst,{v:e.v}); break;
+      case 'sfx':   playFile(e.name,e.v); break;
+      case 'sword': sword(e.v); break;
+      case 'burst': for(let k=0;k<e.n;k++)setTimeout(()=>play(e.inst,{v:e.v}),k*e.interval*1000); break;
+    }
+  }
+  function onScene(i){
+    if(!inited)return;
+    marches.length=0;
+    stopFiles();
+    (AUDIO.cues[i]||[]).forEach(e=>pending.push({at:e.at,fn:()=>dispatchAudioCue(e)}));
+    pending.sort((a,b)=>a.at-b.at);
+  }
+  /* OfflineAudioContext 渲染測試:回報每個 one-shot 的 RMS/peak */
+  async function _test(){
+    const out={};
+    for(const name of Object.keys(BUILD)){
+      const ctx=new OfflineAudioContext(1,44100*2,44100);
+      const nb=makeNoise(ctx);
+      BUILD[name](ctx,ctx.destination,.05,{noise:nb});
+      const buf=await ctx.startRendering();
+      const d=buf.getChannelData(0);
+      let sum=0,peak=0;
+      for(let i=0;i<d.length;i++){sum+=d[i]*d[i];peak=Math.max(peak,Math.abs(d[i]));}
+      out[name]={rms:Math.sqrt(sum/d.length).toFixed(4),peak:peak.toFixed(3)};
+    }
+    return out;
+  }
+  return {init,play,playFile,march,frame,onScene,_test};
+})();
+
+window.__audio={engine:AudioEngine,music:Music,narr:Narration,sfx:Sfx};   // debug/驗證用
+
+/* ════════ phase engine ════════ */
+let T=0,phase=-1,phaseT=0,playing=true,speed=1,cinema=true,ended=false;
+let shotIdx=0,shotT=0;
+const evtObjs=[];
+function clearEvents(){evtObjs.forEach(o=>{o.removeFromParent();o.element.remove();});evtObjs.length=0;}
+function spawnEvent(e){
+  const d=document.createElement('div');d.className='evt';
+  d.innerHTML=`<div class="card"><span class="tag ${e.tag==='史'?'hist':'novel'}">${e.tag}</span><span class="tx">${e.t}</span></div>`;
+  const o=new CSS2DObject(d);
+  o.position.set(e.x,Math.max(ground(e.x,e.z),0)+16,e.z);
+  scene.add(o);evtObjs.push(o);
+}
+function showStrat(s){
+  const el=document.getElementById('strat');
+  document.getElementById('stratName').childNodes[0].nodeValue=s.name;
+  document.getElementById('stratSeal').textContent=s.tag==='史'?'史':'計';
+  document.getElementById('stratBy').textContent=(s.tag==='演義'?'演義・':'史載・')+s.by;
+  document.getElementById('stratDesc').textContent=s.desc;
+  el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
+  Sfx.play('chime');
+}
+let pending=[];
+
+function applySet(s,inst){
+  if(!s)return;
+  for(const id in s){
+    const d=s[id];
+    if(id==='chains'){chainsOn=d;continue;}
+    if(id==='wind'){windTarget=d?1:0;continue;}
+    // 結構(城/營/隘):可見性 + 火源 fire/smoke 控制
+    if(STRUCT[id]){
+      if(d&&typeof d==='object'){
+        if(d.visible!==undefined)STRUCT[id].visible=d.visible;
+        const fe=fireEmitters[id];
+        if(fe){
+          if(d.fire!==undefined)fe.target=d.fire;
+          if(d.smoke!==undefined){fe.smokeOnly=true;fe.target=Math.max(fe.target,d.smoke);}
+        }
+      }
+      continue;
+    }
+    const u=U[id];if(!u)continue;
+    if(d.state!==undefined)u.setState(d.state,inst);
+    if(d.visible!==undefined)u.setVisible(d.visible);
+    if(d.formation)u.setFormation&&u.setFormation(d.formation);
+    if(d.path){
+      if(inst){const last=d.path[d.path.length-1];u.place(last[0],last[1]);}
+      else{u.moveTo(d.path,d.dur||8);Sfx.march(id,d.dur||8);}
+      u.setVisible(true);
+    }
+  }
+}
+function dispatchFx(e){
+  switch(e.type){
+    case 'volley': fireVolley(e.from,e.to,e.n,e.fire); break;
+    case 'ignite': if(U[e.unit])U[e.unit].setState('burn'); if(e.shake)shake(e.shake); break;
+    case 'shake':  shake(e.mag); break;
+    case 'campFire': { const fe=fireEmitters[e.camp]; if(fe)fe.target=1; break; }
+  }
+}
+function gotoPhase(i,viaScrub=false){
+  ended=false;document.getElementById('finale').classList.remove('show');
+  clearEvents();clearMarch();
+  if(viaScrub||i<=phase){      // rebuild from scratch
+    // reset world
+    emitters.forEach(e=>{e.target=0;e.cur=0;e.smokeOnly=false;});
+    for(const id in U){
+      const u=U[id];if(!u.ships)continue;
+      u.ships.forEach(s=>{s.burn=0;s.sunk=false;s.sinkY=0;s.tilt=0;if(s.fire){s.fire.target=0;s.fire.smokeOnly=false;}
+        if(s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0xd9cdab);});
+      u.state='normal';if(u.setFormation)u.setFormation('loose');
+    }
+    windTarget=0;chainsOn=false;
+    initPlace();
+    for(let k=0;k<i;k++){applySet(PHASES[k].set,true);applySet(PHASES[k].scrubSet,true);}
+  }
+  phase=i;phaseT=0;shotIdx=0;shotT=0;
+  for(const id in U)U[id].combat=false;
+  const p=PHASES[i];
+  (p.combat||[]).forEach(id=>{if(U[id])U[id].combat=true;});   // 該幕參戰艦隊(broadside)
+  envTgt=ENV[p.env]||ENV.day;   // 未知 env 安全退回 day(避免 applyEnv 每幀 throw)
+  flagWind=p.set&&p.set.wind?2.6:1;
+  applySet(p.set,false);
+  if(p.march)p.march.forEach(m=>addMarch(m.pts,m.fac));
+  pending=[];
+  (p.events||[]).forEach(e=>pending.push({at:e.at,fn:()=>spawnEvent(e)}));
+  (p.fx||[]).forEach(e=>pending.push({at:e.at,fn:()=>dispatchFx(e)}));
+  if(p.strat)pending.push({at:p.strat.at,fn:()=>showStrat(p.strat)});
+  if(p.finale)pending.push({at:p.finale,fn:()=>document.getElementById('finale').classList.add('show')});
+  pending.sort((a,b)=>a.at-b.at);
+  // UI
+  document.getElementById('phTag').textContent=p.key+'・'+p.era;
+  document.getElementById('phTitle').textContent=p.title;
+  document.getElementById('phNarr').textContent=p.narr;
+  document.getElementById('eraTxt').textContent=p.era;
+  const pw=p.power;
+  for(const fac in pw){
+    const n=document.getElementById('n_'+fac);if(!n)continue;
+    n.textContent=pw[fac][0];
+    document.getElementById('b_'+fac).style.width=pw[fac][1]+'%';
+    document.getElementById('s_'+fac).textContent='狀態　'+pw[fac][2];
+  }
+  document.querySelectorAll('.node').forEach((n,k)=>n.classList.toggle('on',k===i));
+  Music.play(i);
+  Narration.play(i);
+  if(typeof Sfx!=='undefined')Sfx.onScene(i);
+}
+
+/* ════════ camera director ════════ */
+let shakeAmp=0;
+function shake(a){shakeAmp=Math.max(shakeAmp,a);}
+const camPos=V3(),camLook=V3(0,0,0);
+function director(dt){
+  const p=PHASES[phase];if(!p)return;
+  let shots=p.shots,idx=shotIdx,st=shotT;
+  let s=shots[Math.min(idx,shots.length-1)];
+  if(st>s.dur&&idx<shots.length-1){shotIdx=++idx;shotT=st=0;s=shots[idx];}
+  const u=clamp(st/s.dur,0,1),e=smooth(u);
+  if(s.kind==='line'){
+    camPos.set(lerp(s.a[0],s.b[0],e),lerp(s.a[1],s.b[1],e),lerp(s.a[2],s.b[2],e));
+    camLook.set(s.look[0],s.look[1],s.look[2]);
+  }else if(s.kind==='orbit'){
+    const a=lerp(s.a0,s.a1,e);
+    camPos.set(s.c[0]+Math.cos(a)*s.r,s.h,s.c[2]+Math.sin(a)*s.r);
+    camLook.set(s.c[0],s.c[1],s.c[2]);
+  }else if(s.kind==='follow'){
+    const t=U[s.unit].group.position;
+    camPos.set(t.x+s.off[0],t.y+s.off[1],t.z+s.off[2]);
+    camLook.lerp(_v1.set(t.x,t.y+3,t.z),.08);
+    if(shotT<.1)camLook.set(t.x,t.y+3,t.z);
+  }
+  camera.position.lerp(camPos,shotT<.15?1:.06);
+  if(shakeAmp>0.01){
+    camera.position.x+=(Math.random()-.5)*shakeAmp;
+    camera.position.y+=(Math.random()-.5)*shakeAmp;
+    shakeAmp*=.93;
+  }
+  camera.lookAt(camLook);
+}
+
+/* ════════ UI wiring ════════ */
+const nodesEl=document.getElementById('tlNodes');
+let durTotal=PHASES.reduce((a,p)=>a+p.dur,0),acc=0;
+PHASES.forEach((p,i)=>{
+  const n=document.createElement('div');n.className='node';
+  n.style.left=((acc+p.dur/2)/durTotal*100)+'%';acc+=p.dur;
+  n.innerHTML=`<div class="tip">${p.key}　${p.title}</div>`;
+  n.onclick=()=>{gotoPhase(i,true);if(!playing)togglePlay();};
+  nodesEl.appendChild(n);
+});
+function tlProgress(){
+  let done=0;for(let i=0;i<phase;i++)done+=PHASES[i].dur;
+  done+=Math.min(phaseT,PHASES[phase]?.dur||0);
+  document.getElementById('tlFill').style.width=(done/durTotal*100)+'%';
+}
+const bPlay=document.getElementById('bPlay');
+function togglePlay(){
+  playing=!playing;bPlay.textContent=playing?'暫停':'播放';bPlay.classList.toggle('hot',playing);
+  Narration.setPaused(!playing);AudioEngine.setPaused(!playing);
+}
+bPlay.onclick=togglePlay;
+document.getElementById('bPrev').onclick=()=>gotoPhase(Math.max(0,phase-1),true);
+document.getElementById('bNext').onclick=()=>gotoPhase(Math.min(PHASES.length-1,phase+1),true);
+const speeds=[1,2,0.5];let spIdx=0;
+document.getElementById('bSpeed').onclick=e=>{spIdx=(spIdx+1)%3;speed=speeds[spIdx];e.target.textContent='速度 '+speed+'×';Narration.setRate(speed);};
+document.getElementById('vol').oninput=e=>AudioEngine.setVolume(e.target.value/100);
+document.getElementById('bNarrTg').onclick=e=>{
+  if(typeof Narration==='undefined')return;
+  e.target.textContent='旁白 '+(Narration.toggle()?'開':'關');};
+document.getElementById('bSubTg').onclick=e=>{
+  if(typeof Narration==='undefined')return;
+  e.target.textContent='字幕 '+(Narration.toggleSub()?'開':'關');};
+document.getElementById('bVoiceTg').onclick=e=>{
+  if(typeof Narration==='undefined')return;
+  e.target.textContent=Narration.voiceLabel(Narration.switchVoice());};
+(function initVoiceBtn(){
+  const b=document.getElementById('bVoiceTg');if(!b||typeof Narration==='undefined')return;
+  const vs=AUDIO.narration.voices||[];
+  if(vs.length<2){b.style.display='none';return;}   // 少於兩個配音就隱藏切換鈕
+  b.textContent=Narration.voiceLabel(AUDIO.narration.default);
+})();
+const bCam=document.getElementById('bCam');
+function setCinema(v){
+  cinema=v;controls.enabled=!v;document.body.classList.toggle('cinema',v);
+  bCam.textContent=v?'電影運鏡中':'回到電影運鏡';bCam.classList.toggle('hot',v);
+  if(!v){controls.target.copy(camLook);controls.update();}
+}
+bCam.onclick=()=>setCinema(!cinema);
+renderer.domElement.addEventListener('pointerdown',()=>{if(cinema)setCinema(false);});
+document.getElementById('bReplay').onclick=()=>{gotoPhase(0,true);if(!playing)togglePlay();setCinema(true);};
+
+/* unit click */
+const ray=new THREE.Raycaster();const mouse=new THREE.Vector2();
+let downXY=null;
+renderer.domElement.addEventListener('pointerdown',e=>{downXY=[e.clientX,e.clientY];});
+renderer.domElement.addEventListener('pointerup',e=>{
+  if(!downXY)return;
+  if(Math.hypot(e.clientX-downXY[0],e.clientY-downXY[1])>6){downXY=null;return;}
+  mouse.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);
+  ray.setFromCamera(mouse,camera);
+  const hits=ray.intersectObjects(clickables.filter(c=>c.parent.visible),false);
+  const card=document.getElementById('unitCard');
+  if(hits.length){
+    const u=hits[0].object.userData.unit;
+    const info=UNIT_INFO[u.id]||['',''];   // 無 info 不 throw
+    document.getElementById('ucFac').textContent=FAC[u.fac].name+(info[0]?'・'+info[0]:'');
+    document.getElementById('ucFac').style.color=FAC[u.fac].hex;
+    document.getElementById('ucName').textContent=u.labelEl.querySelector('.t1').textContent;
+    document.getElementById('ucBody').innerHTML=`<b>將領</b>　${u.labelEl.querySelector('.t2').textContent}${info[1]?'<br>'+info[1]:''}`;
+    card.classList.add('show');
+  }else card.classList.remove('show');
+  downXY=null;
+});
+document.getElementById('ucClose').onclick=()=>document.getElementById('unitCard').classList.remove('show');
+
+/* intro */
+function start(auto){
+  AudioEngine.unlock();
+  document.getElementById('intro').classList.add('off');
+  setCinema(auto);
+  gotoPhase(0,true);
+  playing=true;bPlay.textContent='暫停';
+}
+document.getElementById('btnAuto').onclick=()=>start(true);
+document.getElementById('btnFree').onclick=()=>start(false);
+/* 開場主題曲:autoplay 限制下,第一次互動即奏「天下三分」 */
+const themeOnce=()=>{
+  document.removeEventListener('pointerdown',themeOnce);
+  document.removeEventListener('keydown',themeOnce);
+  AudioEngine.unlock();Music.playTheme();
+};
+document.addEventListener('pointerdown',themeOnce);
+document.addEventListener('keydown',themeOnce);
+
+/* ════════ main loop ════════ */
+initPlace();
+const clock=new THREE.Clock();
+let started=false;
+function loop(){
+  requestAnimationFrame(loop);
+  const rdt=Math.min(clock.getDelta(),.06);
+  const dt=rdt*speed;
+  T+=dt;
+  if(phase>=0&&playing&&!ended){
+    phaseT+=dt;
+    while(pending.length&&phaseT>=pending[0].at){pending.shift().fn();}
+    if(typeof Narration!=='undefined')Narration.subTick(phaseT);   // 無語音時用場景計時器跑字幕
+    if(cinema)shotT+=dt;
+    if(phaseT>=PHASES[phase].dur){
+      if(phase<PHASES.length-1)gotoPhase(phase+1);
+      else{ended=true;}
+    }
+    tlProgress();
+  }
+  // env
+  applyEnv();
+  // flags
+  for(const f of wavingFlags){
+    if(!f.mesh.visible)continue;
+    const p=f.mesh.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){
+      const bx=f.base[i*3],r=bx/f.w;
+      p.array[i*3+2]=Math.sin(r*5+T*(2.5+flagWind)+f.seed)*0.42*r*f.amp*(0.7+flagWind*.45);
+    }
+    p.needsUpdate=true;
+  }
+  // units
+  for(const id in U)U[id].update(dt);
+  updateChains();
+  // emitters
+  let fireMax=0;
+  for(const e of emitters){
+    e.cur=lerp(e.cur,e.smokeOnly?0:e.target,dt*1.2);
+    e.fire.u.uT.value=T;e.fire.u.uI.value=e.cur;
+    e.smoke.u.uT.value=T;e.smoke.u.uI.value=e.smokeOnly?Math.max(e.target*.7,.0):Math.min(e.cur*1.2,1);
+    if(e.smokeOnly)e.smoke.u.uI.value=Math.max(e.smoke.u.uI.value,e.target*.8);
+    if(!e.smokeOnly&&e.cur>fireMax)fireMax=e.cur;
+  }
+  Sfx.frame(windCur,fireMax,rdt);
+  // wind
+  windCur=lerp(windCur,windTarget,dt*.8);
+  windMat.opacity=windCur*.5;
+  if(windCur>0.02){
+    for(let i=0;i<WIND_N;i++){
+      const w=windDat[i];
+      w.x+=WDIR.x*w.v*rdt;w.z+=WDIR.z*w.v*rdt;
+      if(w.x<-320||w.z<-230){w.x=160+Math.random()*220;w.z=120+Math.random()*140;}
+      const L=6+w.v*.18;
+      windPos[i*6]=w.x;windPos[i*6+1]=w.y;windPos[i*6+2]=w.z;
+      windPos[i*6+3]=w.x-WDIR.x*L;windPos[i*6+4]=w.y;windPos[i*6+5]=w.z-WDIR.z*L;
+    }
+    windGeo.attributes.position.needsUpdate=true;
+  }
+  // volleys
+  updateVolleys();
+  // water
+  waterU.uT.value=T;
+  // march arrow chevrons
+  marchMats.forEach(m=>{m.map.offset.x-=rdt*.6;});
+  // camera
+  if(cinema&&phase>=0)director(dt);
+  else controls.update();
+  // compass
+  _v1.set(0,0,-1).applyQuaternion(camera.quaternion);
+  document.getElementById('needle').style.transform='rotate('+Math.atan2(_v1.x,-_v1.z)+'rad)';
+  renderer.render(scene,camera);
+  labelRenderer.render(scene,camera);
+  if(!started){started=true;document.getElementById('loadMsg').classList.add('off');}
+}
+addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);labelRenderer.setSize(innerWidth,innerHeight);
+});
+loop();
+</script>
+</body>
+</html>

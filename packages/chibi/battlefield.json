@@ -1,0 +1,31 @@
+{
+  "name": "赤壁之戰 208",
+  "era": "東漢建安十三年(208)",
+  "description": "長江赤壁的火攻決戰——孫劉聯軍以火攻破曹操水師",
+  "engine": "battlefield-editor",
+  "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
+  "pending": [],
+  "meta": {
+    "title": "赤壁之戰",
+    "subtitle": "建安十三年・西元二〇八",
+    "docTitle": "赤壁之戰 208 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "赤",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "建安十三年",
+    "eraYear": "西元 208 年・長江赤壁",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "建安十三年冬，曹操揮師二十餘萬南下，欲一舉吞併江東。孫權、劉備結盟，以五萬之眾迎戰於長江赤壁——一場大火，燒出了三分天下。<br><br>本節目以 3D 運鏡重現戰役全程：陣型調動、計策發動、東風與火攻，盡在眼前。",
+      "footHtml": "兵力為史學估計・標注「史」者見於正史，「演義」者出自三國演義・<a href=\"classic.html\" style=\"color:inherit\">無聲原版</a>・<a href=\"audition.html\" style=\"color:inherit\">選曲記錄</a>"
+    },
+    "finale": {
+      "title": "天下三分",
+      "subtitle": "赤壁一炬・鼎足之勢成"
+    },
+    "timeline": {
+      "start": "建安十三年 秋七月",
+      "mid": "戰 役 時 間 軸",
+      "end": "建安十四年 春"
+    }
+  }
+}

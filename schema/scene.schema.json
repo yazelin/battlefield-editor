@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["acts"],
+  "properties": {
+    "acts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "title", "dur", "env"],
+        "properties": {
+          "key": { "type": "string" },
+          "era": { "type": "string" },
+          "title": { "type": "string" },
+          "dur": { "type": "number" },
+          "env": { "type": "string" },
+          "narr": { "type": "string" },
+          "power": { "type": "object" },
+          "shots": { "type": "array" },
+          "set": { "type": "object" },
+          "march": { "type": "array" },
+          "events": { "type": "array" },
+          "strat": { "type": "object" },
+          "scrubSet": { "type": "object" },
+          "finale": { "type": "number" },
+          "fx": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["at", "type"],
+              "properties": {
+                "at": { "type": "number" },
+                "type": { "enum": ["volley", "ignite", "shake", "campFire"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

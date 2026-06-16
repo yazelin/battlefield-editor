@@ -1,0 +1,4 @@
+{
+  "yuan": { "name": "袁軍", "flag": "袁", "css": "yuan", "col": "#c0a030", "dark": "#6e5c18", "light": "#e6cf7a", "panel": "袁紹軍", "legend": "袁紹（河北）" },
+  "cao": { "name": "曹軍", "flag": "曹", "css": "cao", "col": "#3d7de0", "dark": "#1d3f78", "light": "#8db4f0", "panel": "曹操軍", "legend": "曹操（中原）" }
+}
