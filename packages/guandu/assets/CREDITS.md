@@ -15,4 +15,17 @@
   即時合成(`BUILD` 表),無音檔。
 
 ## 音樂(music/)
-- 尚未加入(P4.2 待補:Freesound CC0 海選 + 代聽,見 ROADMAP)。
+暫時**複用 chibi(赤壁)的 CC0 配樂**,依官渡各幕情緒對應(原始出處/作者見
+`packages/chibi/assets/CREDITS.md`,全部 Freesound CC0)。日後可用 Freesound 海選 +
+代聽管線換成官渡專屬曲(scene/audio 格式不變)。
+
+| 官渡幕 | 檔案 | 借自赤壁 | 情緒對應 |
+|---|---|---|---|
+| 白馬解圍 | scene1.mp3 | 赤壁 scene1(War Drums) | 戰鼓開場 |
+| 延津斬文醜 | scene2.mp3 | 赤壁 scene3(Baroque) | 交戰 |
+| 退守官渡 | scene3.mp3 | 赤壁 scene4(Drone) | 對峙張力 |
+| 土山樓櫓 | scene4.mp3 | 赤壁 scene8(Dark Groove) | 圍城膠著 |
+| 霹靂破櫓 | scene5.mp3 | 赤壁 scene6(Orchestral) | 戰械之戲 |
+| 許攸來奔 | scene6.mp3 | 赤壁 scene5(Flute) | 夜謀詭譎 |
+| 烏巢夜襲 | scene7.mp3 | 赤壁 scene7(Epic Heroic) | 火攻高潮 |
+| 河北遂定 | scene8.mp3 | 赤壁 scene9(Orchestral) | 收束(亦作 theme) |

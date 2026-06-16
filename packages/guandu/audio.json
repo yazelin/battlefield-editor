@@ -1,7 +1,16 @@
 {
   "music": {
-    "scenes": [],
-    "theme": ""
+    "scenes": [
+      "assets/music/scene1.mp3",
+      "assets/music/scene2.mp3",
+      "assets/music/scene3.mp3",
+      "assets/music/scene4.mp3",
+      "assets/music/scene5.mp3",
+      "assets/music/scene6.mp3",
+      "assets/music/scene7.mp3",
+      "assets/music/scene8.mp3"
+    ],
+    "theme": "assets/music/scene8.mp3"
   },
   "narration": {
     "voices": ["yunjhe", "hsiaochen"],
