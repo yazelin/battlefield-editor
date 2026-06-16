@@ -32,13 +32,14 @@ anything not listed here is not read by the renderer and will not validate.
 
 | Field        | Type            | Required            | Meaning |
 |--------------|-----------------|---------------------|---------|
-| `type`       | string enum     | **always**          | One of `city`, `camp`, `pass`, `marker`. Selects what gets built. |
+| `type`       | string enum     | **always**          | One of `city`, `camp`, `pass`, `marker`, `ferry`. Selects what gets built. |
 | `x`          | number          | **always**          | World X position (east–west). |
 | `z`          | number          | 見說明              | World Z position (north–south). 必填,**唯一例外**是 `marker` 且 `followRiver: true`——此時 `z` 由引擎算,可省略。 |
 | `id`         | string          | 見說明              | Stable handle. Must be unique across the array. 凡是要被 scene 的 `set` / `fx` 或火源 emitter 依名稱引用的結構都要 `id`(例如 `campWulin`、掛 `fire` 的結構)。Markers 通常省略。 |
 | `faction`    | string          | **camps only**      | 必須是該資料包 `factions.json` 的一個 key(白名單由那份檔的 keys 動態推導,**不是寫死的 cao/sun/liu**)。設定 camp 的旗幟顏色。`camp` 沒有合法 `faction` 時驗證 **失敗**。 |
 | `fire`       | `{scale, yOff}` | optional(限有 id 的結構) | 替該結構掛一個 GPU 火源 emitter(火 + 煙)。`scale` 控制粒子大小、`yOff` 控制相對結構原點的高度偏移。引擎只對「同時有 `id` 且有 `fire`」的結構附加 emitter。掛上後預設不燒,要由 scene 的 `set` `{fire}`/`{smoke}` 或 `fx` `campFire` 點燃(見下)。用在會被點著的結構,如烏巢、烏林營。 |
-| `followRiver`| `true`          | marker only         | 沿河曲線放置:引擎以 `RZ(x)` 自動算出 `z`,放到江河中線上,所以此 marker 的 `z` 可省略。給沿江漂浮的水名標籤用(如「長江」)。非 marker 無效。 |
+| `followRiver`| `true`          | marker only         | 沿河曲線放置:引擎以 `RZ(x)` 自動算出 `z`,放到江河中線上,所以此 marker 的 `z` 可省略。給沿江漂浮的水名標籤用。**注意:目前 `RZ` 是赤壁長江的硬編碼曲線,只對赤壁包正確;其他包的水名請直接給 `z`(放在河上),別用 `followRiver`。** |
+| `rot`        | number(弧度)    | ferry only,選填     | 渡口/碼頭朝向。預設棧橋伸向 `-z`(北);若該包的水在別的方位,用 `rot` 把它轉向水側(例 `1.57`=轉 90°)。 |
 | `label`      | string          | optional            | Text drawn next to the structure. For `marker` this is the whole point of the entry. |
 | `labelPos`   | `[number, number]` | optional         | Explicit `[x, z]` for the floating label. If omitted, the label sits at the structure's own `x, z`. Exactly two numbers. |
 | `labelClass` | string          | optional            | CSS class for the label. Known values in use: `big` (large city/place names) and `water` (river/water labels, sits lower). Empty/omitted = default styling. |
@@ -51,6 +52,9 @@ anything not listed here is not read by the renderer and will not validate.
   `faction` that is a key of the package's own `factions.json`. Camps are placed but start
   hidden; downstream code toggles visibility by `id`. Has a real 3D footprint (~radius 11).
 - **`pass`** — builds a gate/pass tower pair (`makePass`). Has `id`, `label`, `x`, `z`.
+- **`ferry`** — 渡口/碼頭:木棧橋 + 泊舟(`makeFerry`),棧橋由岸伸向水面。給黃河/長江的渡河點用
+  (如白馬津、延津)。**放在岸邊水緣**(刻意一半在水上,這是碼頭該有的樣子,跟城/營必須避開水不同)。
+  棧橋預設朝 `-z`(北);水在別側用 `rot` 轉向。可有 `id`/`label`/`labelClass`。
 - **`marker`** — **label only.** No geometry is built; only the text in `label` is drawn at
   `x, z` (or `labelPos`). Use for terrain place-names like 長坂坡, 烏林, 赤壁, 漢水. `faction`
   and `id` are not needed. 若加上 `followRiver: true`,引擎用 `RZ(x)` 自動把標籤放到河中線,`z`

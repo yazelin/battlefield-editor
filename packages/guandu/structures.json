@@ -9,11 +9,12 @@
     { "id": "campCao",    "type": "camp", "faction": "cao",  "x": -25, "z": 40 },
     { "id": "campWuchao", "type": "camp", "faction": "yuan", "x": 42,  "z": -24, "fire": { "scale": 2.4, "yOff": 2 } },
 
-    { "type": "marker", "label": "黃河", "x": 160,  "followRiver": true, "labelClass": "water" },
-    { "type": "marker", "label": "黃河", "x": -150, "followRiver": true, "labelClass": "water" },
-    { "type": "marker", "label": "白馬津", "x": 105, "followRiver": true, "labelClass": "water" },
+    { "id": "baimajin", "type": "ferry", "x": 100, "z": -114, "label": "白馬津", "labelPos": [110, -120], "labelClass": "water" },
+    { "id": "yanjin",   "type": "ferry", "x": -30, "z": -68,  "label": "延津",   "labelPos": [-30, -60] },
+
+    { "type": "marker", "label": "黃河", "x": 165,  "z": -174, "labelClass": "water" },
+    { "type": "marker", "label": "黃河", "x": -150, "z": -53,  "labelClass": "water" },
     { "type": "marker", "label": "白馬", "x": 95,  "z": -100 },
-    { "type": "marker", "label": "延津", "x": -30, "z": -52 },
     { "type": "marker", "label": "濮水", "x": 95,  "z": -45, "labelClass": "water" },
     { "type": "marker", "label": "陽武", "x": -70, "z": -10 },
     { "type": "marker", "label": "烏巢", "x": 40,  "z": -20, "labelClass": "big" },

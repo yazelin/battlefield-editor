@@ -38,7 +38,7 @@ for (const [k, v] of Object.entries(FAC)) {
 
 // ── structures ──
 const S = readAbs(layer(BF.data.structures)).structures;
-const TYPES = ['city', 'camp', 'pass', 'marker'], STRUCT_IDS = new Set();
+const TYPES = ['city', 'camp', 'pass', 'marker', 'ferry'], STRUCT_IDS = new Set();
 S.forEach((s, i) => {
   if (!TYPES.includes(s.type)) errs.push(`structures[${i}] type 非法: ${s.type}`);
   if (typeof s.x !== 'number') errs.push(`structures[${i}] x 非數字`);

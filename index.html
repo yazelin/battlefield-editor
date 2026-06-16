@@ -901,6 +901,20 @@ function makePass(x, z) {
   arch.position.set(0, 1.5, 0); g.add(arch);
   g.position.set(x, h, z); scene.add(g); return g;
 }
+function makeFerry(x, z, rot = 0) {            // 渡口/碼頭:棧橋 + 泊舟,由岸(z>0)伸向水(z<0);rot 轉向水側
+  const g = new THREE.Group(); const h = Math.max(ground(x, z), 0);
+  const plank = new THREE.MeshLambertMaterial({ color: 0x6b4f31 });
+  const post = new THREE.MeshLambertMaterial({ color: 0x4a3826 });
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(5, 0.6, 9), plank); deck.position.set(0, 1.3, -1); g.add(deck);
+  for (const [px, pz] of [[-2, 2], [2, 2], [-2, -4], [2, -4]]) {
+    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.45, 4, 5), post); p.position.set(px, -0.3, pz); g.add(p);
+  }
+  for (const px of [-2.6, 2.6]) { const m = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.4, 3.2, 5), post); m.position.set(px, 1.6, -5.5); g.add(m); }
+  const hull = new THREE.Mesh(new THREE.BoxGeometry(5, 1.1, 1.9), post); hull.position.set(0, 0.95, -8); g.add(hull);
+  const bow = new THREE.Mesh(new THREE.ConeGeometry(0.95, 2.2, 4), post); bow.rotation.z = -Math.PI / 2; bow.rotation.x = Math.PI / 4; bow.position.set(3.5, 0.95, -8); g.add(bow);
+  const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 5, 5), post); mast.position.set(-0.6, 3.3, -8); g.add(mast);
+  g.rotation.y = rot; g.position.set(x, h, z); scene.add(g); return g;
+}
 function makeCamp(fac,x,z){
   const g=new THREE.Group();const h=Math.max(ground(x,z),.5);
   const tm=new THREE.MeshLambertMaterial({color:0xcdc4ab});
@@ -1081,6 +1095,7 @@ const STRUCT_BUILDERS = {
   city: s => makeCity(s.x, s.z),
   camp: s => makeCamp(s.faction, s.x, s.z),
   pass: s => makePass(s.x, s.z),          // makePass 由 Task 4 新增
+  ferry: s => makeFerry(s.x, s.z, s.rot || 0),   // 渡口/碼頭(s.rot 轉向水側,預設朝 -z/北)
 };
 const STRUCT = {};                         // id -> THREE.Group
 const STRUCT_DATA = await (await fetch(PKG_BASE + PKG.data.structures)).json();
