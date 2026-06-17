@@ -17,6 +17,12 @@ RATE = "-8%"  # 紀錄片腔放慢
 SUBS = {
     "騅": "錐",   # zhuī 烏騅(項羽之馬);罕用字易吐空音,用同音錐替身
 }
+# 編輯器/外部可在 narration/subs.json 增補替換(會 merge 進上面 SUBS)
+_subs = ROOT / "narration" / "subs.json"
+if _subs.exists():
+    SUBS.update(json.loads(_subs.read_text()))
+
+
 def to_tts(text):
     for k, v in SUBS.items():
         text = text.replace(k, v)
