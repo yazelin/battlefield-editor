@@ -19,7 +19,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/jav
 
 const okSlug = s => typeof s === 'string' && /^[a-z][a-z0-9_-]*$/.test(s) && existsSync(join(ROOT, 'packages', s));
 const pkgDir = s => join(ROOT, 'packages', s);
-const send = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(obj)); };
+const send = (res, code, obj) => { res.writeHead(code, { 'content-type': 'application/json', 'x-bfe-editor': '1' }); res.end(JSON.stringify(obj)); };
 const body = req => new Promise(r => { let d = ''; req.on('data', c => d += c); req.on('end', () => { try { r(JSON.parse(d || '{}')); } catch { r({}); } }); });
 const run = (cmd, args) => { try { return { ok: true, out: execFileSync(cmd, args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }) }; } catch (e) { return { ok: false, out: (e.stdout || '') + (e.stderr || e.message || '') }; } };
 
@@ -89,7 +89,7 @@ const server = http.createServer(async (req, res) => {
   // ── static ──
   let fp = normalize(join(ROOT, decodeURIComponent(p === '/' ? '/index.html' : p)));
   if (!fp.startsWith(ROOT) || !existsSync(fp)) { res.writeHead(404); return res.end('not found'); }
-  res.writeHead(200, { 'content-type': MIME[extname(fp)] || 'application/octet-stream' });
+  res.writeHead(200, { 'content-type': MIME[extname(fp)] || 'application/octet-stream', 'x-bfe-editor': '1' });
   res.end(readFileSync(fp));
 });
 server.listen(PORT, () => console.log(`戰場編輯器 dev server: http://localhost:${PORT}/  (編輯模式;Ctrl+C 結束)\n  例:http://localhost:${PORT}/?pkg=packages/feishui/battlefield.json`));

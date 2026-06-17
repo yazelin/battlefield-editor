@@ -1969,9 +1969,10 @@ loop();
 
 /* ════════ 編輯模式(僅在被本機 editor-server 開時出現;純展示/Pages 不顯示)════════ */
 (async()=>{
-  let ED=false;                          // 只在本機探測 editor-server;公開站(非 localhost)完全不探測 → 無 404、無編輯 UI
+  let ED=false;                          // 只在本機、且回應帶 editor-server 標頭才進編輯模式。
+  // 用 GET /(任何靜態伺服器都 200)讀標頭,不打會 404 的路徑 → 不污染 render-check / 觀看站 console。
   if(/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)){
-    try{ ED=(await (await fetch('/api/ping')).json()).editor===true; }catch{}
+    try{ ED=(await fetch('/',{cache:'no-store'})).headers.get('x-bfe-editor')==='1'; }catch{}
   }
   if(!ED) return;
   const slug=(PKG_URL.split('/')[1])||'';
