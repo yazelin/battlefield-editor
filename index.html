@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI 戰場編輯器 — 戰場列表</title>
+<title>AI 戰場編輯器 — 戰役列表</title>
 <meta name="description" content="AI 戰場編輯器:資料驅動的 3D 歷史戰場引擎。每一場戰役都是一份資料,AI 編寫、引擎演出、人驗收。赤壁、官渡、垓下、淝水可看可編,開源。">
 <link rel="canonical" href="https://yazelin.github.io/battlefield-editor/">
 <meta name="theme-color" content="#0c0a07">
@@ -67,7 +67,7 @@ details.guide[open] summary::before{content:"▾　"}
     <h1>AI 戰場編輯器</h1>
     <div class="sub">每一場戰役都是一份資料 package,引擎只負責演出。換一份資料,就換一場戰役。<br>挑一場觀看 —— 不只赤壁,還有官渡、垓下、淝水。本機亦可編輯。</div>
   </header>
-  <div class="grid" id="grid"><div class="loading">載 入 戰 場 列 表 ⋯</div></div>
+  <div class="grid" id="grid"><div class="loading">載 入 戰 役 列 表 ⋯</div></div>
   <details class="guide">
     <summary>如何使用戰場編輯器(自己編一場、加旁白與配樂)</summary>
     <div class="gbody">
@@ -104,7 +104,7 @@ details.guide[open] summary::before{content:"▾　"}
       </ul>
       所有編輯都寫回 package 資料檔(來源真實),重整頁面即生效。
 
-      <h3>三、從零新增一場戰場</h3>
+      <h3>三、從零新增一場戰役</h3>
       <pre>node tools/new-package.mjs &lt;slug&gt; "顯示名"</pre>
       產出最小骨架(本身就過機器關),接著<b>依序</b>編六層(對照 <code>docs/authoring/</code>):
       <pre>factions → terrain → structures → units → scene → audio</pre>
@@ -149,14 +149,14 @@ node tools/assign-sfx.mjs   &lt;slug&gt; battlecry sword1 ...   # 指派音效</
     } catch { return null; }
   }));
   const live = cards.filter(Boolean);
-  if (!live.length) { grid.innerHTML = '<div class="loading">尚無可載入的戰場</div>'; return; }
+  if (!live.length) { grid.innerHTML = '<div class="loading">尚無可載入的戰役</div>'; return; }
   grid.innerHTML = live.map(c => `
     <a class="card" href="play.html?pkg=packages/${c.slug}/battlefield.json">
       <div class="seal">${c.seal}</div>
       <div class="cname">${c.name}</div>
       <div class="cera">${c.era}</div>
       <div class="cdesc">${c.desc}</div>
-      <div class="cgo">進入戰場 →</div>
+      <div class="cgo">進入戰役 →</div>
     </a>`).join('');
 })();
 </script>
