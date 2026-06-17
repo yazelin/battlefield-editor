@@ -452,7 +452,7 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
   background:rgba(18,16,12,.94);border:1px solid var(--gold,#c9a24a);border-right:none;border-radius:8px 0 0 8px;
   padding:12px 14px;font-size:12px;color:#e8e2d0;display:none;box-shadow:-4px 0 18px rgba(0,0,0,.55)}
 body.editing #editPanel{display:block}
-body.editing #side{display:none}
+body.editing #side{right:320px}   /* 編輯面板在右,把羅盤/圖例移到面板左側,別蓋掉(北方仍看得見)*/
 #editPanel h4{margin:0 0 4px;font-size:12px;letter-spacing:2px;color:var(--gold,#c9a24a)}
 #editPanel .ep-act{font-weight:700;margin:10px 0 4px;font-size:12px;color:var(--gold,#c9a24a)}
 #editPanel textarea{width:100%;box-sizing:border-box;height:92px;background:#0e0c08;color:#e8e2d0;border:1px solid #4a432c;border-radius:4px;padding:6px;font:inherit;resize:vertical}
