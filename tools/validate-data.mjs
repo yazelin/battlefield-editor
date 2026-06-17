@@ -1,6 +1,7 @@
 // 戰場資料包驗證器(零依賴)
-// 用法: node tools/validate-data.mjs                          # 驗預設赤壁(data/battlefield.json)
-//       node tools/validate-data.mjs --pkg battlefields/guandu/battlefield.json   # 驗任意資料包
+// 用法(在 repo 根執行;--pkg 相對當前目錄解析):
+//       node tools/validate-data.mjs                                    # 驗預設赤壁(packages/chibi/battlefield.json)
+//       node tools/validate-data.mjs --pkg packages/guandu/battlefield.json   # 驗任意資料包
 // 路徑解析比照引擎 PKG_BASE:manifest.data 內的子層路徑相對於 manifest 所在目錄。
 // 除了結構合法性,也做跨檔交叉引用(scene 引用的 unit/structure/faction 必須存在),
 // 當作 AI/人編輯資料包的安全網——引擎吃到壞引用會在執行期 throw,這裡要先攔下。
@@ -93,7 +94,11 @@ else acts.forEach((a, i) => {
   if (a.env && !ENVS.includes(a.env)) errs.push(`${at} env 非法(引擎無此 preset): ${a.env}`);
   // 鏡頭:director 每幀讀 shots,缺/空會在自動播映時 throw
   if (!Array.isArray(a.shots) || !a.shots.length) errs.push(`${at} 缺 shots(非空陣列)`);
-  else a.shots.forEach((sh, j) => { if (sh.kind && !SHOT_KINDS.includes(sh.kind)) errs.push(`${at}.shots[${j}] kind 非法: ${sh.kind}`); });
+  else a.shots.forEach((sh, j) => {
+    if (sh.kind && !SHOT_KINDS.includes(sh.kind)) errs.push(`${at}.shots[${j}] kind 非法: ${sh.kind}`);
+    // follow 鏡頭每幀讀 U[sh.unit].group.position,指向不存在的 unit 會在該幀 throw(render-check 不一定求值到)
+    if (sh.kind === 'follow' && !isUnit(sh.unit)) errs.push(`${at}.shots[${j}] follow unit 不存在: ${sh.unit}`);
+  });
   // 戰力:key 必須是陣營,否則面板靜默跳過
   for (const fk of Object.keys(a.power || {})) if (!FACS.includes(fk)) errs.push(`${at}.power 含非陣營 key: ${fk}`);
   // 行軍:fac 未知 → addMarch throw

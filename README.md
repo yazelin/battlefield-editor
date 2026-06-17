@@ -39,8 +39,10 @@ packages/
   chibi/                赤壁之戰(水戰:9 幕 + 旁白語音 + 音樂 + 音效)
   guandu/               官渡之戰(陸戰:8 幕 + 旁白 + 音效 + 音樂,含渡口)
   gaixia/               垓下之戰(包圍/追擊/末路:8 幕 + 旁白/配樂/音效,四面楚歌・霸王別姬・烏江自刎;以 authoring skill 從 scaffold 編成)
-tools/new-package.mjs   scaffold:長出最小綠燈骨架包
-tools/residue-scan.mjs  殘留掃描 gate(抓 chibi 複製殘留)
+tools/new-package.mjs   scaffold:長出最小綠燈骨架包(含 narration/generate.py 旁白範本)
+tools/residue-scan.mjs  殘留掃描 gate(抓 chibi 複製殘留 + 未改 placeholder WARN)
+tools/render-check.mjs  渲染 gate(headless 逐幕截圖 + 0 console error)
+tools/audio-check.mjs   音訊 gate(旁白音長≤幕長 + 音訊素材解析;空音訊放行)
 skills/author-battlefield/SKILL.md   AI 編寫戰場的可執行流程
 ```
 
@@ -67,11 +69,12 @@ node tools/validate-data.mjs --pkg packages/guandu/battlefield.json
 
 1. **Scaffold**:`node tools/new-package.mjs <slug> "顯示名"` → 長出最小、已綠的骨架包。
 2. **依序編**六層(`factions → terrain → structures → units → scene → audio`),對照 `docs/authoring/`。
-3. **過機器三關**(綠了才往下):
+3. **過機器四關**(綠了才往下;都在 repo 根):
    ```
-   node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用
-   node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無 chibi 複製殘留
+   node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用(含 follow 鏡頭 unit)
+   node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無 chibi 殘留 + placeholder WARN
    node tools/render-check.mjs   --pkg packages/<slug>/battlefield.json   # 載入 + 逐幕截圖 + 0 console error
+   node tools/audio-check.mjs    --pkg packages/<slug>/battlefield.json   # 旁白音長≤幕長 + 音訊素材解析
    ```
 4. **旁白/音訊**(選):`narration/generate.py`(edge-tts)生語音 + 字幕;音效用 synth、音樂用 CC0。
 5. **交人驗收**:開 `index.html?pkg=…` 看/聽 —— **空間、運鏡時序、感官品質、史實由人判**。

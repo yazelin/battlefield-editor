@@ -21,11 +21,21 @@ description: Use when authoring or editing a battlefield-editor data package —
 
 ## 步驟
 
+> **前置(每次動手前)**
+> - 所有 `node`/`python` 指令都**在 repo 根目錄執行**;`--pkg` 相對當前目錄解析,換目錄會驗錯檔/被 403。
+> - 動手前先讀 `docs/authoring/<layer>.md`(欄位字典)與 `docs/P4-ai-authoring-loop.md`(邊界)。
+> - **以 `packages/gaixia/` 為黃金範例**(六層 + 旁白 + 音樂 + 音效齊全),照它的結構長相做,別自創。
+> - 旁白走 edge-tts,需環境前置:`python3 -m venv /tmp/ttsenv && /tmp/ttsenv/bin/pip install edge-tts`、
+>   PATH 有 `ffprobe`、本機連線需停用 sandbox。換機器先補齊,或先做純字幕(語音後補)。
+
 ### 0. Scaffold(新包才需要)
 ```
 node tools/new-package.mjs <slug> "顯示名"
 ```
-產出 `packages/<slug>/` 的六層 + manifest + 空音訊殼 + `assets/` + `narration/script.json`。
+產出 `packages/<slug>/` 的六層 + manifest + 空音訊殼 + `assets/` + `narration/script.json` +
+`narration/generate.py`(旁白範本,已備好,改 `SUBS` 即可)。
+**注意**:骨架的 `red/blue`、`redBase`、name 尾 `000`、`年號○○○` 全是 placeholder;結構 gate 不會擋
+未改的 placeholder,但 `residue-scan` 會印 WARN 提醒——交付前要全部換掉。
 
 ### 1. 依序編六層(對照 `docs/authoring/<layer>.md`)
 - **factions**:陣營 id 任意(白名單由本檔 keys 推導)。每陣營 `col/dark/light`(標籤配色)、`panel/legend`(面板/圖例名)。
@@ -33,22 +43,28 @@ node tools/new-package.mjs <slug> "顯示名"
 - **structures**:`city`/`camp`/`pass`/`marker`/`ferry`。camp 需 `faction`(本包陣營);`fire` 掛火源(需 id);**ferry 渡口刻意放岸邊水緣**(`rot` 轉向水側)。水名標籤直接給 `z`(別用 `followRiver`,`RZ` 目前是赤壁硬編碼)。
 - **units**:`army`/`fleet`;`faction` 為本包陣營;`start{x,z,visible,formation?}`;`gait`(cav/foot);`info[short,long]`。
 - **scene**:多幕。每幕 `key/title/dur/env`(env ∈ day/cold/dusk/night/inferno/dawn)+ **非空 `shots`**(line/orbit/follow)+ `power`(key 為陣營)+ `set`/`march`/`fx`/`events`/`strat`/`combat`/`finale`。**`dur` 要 ≥ 該幕旁白音長 + 緩衝**(否則旁白被切)。set/fx 引用的 unit/structure/camp 必須存在。
-- **audio**:`cues` 鍵是 **0-based 幕索引**;`music.scenes` 長度 = 幕數;synth 音效(drum/boom/burst)零素材即可;mp3 素材路徑相對 manifest 目錄(放 `assets/`)。
+- **audio**:`music.scenes` 長度 = 幕數,`music.scenes[i]` 與 `pathPattern {n}` 是 **1-based**(scene1=第一幕);音效 `cues` 鍵是 **0-based 幕索引**(`"0"`=第一幕)——兩者別錯位。synth 音效(drum/boom/burst)零素材即可;mp3 素材路徑相對 manifest 目錄(放 `assets/`)。**每幕 `dur` 要 ≥ 該幕旁白較長那條人聲 + 緩衝**,否則旁白被切(`audio-check` 會擋)。
 
-### 2. 機器三關(每批編輯後跑)
+### 2. 機器四關(每批編輯後跑;都在 repo 根)
 ```
-node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用
-node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無赤壁複製殘留
+node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用(含 follow 鏡頭 unit)
+node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無赤壁殘留 + placeholder WARN
 node tools/render-check.mjs   --pkg packages/<slug>/battlefield.json   # 載入 + 逐幕截圖 + 0 console error
+node tools/audio-check.mjs    --pkg packages/<slug>/battlefield.json   # 旁白音長≤幕長 + 音訊素材解析(空音訊自動放行)
 ```
-**三關全綠才往下**。紅了讀錯誤訊息修(validator 會指出檔+索引+原因)。
+**全綠才往下**。紅了讀錯誤訊息修(會指出檔+索引+原因)。`render-check` 的 PASS 只代表
+「有幕 + 有 canvas + 截圖時機無 error」,不保證每個鏡頭每幀都求值過——鏡頭指向的 id 由 validate-data 把關。
 
 ### 3. 旁白語音(要的話)
-- 文本寫進 `packages/<slug>/narration/script.json`(每幕一段)。
-- 用 `packages/<slug>/narration/generate.py`(複製自既有包、edge-tts 雙聲)生 mp3 + 字幕 cues。
-- **edge-tts 要點**:本機要 `dangerouslyDisableSandbox` 才連得上;**讀音用台灣音**;罕用字(如 彧/郃/剷)會回空音訊、破音字(降=投降xiáng、還=huán、拚=拼pīn)會唸錯 → 用 `SUBS` 同音替身(字幕仍顯示原字)。
-- 填 `audio.json` 的 `narration`(voices/default/voiceLabels/pathPattern/cues)。
-- 音樂/音效素材:可用 Freesound CC0 海選 + 代聽,或暫借既有 CC0 並在 `assets/CREDITS.md` 註明。
+- 文本寫進 `packages/<slug>/narration/script.json`(每幕一段:`{scene,title,text}`,scene 為 1-based)。
+- 跑 scaffold 已備好的 `packages/<slug>/narration/generate.py`(edge-tts 雙聲;`ROOT` 自動指向本包,**唯一要改 `SUBS`**):
+  ```
+  /tmp/ttsenv/bin/python3 packages/<slug>/narration/generate.py        # 連線需停用 sandbox
+  ```
+- **edge-tts 要點**:**讀音用台灣音**;罕用字(如 彧/郃/剷/騅)會回空音訊、破音字(降=投降xiáng、還=huán、拚=拼pīn、王=封王wàng)會唸錯 → 優先在 script 改白話避開,非用不可才在 `SUBS` 加同音替身(字幕由 `to_display` 還原原字)。
+- 生完**先逐幕對帳音長**:每幕 `dur` 短於旁白就把 `dur`(連同 orbit 鏡頭/finale 時點)拉長,留 ~3.5s 緩衝;`audio-check` 會把關。
+- 填 `audio.json` 的 `narration`(voices/default/voiceLabels/pathPattern/cues)、`music.scenes`、`sfx`、`cues`。
+- 音樂/音效素材:Freesound CC0 海選 + 代聽,或暫借既有 CC0 並在 `assets/CREDITS.md` 註明(可日後換)。
 
 ### 4. 交人(所有機器關綠之後)
 附上:① validator PASS 行 ② residue PASS ③ render-check 的 0-error log + `tools/render-out/<slug>/` 逐幕截圖,
@@ -59,11 +75,14 @@ node tools/render-check.mjs   --pkg packages/<slug>/battlefield.json   # 載入 
 - **史實**:旁白文字、史/演義 tag、策略卡。
 
 ## 機器關卡 vs 人的關卡(別越界)
-| 機器(AI 自己過) | 人(AI 不要自我認證) |
+| 機器(AI 自己過,有對應 gate) | 人(AI 不要自我認證) |
 |---|---|
-| schema 合法、跨檔引用完整(validator) | 位置在不在合理的地方(空間) |
-| 無赤壁複製殘留(residue-scan) | 鏡頭框沒框到、fx 對不對拍(時序) |
-| 載入無誤、每幕都出畫面、0 console error(render-check) | 好不好看、好不好聽(感官) |
-| 旁白音長 ≤ 幕長、cue 型別合法 | 發音對不對、史實對不對 |
+| schema 合法、跨檔引用完整、follow 鏡頭 unit 存在(validate-data) | 位置在不在合理的地方(空間) |
+| 無赤壁複製殘留;placeholder 已換(residue-scan,後者為 WARN) | 鏡頭框沒框到、fx 對不對拍(時序) |
+| 載入無誤、有畫面、0 console error(render-check) | 好不好看、好不好聽(感官) |
+| 旁白音長 ≤ 幕長、音訊素材全解析、music.scenes 長度=幕數(audio-check) | 發音對不對、史實/tag 對不對 |
 
-機器三關**不是品味**,是客觀門檻;品味與正確性留給人。
+機器四關**不是品味**,是客觀門檻;品味與正確性留給人。
+> 注意:`render-check` 綠 ≠ 每幀都求值過;只在特定幀觸發的壞引用(如 follow 指向幽靈 unit)由
+> validate-data 把關。`music.scenes` 留空、placeholder 未改不會讓 gate FAIL(前者 audio-check 放行
+> 早期狀態、後者 residue 只 WARN)——交付前自己再掃一遍。

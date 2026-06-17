@@ -36,6 +36,7 @@
 | P4.2 | 官渡音訊:旁白語音(edge-tts 雙聲 16 檔 + 字幕 cues)+ 戰場音效(synth + 複用 CC0 sword/battlecry)+ 背景音樂(複用 chibi CC0、依幕情緒對應) | ✅ ship,**待 yazelin 聽感驗收** |
 | P4.3 | **把 SOP 變可執行的 authoring skill**:`tools/new-package.mjs`(scaffold 綠燈骨架)+ `tools/residue-scan.mjs`(抓 chibi 複製殘留 gate)+ `skills/author-battlefield/SKILL.md`(AI 照走的迴圈:依序編→機器三關→交人)+ render-check 洩漏修正 | ✅ ship |
 | P4.4 | **第三戰場 dogfood — 垓下之戰**:全程用 authoring skill 從 scaffold 編成(8 幕:垓下合圍→韓信誘敵→四面楚歌→霸王別姬→潰圍南走→陰陵迷道→東城快戰→烏江自刎;含烏江 ferry 渡口、淮河/長江雙河)。過機器三關;dogfood 還抓到 residue-scan 把「長江」誤判的 bug 並修掉。音訊已補(旁白雙聲 16 檔 + 字幕、synth + CC0 音效、依幕情緒對應 CC0 配樂;逐幕量旁白長度延長幕長避免被切,終幕烏江延到 48s)。**待 yazelin 驗空間/時序/聽感** | ✅ ship |
+| P4.5 | **authoring loop 強化(讓零 context 的 agent 也能自助)**:對抗審查抓出「SKILL 宣稱機器會擋、實際沒擋」的破口並補實 —— 新增第 4 道 gate `audio-check`(旁白音長≤幕長 + 音訊素材解析,空音訊放行)、validate-data 補 `follow` 鏡頭 unit 跨檔檢查、scaffold 一併產 `narration/generate.py` 範本、residue-scan 加 placeholder WARN + 掃 `narration/`;SKILL 機器/人邊界表據實重畫、補 cwd/環境/gaixia 黃金範例。每道新檢查皆「好包綠 + 壞輸入紅」雙向驗證 | ✅ ship |
 
 > 官渡現況:8 幕、旁白+字幕、音效、背景音樂齊備;render-check 0 error、31 音訊素材全解析。
 > 旁白用 edge-tts(授權灰色,CREDITS 已註,可換配音);音樂暫借 chibi CC0(可用海選換官渡專屬曲)。
