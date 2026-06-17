@@ -1,0 +1,341 @@
+{
+ "_note": "戰場編輯器音效庫(CC0)。結構同 music-library.json:category=battlecry/chains/swords,fit=試聽評分,local=已在 repo 的最終選用檔。其餘目錄項用到時由工具自 stash/preview 取得。擴充:append tracks。",
+ "tracks": [
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 10,
+   "dur": 18.5,
+   "credit": {
+    "title": "People screaming in agony when charging into battle",
+    "author": "florianreichelt",
+    "url": "https://freesound.org/people/florianreichelt/sounds/563011/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/563/563011_6253486-hq.mp3",
+   "stash": "battlecry-563011.mp3",
+   "id": "battlecry",
+   "local": "packages/chibi/assets/sfx/battlecry.mp3"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 10,
+   "dur": 15.7,
+   "credit": {
+    "title": "Rowdy Group Hype Yell 1 - WITH reverb.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621374/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621374_13749321-hq.mp3",
+   "stash": "battlecry-621374.mp3",
+   "id": "battlecry-621374"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 10,
+   "dur": 44.1,
+   "credit": {
+    "title": "battlefield.wav",
+    "author": "gorkylmz1",
+    "url": "https://freesound.org/people/gorkylmz1/sounds/517112/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/517/517112_11260043-hq.mp3",
+   "stash": "battlecry-517112.mp3",
+   "id": "battlecry-517112"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 10,
+   "dur": 11.6,
+   "credit": {
+    "title": "Rowdy Group Hype Yell 1 - WITHOUT reverb.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621373/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621373_13749321-hq.mp3",
+   "stash": "battlecry-621373.mp3",
+   "id": "battlecry-621373"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 10,
+   "dur": 11.7,
+   "credit": {
+    "title": "Rowdy Group Hype Yell 2 - WITHOUT reverb..wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621371/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621371_13749321-hq.mp3",
+   "stash": "battlecry-621371.mp3",
+   "id": "battlecry-621371"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 9,
+   "dur": 15.7,
+   "credit": {
+    "title": "Rowdy Group Hype Yell 2 - WITH reverb.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621372/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621372_13749321-hq.mp3",
+   "stash": "battlecry-621372.mp3",
+   "id": "battlecry-621372"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 1,
+   "dur": 36.3,
+   "credit": {
+    "title": "Iraq Arabic Battle Scene.flac",
+    "author": "qubodup",
+    "url": "https://freesound.org/people/qubodup/sounds/182818/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/182/182818_71257-hq.mp3",
+   "stash": "battlecry-182818.mp3",
+   "id": "battlecry-182818"
+  },
+  {
+   "category": "battlecry",
+   "mood": "吶喊・衝鋒",
+   "fit": 0,
+   "dur": 29.9,
+   "credit": {
+    "title": "Civil War Battle",
+    "author": "SoundsCoolio",
+    "url": "https://freesound.org/people/SoundsCoolio/sounds/852980/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/852/852980_7719963-hq.mp3",
+   "stash": "battlecry-852980.mp3",
+   "id": "battlecry-852980"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 10,
+   "dur": 15.5,
+   "credit": {
+    "title": "Wood and metal clanking.wav",
+    "author": "bouncyballblue",
+    "url": "https://freesound.org/people/bouncyballblue/sounds/529393/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/529/529393_11531251-hq.mp3",
+   "stash": "chains-529393.mp3",
+   "id": "chains",
+   "local": "packages/chibi/assets/sfx/chains.mp3"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 9,
+   "dur": 4.2,
+   "credit": {
+    "title": "CHAIN & LOCK ON FENCE SOUND.wav",
+    "author": "metrostock99",
+    "url": "https://freesound.org/people/metrostock99/sounds/345070/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/345/345070_1256155-hq.mp3",
+   "stash": "chains-345070.mp3",
+   "id": "chains-345070"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 9,
+   "dur": 11.2,
+   "credit": {
+    "title": "Metallic Gate Sounds",
+    "author": "eqavox",
+    "url": "https://freesound.org/people/eqavox/sounds/683954/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/683/683954_6217756-hq.mp3",
+   "stash": "chains-683954.mp3",
+   "id": "chains-683954"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 9,
+   "dur": 6.2,
+   "credit": {
+    "title": "Chains.wav",
+    "author": "cribbler",
+    "url": "https://freesound.org/people/cribbler/sounds/370877/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/370/370877_3728489-hq.mp3",
+   "stash": "chains-370877.mp3",
+   "id": "chains-370877"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 9,
+   "dur": 9.7,
+   "credit": {
+    "title": "Chain Rattling - 2",
+    "author": "Roxis_Boy",
+    "url": "https://freesound.org/people/Roxis_Boy/sounds/401621/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/401/401621_7516983-hq.mp3",
+   "stash": "chains-401621.mp3",
+   "id": "chains-401621"
+  },
+  {
+   "category": "chains",
+   "mood": "鐵索・金屬",
+   "fit": 9,
+   "dur": 9.7,
+   "credit": {
+    "title": "Chain Rattling - 1",
+    "author": "Roxis_Boy",
+    "url": "https://freesound.org/people/Roxis_Boy/sounds/401622/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/401/401622_7516983-hq.mp3",
+   "stash": "chains-401622.mp3",
+   "id": "chains-401622"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.6,
+   "credit": {
+    "title": "Sword_Clash (57).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326862/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326862_4077311-hq.mp3",
+   "stash": "swords-326862.mp3",
+   "id": "sword1",
+   "local": "packages/chibi/assets/sfx/sword1.mp3"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.2,
+   "credit": {
+    "title": "Sword_Clash (46).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326795/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326795_4077311-hq.mp3",
+   "stash": "swords-326795.mp3",
+   "id": "sword2",
+   "local": "packages/chibi/assets/sfx/sword2.mp3"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.4,
+   "credit": {
+    "title": "Sword_Clash (2).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326841/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326841_4077311-hq.mp3",
+   "stash": "swords-326841.mp3",
+   "id": "sword3",
+   "local": "packages/chibi/assets/sfx/sword3.mp3"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.6,
+   "credit": {
+    "title": "Sword_Clash (56).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326858/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326858_4077311-hq.mp3",
+   "stash": "swords-326858.mp3",
+   "id": "sword4",
+   "local": "packages/chibi/assets/sfx/sword4.mp3"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.3,
+   "credit": {
+    "title": "Sword_Clash (15).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326787/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326787_4077311-hq.mp3",
+   "stash": "swords-326787.mp3",
+   "id": "swords-326787"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.7,
+   "credit": {
+    "title": "Sword_Clash (24).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326846/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326846_4077311-hq.mp3",
+   "stash": "swords-326846.mp3",
+   "id": "swords-326846"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1.1,
+   "credit": {
+    "title": "Sword_Clash (22).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326838/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326838_4077311-hq.mp3",
+   "stash": "swords-326838.mp3",
+   "id": "swords-326838"
+  },
+  {
+   "category": "swords",
+   "mood": "刀劍・交擊",
+   "fit": 10,
+   "dur": 1,
+   "credit": {
+    "title": "Sword_Clash (19).wav",
+    "author": "JohnBuhr",
+    "url": "https://freesound.org/people/JohnBuhr/sounds/326837/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/326/326837_4077311-hq.mp3",
+   "stash": "swords-326837.mp3",
+   "id": "swords-326837"
+  }
+ ]
+}

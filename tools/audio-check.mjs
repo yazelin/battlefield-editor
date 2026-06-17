@@ -9,6 +9,7 @@
 //       node tools/audio-check.mjs --pkg packages/<slug>/battlefield.json
 // FAIL 退出碼 1;PASS(可含 WARN)退出碼 0。
 import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, basename } from 'node:path';
 
@@ -22,6 +23,22 @@ const read = p => JSON.parse(readFileSync(p, 'utf8'));
 // (packages/<slug>/assets/…)會在此 resolve 成 double-prefix 而判定不存在 → 乾淨退件,
 // 不再讀檔 throw ENOENT;這正是引擎執行期會壞的同一條路徑。
 const hasAsset = p => !!p && existsSync(resolve(BASE, p));
+const sha = p => createHash('sha1').update(readFileSync(p)).digest('hex');
+const STASH = process.env.BFE_AUDIO_STASH || '/home/ct/red-cliffs-3d/audio-work/candidates';
+const trackFile = t => {                       // 音樂庫曲目的本地實檔:repo local → 海選 stash
+  if (t.local && existsSync(resolve(ROOT, t.local))) return resolve(ROOT, t.local);
+  if (t.stash && existsSync(resolve(STASH, t.stash))) return resolve(STASH, t.stash);
+  return null;
+};
+let LIB = null, libHashes = null;
+const lib = () => {
+  if (!LIB) {
+    const lp = resolve(ROOT, 'tools/music-library.json');
+    LIB = existsSync(lp) ? read(lp) : { tracks: [] };
+    libHashes = new Set(LIB.tracks.map(trackFile).filter(Boolean).map(sha));
+  }
+  return LIB;
+};
 
 if (!existsSync(MANIFEST)) { console.error('FAIL\nmanifest 不存在: ' + MANIFEST); process.exit(1); }
 const BF = read(MANIFEST);
@@ -32,12 +49,20 @@ const errs = [], warns = [];
 let assetN = 0, fitN = 0;
 const checkAsset = (p, label) => { assetN++; if (!hasAsset(p)) errs.push(`${label} 路徑不存在: ${p}`); };
 
-// 1) 配樂
+// 1) 配樂(軟性把關:空 → 列音樂庫可選曲;有設 → 驗解析得到 + 出自音樂庫)
 const scenes = A.music?.scenes ?? [];
-if (!scenes.length) warns.push('music.scenes 留空(尚未配樂)');
-else {
+if (!scenes.length) {
+  const picks = lib().tracks.filter(t => t.local).map(t => t.id);
+  warns.push(`music.scenes 留空(尚未配樂)。tools/assign-music.mjs 可挑(庫內 ${LIB.tracks.length} 首);in-repo 即用:${picks.join('/')}(全部見 --list)`);
+} else {
   if (scenes.length !== acts.length) errs.push(`music.scenes 長度 ${scenes.length} ≠ 幕數 ${acts.length}`);
-  scenes.forEach((p, i) => checkAsset(p, `music.scenes[${i}]`));
+  lib();
+  scenes.forEach((p, i) => {
+    checkAsset(p, `music.scenes[${i}]`);
+    const fp = resolve(BASE, p);
+    if (existsSync(fp) && libHashes.size && !libHashes.has(sha(fp)))
+      warns.push(`music.scenes[${i}] 非音樂庫曲目(自訂曲?記得在 CREDITS 補 CC0/授權出處): ${p}`);
+  });
 }
 if (A.music?.theme) checkAsset(A.music.theme, 'music.theme');
 

@@ -43,6 +43,10 @@ tools/new-package.mjs   scaffold:長出最小綠燈骨架包(含 narration/gener
 tools/residue-scan.mjs  殘留掃描 gate(抓 chibi 複製殘留 + 未改 placeholder WARN)
 tools/render-check.mjs  渲染 gate(headless 逐幕截圖 + 0 console error)
 tools/audio-check.mjs   音訊 gate(旁白音長≤幕長 + 音訊素材解析;空音訊放行)
+tools/music-library.json  CC0 音樂庫目錄(全海選池 74 首;mood/fit/出處/preview)
+tools/sfx-library.json    CC0 音效庫目錄(22 個;同結構)
+tools/assign-music.mjs  從音樂庫依「幕→曲」指派配樂(local→海選 stash→preview 下載)
+tools/assign-sfx.mjs    從音效庫指派音效到 package
 skills/author-battlefield/SKILL.md   AI 編寫戰場的可執行流程
 ```
 

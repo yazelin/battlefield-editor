@@ -1,0 +1,1124 @@
+{
+ "_note": "戰場編輯器音樂庫(CC0)。本檔=全海選池的目錄(單一事實來源):每首含情緒分類 mood、Gemini 試聽 fit 評分、CC0 出處 credit、freesound 直載 preview。local=已在 repo 的最終選用檔(9 首);其餘只在目錄,用到時由 assign-music.mjs 從本機海選 stash(/home/ct/red-cliffs-3d/audio-work/candidates,或 env BFE_AUDIO_STASH)或 preview URL 取得並複製進該 package。擴充:append 一筆 tracks(至少 id/mood/credit/preview)即全工具可用。",
+ "tracks": [
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 9,
+   "dur": 33.9,
+   "credit": {
+    "title": "War Drums 3.MP3",
+    "author": "BuytheField",
+    "url": "https://freesound.org/people/BuytheField/sounds/329022/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/329/329022_4438873-hq.mp3",
+   "stash": "scene1-329022.mp3",
+   "id": "war-drums",
+   "local": "packages/chibi/assets/music/scene1.mp3"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 10,
+   "dur": 38.7,
+   "credit": {
+    "title": "war_drums.mp3",
+    "author": "nicovize",
+    "url": "https://freesound.org/people/nicovize/sounds/632099/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/632/632099_13943755-hq.mp3",
+   "stash": "scene1-632099.mp3",
+   "id": "scene1-632099"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 10,
+   "dur": 206.4,
+   "credit": {
+    "title": "Listen",
+    "author": "Andrewkn",
+    "url": "https://freesound.org/people/Andrewkn/sounds/379805/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/379/379805_7038073-hq.mp3",
+   "stash": "scene1-379805.mp3",
+   "id": "scene1-379805"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 9,
+   "dur": 42,
+   "credit": {
+    "title": "War Drums 2.WAV",
+    "author": "BuytheField",
+    "url": "https://freesound.org/people/BuytheField/sounds/328745/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/328/328745_4438873-hq.mp3",
+   "stash": "scene1-328745.mp3",
+   "id": "scene1-328745"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 8,
+   "dur": 74.5,
+   "credit": {
+    "title": "reenactment3.aif",
+    "author": "alienistcog",
+    "url": "https://freesound.org/people/alienistcog/sounds/125933/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/125/125933_296888-hq.mp3",
+   "stash": "scene1-125933.mp3",
+   "id": "scene1-125933"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 2,
+   "dur": 73.7,
+   "credit": {
+    "title": "reenactment1.aif",
+    "author": "alienistcog",
+    "url": "https://freesound.org/people/alienistcog/sounds/125931/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/125/125931_296888-hq.mp3",
+   "stash": "scene1-125931.mp3",
+   "id": "scene1-125931"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 2,
+   "dur": 36.5,
+   "credit": {
+    "title": "HeavyMachineGun.wav",
+    "author": "SuperPhat",
+    "url": "https://freesound.org/people/SuperPhat/sounds/396324/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/396/396324_7542558-hq.mp3",
+   "stash": "scene1-396324.mp3",
+   "id": "scene1-396324"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 1,
+   "dur": 35.4,
+   "credit": {
+    "title": "Slowfiringheavyweapon.wav",
+    "author": "SuperPhat",
+    "url": "https://freesound.org/people/SuperPhat/sounds/417148/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/417/417148_7542558-hq.mp3",
+   "stash": "scene1-417148.mp3",
+   "id": "scene1-417148"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 0,
+   "dur": 80.3,
+   "credit": {
+    "title": "Victim of the Cybor Wars.wav",
+    "author": "BaDoink",
+    "url": "https://freesound.org/people/BaDoink/sounds/547427/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/547/547427_2019171-hq.mp3",
+   "stash": "scene1-547427.mp3",
+   "id": "scene1-547427"
+  },
+  {
+   "category": "scene1",
+   "mood": "戰鼓・進軍",
+   "fit": 0,
+   "dur": 98.5,
+   "credit": {
+    "title": "Sound library for scratching (100 BPM) by Bronxio",
+    "author": "Bronxio",
+    "url": "https://freesound.org/people/Bronxio/sounds/456121/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/456/456121_997039-hq.mp3",
+   "stash": "scene1-456121.mp3",
+   "id": "scene1-456121"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 9,
+   "dur": 63,
+   "credit": {
+    "title": "blossom valley in paradise",
+    "author": "neolein",
+    "url": "https://freesound.org/people/neolein/sounds/521367/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/521/521367_4596312-hq.mp3",
+   "stash": "scene2-521367.mp3",
+   "id": "calm",
+   "local": "packages/chibi/assets/music/scene2.mp3"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 9,
+   "dur": 37.5,
+   "credit": {
+    "title": "A ride through chinese valley",
+    "author": "neolein",
+    "url": "https://freesound.org/people/neolein/sounds/573972/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/573/573972_4596312-hq.mp3",
+   "stash": "scene2-573972.mp3",
+   "id": "scene2-573972"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 9,
+   "dur": 109.3,
+   "credit": {
+    "title": "Karst mountains",
+    "author": "neolein",
+    "url": "https://freesound.org/people/neolein/sounds/664200/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/664/664200_4596312-hq.mp3",
+   "stash": "scene2-664200.mp3",
+   "id": "scene2-664200"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 9,
+   "dur": 85.1,
+   "credit": {
+    "title": "guzheng solo",
+    "author": "neolein",
+    "url": "https://freesound.org/people/neolein/sounds/472707/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/472/472707_4596312-hq.mp3",
+   "stash": "scene2-472707.mp3",
+   "id": "scene2-472707"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 9,
+   "dur": 80.4,
+   "credit": {
+    "title": "Chinese Violin - The Enchanted Sound of the Erhu",
+    "author": "Lenguaverde",
+    "url": "https://freesound.org/people/Lenguaverde/sounds/423496/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/423/423496_1441734-hq.mp3",
+   "stash": "scene2-423496.mp3",
+   "id": "scene2-423496"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 8,
+   "dur": 59.8,
+   "credit": {
+    "title": "Traditional Chinese Instruments Practice.wav",
+    "author": "__O",
+    "url": "https://freesound.org/people/__O/sounds/325897/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/325/325897_5623566-hq.mp3",
+   "stash": "scene2-325897.mp3",
+   "id": "scene2-325897"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 8,
+   "dur": 20.3,
+   "credit": {
+    "title": "Sad-Huqin.wav 95bpm",
+    "author": "merkahz",
+    "url": "https://freesound.org/people/merkahz/sounds/372072/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/372/372072_6936160-hq.mp3",
+   "stash": "scene2-372072.mp3",
+   "id": "scene2-372072"
+  },
+  {
+   "category": "scene2",
+   "mood": "平靜・抒情",
+   "fit": 3,
+   "dur": 178,
+   "credit": {
+    "title": "Chinese Traditional Ritual 2.wav",
+    "author": "soloan",
+    "url": "https://freesound.org/people/soloan/sounds/82819/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/82/82819_519220-hq.mp3",
+   "stash": "scene2-82819.mp3",
+   "id": "scene2-82819"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 9,
+   "dur": 63.3,
+   "credit": {
+    "title": "Baroque Heaven.wav",
+    "author": "younoise",
+    "url": "https://freesound.org/people/younoise/sounds/670499/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/670/670499_2346185-hq.mp3",
+   "stash": "scene3-670499.mp3",
+   "id": "baroque",
+   "local": "packages/chibi/assets/music/scene3.mp3"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 9,
+   "dur": 38.6,
+   "credit": {
+    "title": "Enchanted cave",
+    "author": "xkeril",
+    "url": "https://freesound.org/people/xkeril/sounds/714699/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/714/714699_13504080-hq.mp3",
+   "stash": "scene3-714699.mp3",
+   "id": "scene3-714699"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 9,
+   "dur": 71.8,
+   "credit": {
+    "title": "Painful Soulful Background Music",
+    "author": "rahulsawla_",
+    "url": "https://freesound.org/people/rahulsawla_/sounds/748141/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/748/748141_9857760-hq.mp3",
+   "stash": "scene3-748141.mp3",
+   "id": "scene3-748141"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 9,
+   "dur": 78,
+   "credit": {
+    "title": "Redemption.wav",
+    "author": "younoise",
+    "url": "https://freesound.org/people/younoise/sounds/676517/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/676/676517_2346185-hq.mp3",
+   "stash": "scene3-676517.mp3",
+   "id": "scene3-676517"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 8,
+   "dur": 28.5,
+   "credit": {
+    "title": "Beatiful View",
+    "author": "unfa",
+    "url": "https://freesound.org/people/unfa/sounds/156535/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/156/156535_1038806-hq.mp3",
+   "stash": "scene3-156535.mp3",
+   "id": "scene3-156535"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 6,
+   "dur": 26.2,
+   "credit": {
+    "title": "Sci-fi creepy knocking sfx",
+    "author": "xkeril",
+    "url": "https://freesound.org/people/xkeril/sounds/680069/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/680/680069_13504080-hq.mp3",
+   "stash": "scene3-680069.mp3",
+   "id": "scene3-680069"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 6,
+   "dur": 45.7,
+   "credit": {
+    "title": "Octopus Game",
+    "author": "code_box",
+    "url": "https://freesound.org/people/code_box/sounds/615588/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/615/615588_10962806-hq.mp3",
+   "stash": "scene3-615588.mp3",
+   "id": "scene3-615588"
+  },
+  {
+   "category": "scene3",
+   "mood": "巴洛克・肅穆",
+   "fit": 0,
+   "dur": 60,
+   "credit": {
+    "title": "Prayers | UK Drill Instrumental",
+    "author": "kontraamusic",
+    "url": "https://freesound.org/people/kontraamusic/sounds/790946/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/790/790946_15193016-hq.mp3",
+   "stash": "scene3-790946.mp3",
+   "id": "scene3-790946"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 111.4,
+   "credit": {
+    "title": "Sci-Fi Drone #2",
+    "author": "Kinoton",
+    "url": "https://freesound.org/people/Kinoton/sounds/479328/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/479/479328_2247456-hq.mp3",
+   "stash": "scene4-479328.mp3",
+   "id": "drone",
+   "local": "packages/chibi/assets/music/scene4.mp3"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 10,
+   "dur": 30.8,
+   "credit": {
+    "title": "TUNNELL.WAV",
+    "author": "lollosound",
+    "url": "https://freesound.org/people/lollosound/sounds/386997/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/386/386997_804763-hq.mp3",
+   "stash": "scene4-386997.mp3",
+   "id": "scene4-386997"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 25.4,
+   "credit": {
+    "title": "ooooo + Chorus and Reverb",
+    "author": "Fupicat",
+    "url": "https://freesound.org/people/Fupicat/sounds/607205/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/607/607205_7724198-hq.mp3",
+   "stash": "scene4-607205.mp3",
+   "id": "scene4-607205"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 20.7,
+   "credit": {
+    "title": "Postapocalyptic Drone",
+    "author": "Breviceps",
+    "url": "https://freesound.org/people/Breviceps/sounds/452999/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/452/452999_9159316-hq.mp3",
+   "stash": "scene4-452999.mp3",
+   "id": "scene4-452999"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 23.8,
+   "credit": {
+    "title": "Sci-Fi Lab Ambience",
+    "author": "Zeraora",
+    "url": "https://freesound.org/people/Zeraora/sounds/726006/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/726/726006_7347459-hq.mp3",
+   "stash": "scene4-726006.mp3",
+   "id": "scene4-726006"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 65.5,
+   "credit": {
+    "title": "Dark London Night Atmo Thriller Soundscape Experimental Music - EQ Mastered.wav",
+    "author": "szegvari",
+    "url": "https://freesound.org/people/szegvari/sounds/596463/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/596/596463_2282212-hq.mp3",
+   "stash": "scene4-596463.mp3",
+   "id": "scene4-596463"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 27.8,
+   "credit": {
+    "title": "Deep 07 working robotic machine",
+    "author": "cabled_mess",
+    "url": "https://freesound.org/people/cabled_mess/sounds/338366/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/338/338366_5450487-hq.mp3",
+   "stash": "scene4-338366.mp3",
+   "id": "scene4-338366"
+  },
+  {
+   "category": "scene4",
+   "mood": "陰沉・不安",
+   "fit": 9,
+   "dur": 37.4,
+   "credit": {
+    "title": "Transition to the forge",
+    "author": "Kronek9",
+    "url": "https://freesound.org/people/Kronek9/sounds/788070/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/788/788070_3384272-hq.mp3",
+   "stash": "scene4-788070.mp3",
+   "id": "scene4-788070"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 9,
+   "dur": 205.8,
+   "credit": {
+    "title": "Morphagene flute reel 2",
+    "author": "JamieWilson1112",
+    "url": "https://freesound.org/people/JamieWilson1112/sounds/441319/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/441/441319_7907318-hq.mp3",
+   "stash": "scene5-441319.mp3",
+   "id": "eerie-flute",
+   "local": "packages/chibi/assets/music/scene5.mp3"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 10,
+   "dur": 25.9,
+   "credit": {
+    "title": "DIZI FLUTE 02.wav",
+    "author": "CarlosCarty",
+    "url": "https://freesound.org/people/CarlosCarty/sounds/339357/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/339/339357_197130-hq.mp3",
+   "stash": "scene5-339357.mp3",
+   "id": "scene5-339357"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 9,
+   "dur": 90.4,
+   "credit": {
+    "title": "the hidden temple",
+    "author": "tullio",
+    "url": "https://freesound.org/people/tullio/sounds/712013/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/712/712013_264532-hq.mp3",
+   "stash": "scene5-712013.mp3",
+   "id": "scene5-712013"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 9,
+   "dur": 53.5,
+   "credit": {
+    "title": "Dizi Flute Chops 2",
+    "author": "f-r-a-g-i-l-e",
+    "url": "https://freesound.org/people/f-r-a-g-i-l-e/sounds/594071/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/594/594071_8466114-hq.mp3",
+   "stash": "scene5-594071.mp3",
+   "id": "scene5-594071"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 9,
+   "dur": 287.8,
+   "credit": {
+    "title": "gu_zhong_gong_yuan_3.wav",
+    "author": "rasfrecci_w_donna",
+    "url": "https://freesound.org/people/rasfrecci_w_donna/sounds/347013/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/347/347013_6280432-hq.mp3",
+   "stash": "scene5-347013.mp3",
+   "id": "scene5-347013"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 8,
+   "dur": 42.7,
+   "credit": {
+    "title": "Dizi Flute Melody, Pitch Bent",
+    "author": "f-r-a-g-i-l-e",
+    "url": "https://freesound.org/people/f-r-a-g-i-l-e/sounds/532520/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/532/532520_8466114-hq.mp3",
+   "stash": "scene5-532520.mp3",
+   "id": "scene5-532520"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 2,
+   "dur": 114.2,
+   "credit": {
+    "title": "Chinese flute in rainforest1 .wav",
+    "author": "Jim-Bretherick",
+    "url": "https://freesound.org/people/Jim-Bretherick/sounds/614023/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/614/614023_10983022-hq.mp3",
+   "stash": "scene5-614023.mp3",
+   "id": "scene5-614023"
+  },
+  {
+   "category": "scene5",
+   "mood": "詭異・悲音",
+   "fit": 0,
+   "dur": 116.4,
+   "credit": {
+    "title": "Chinese flute in rainforest2.wav",
+    "author": "Jim-Bretherick",
+    "url": "https://freesound.org/people/Jim-Bretherick/sounds/614022/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/614/614022_10983022-hq.mp3",
+   "stash": "scene5-614022.mp3",
+   "id": "scene5-614022"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 10,
+   "dur": 106.9,
+   "credit": {
+    "title": "Orchestral Score 1 - Mastered WITH Stereo Imaging.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621289/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621289_13749321-hq.mp3",
+   "stash": "scene6-621289.mp3",
+   "id": "orchestral-build",
+   "local": "packages/chibi/assets/music/scene6.mp3"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 106,
+   "credit": {
+    "title": "Orchestral Score 1 - NOT mastered.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621294/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621294_13749321-hq.mp3",
+   "stash": "scene6-621294.mp3",
+   "id": "scene6-621294"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 39.2,
+   "credit": {
+    "title": "Orchestral Score 2 - Mastered NO Stereo Imaging.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621292/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621292_13749321-hq.mp3",
+   "stash": "scene6-621292.mp3",
+   "id": "scene6-621292"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 38.8,
+   "credit": {
+    "title": "Orchestral Score 2 - NOT mastered.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621293/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621293_13749321-hq.mp3",
+   "stash": "scene6-621293.mp3",
+   "id": "scene6-621293"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 57.9,
+   "credit": {
+    "title": "Nightmare_Approaching_sound.wav",
+    "author": "bainmack",
+    "url": "https://freesound.org/people/bainmack/sounds/568116/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/568/568116_4294742-hq.mp3",
+   "stash": "scene6-568116.mp3",
+   "id": "scene6-568116"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 39.2,
+   "credit": {
+    "title": "Orchestral Score 2 - Mastered WITH Stereo Imaging.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621295/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621295_13749321-hq.mp3",
+   "stash": "scene6-621295.mp3",
+   "id": "scene6-621295"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 9,
+   "dur": 106.9,
+   "credit": {
+    "title": "Orchestral Score 1 - Mastered NO Stereo Imaging.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621297/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621297_13749321-hq.mp3",
+   "stash": "scene6-621297.mp3",
+   "id": "scene6-621297"
+  },
+  {
+   "category": "scene6",
+   "mood": "管弦・堆疊",
+   "fit": 8,
+   "dur": 145.7,
+   "credit": {
+    "title": "Wetlands Night - Frogs, toads, bird whistles",
+    "author": "RealSquink",
+    "url": "https://freesound.org/people/RealSquink/sounds/826445/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/826/826445_12262933-hq.mp3",
+   "stash": "scene6-826445.mp3",
+   "id": "scene6-826445"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 9,
+   "dur": 42.5,
+   "credit": {
+    "title": "Epic Heroic Soundtrack - Above The Sky",
+    "author": "MusicByMisterbates",
+    "url": "https://freesound.org/people/MusicByMisterbates/sounds/716385/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/716/716385_3968818-hq.mp3",
+   "stash": "scene7-716385.mp3",
+   "id": "epic-heroic",
+   "local": "packages/chibi/assets/music/scene7.mp3"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 10,
+   "dur": 110.8,
+   "credit": {
+    "title": "Epic_Battle_Music_1.MP3",
+    "author": "Airwolf89",
+    "url": "https://freesound.org/people/Airwolf89/sounds/346455/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/346/346455_6298401-hq.mp3",
+   "stash": "scene7-346455.mp3",
+   "id": "scene7-346455"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 9,
+   "dur": 99.1,
+   "credit": {
+    "title": "Uplifting Dramatic Soundtrack - War Around Us",
+    "author": "MusicByMisterbates",
+    "url": "https://freesound.org/people/MusicByMisterbates/sounds/608811/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/608/608811_3968818-hq.mp3",
+   "stash": "scene7-608811.mp3",
+   "id": "scene7-608811"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 9,
+   "dur": 97.3,
+   "credit": {
+    "title": "Fight Music Synth Tense Loop",
+    "author": "SnowFightStudios",
+    "url": "https://freesound.org/people/SnowFightStudios/sounds/676998/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/676/676998_12064174-hq.mp3",
+   "stash": "scene7-676998.mp3",
+   "id": "scene7-676998"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 9,
+   "dur": 44,
+   "credit": {
+    "title": "Heroic Charge",
+    "author": "code_box",
+    "url": "https://freesound.org/people/code_box/sounds/521417/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/521/521417_10962806-hq.mp3",
+   "stash": "scene7-521417.mp3",
+   "id": "scene7-521417"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 9,
+   "dur": 51.8,
+   "credit": {
+    "title": "song 6.mp3",
+    "author": "cheesepuff",
+    "url": "https://freesound.org/people/cheesepuff/sounds/109239/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/109/109239_682033-hq.mp3",
+   "stash": "scene7-109239.mp3",
+   "id": "scene7-109239"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 6,
+   "dur": 164.8,
+   "credit": {
+    "title": "Battle Music (Village)",
+    "author": "Migfus20",
+    "url": "https://freesound.org/people/Migfus20/sounds/683261/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/683/683261_12295155-hq.mp3",
+   "stash": "scene7-683261.mp3",
+   "id": "scene7-683261"
+  },
+  {
+   "category": "scene7",
+   "mood": "史詩・英雄",
+   "fit": 2,
+   "dur": 21.3,
+   "credit": {
+    "title": "Intense Battle Loop.wav",
+    "author": "furbyguy",
+    "url": "https://freesound.org/people/furbyguy/sounds/331869/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/331/331869_5829171-hq.mp3",
+   "stash": "scene7-331869.mp3",
+   "id": "scene7-331869"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 9,
+   "dur": 180.6,
+   "credit": {
+    "title": "Ambient Dark Groove Building Electronic Music (Moth Lament)",
+    "author": "SG80_MED1A",
+    "url": "https://freesound.org/people/SG80_MED1A/sounds/789401/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/789/789401_12875463-hq.mp3",
+   "stash": "scene8-789401.mp3",
+   "id": "dark-groove",
+   "local": "packages/chibi/assets/music/scene8.mp3"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 10,
+   "dur": 76.3,
+   "credit": {
+    "title": "End of Brazilian Carnival (Fim do Carnaval)",
+    "author": "dacarpe",
+    "url": "https://freesound.org/people/dacarpe/sounds/334469/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/334/334469_2259055-hq.mp3",
+   "stash": "scene8-334469.mp3",
+   "id": "scene8-334469"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 9,
+   "dur": 72,
+   "credit": {
+    "title": "ibrkr01.ogg",
+    "author": "Diboz",
+    "url": "https://freesound.org/people/Diboz/sounds/220870/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/220/220870_3930831-hq.mp3",
+   "stash": "scene8-220870.mp3",
+   "id": "scene8-220870"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 9,
+   "dur": 31.2,
+   "credit": {
+    "title": "Lament",
+    "author": "Marvin_Chiriguaya",
+    "url": "https://freesound.org/people/Marvin_Chiriguaya/sounds/724407/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/724/724407_15308663-hq.mp3",
+   "stash": "scene8-724407.mp3",
+   "id": "scene8-724407"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 8,
+   "dur": 65.6,
+   "credit": {
+    "title": "Lament of the Vaquero v1",
+    "author": "city11",
+    "url": "https://freesound.org/people/city11/sounds/735080/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/735/735080_92171-hq.mp3",
+   "stash": "scene8-735080.mp3",
+   "id": "scene8-735080"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 2,
+   "dur": 57.1,
+   "credit": {
+    "title": "Planetary 2",
+    "author": "Kronek9",
+    "url": "https://freesound.org/people/Kronek9/sounds/702664/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/702/702664_3384272-hq.mp3",
+   "stash": "scene8-702664.mp3",
+   "id": "scene8-702664"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 2,
+   "dur": 40,
+   "credit": {
+    "title": "Planetary 6",
+    "author": "Kronek9",
+    "url": "https://freesound.org/people/Kronek9/sounds/702668/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/702/702668_3384272-hq.mp3",
+   "stash": "scene8-702668.mp3",
+   "id": "scene8-702668"
+  },
+  {
+   "category": "scene8",
+   "mood": "暗潮・追逐",
+   "fit": 0,
+   "dur": 49.5,
+   "credit": {
+    "title": "Star Cruiser",
+    "author": "Kronek9",
+    "url": "https://freesound.org/people/Kronek9/sounds/702681/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/702/702681_3384272-hq.mp3",
+   "stash": "scene8-702681.mp3",
+   "id": "scene8-702681"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 10,
+   "dur": 39.2,
+   "credit": {
+    "title": "Orchestral Score 2 - Mastered NO Stereo Imaging.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621292/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621292_13749321-hq.mp3",
+   "stash": "scene9-621292.mp3",
+   "id": "resolution",
+   "local": "packages/chibi/assets/music/scene9.mp3"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 57.3,
+   "credit": {
+    "title": "Analysis Loop",
+    "author": "Ehved",
+    "url": "https://freesound.org/people/Ehved/sounds/726450/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/726/726450_12708796-hq.mp3",
+   "stash": "scene9-726450.mp3",
+   "id": "scene9-726450"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 106,
+   "credit": {
+    "title": "Orchestral Score 1 - NOT mastered.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621294/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621294_13749321-hq.mp3",
+   "stash": "scene9-621294.mp3",
+   "id": "scene9-621294"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 23.8,
+   "credit": {
+    "title": "Orchestral Score - Viola Solo.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621846/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621846_13749321-hq.mp3",
+   "stash": "scene9-621846.mp3",
+   "id": "scene9-621846"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 38.3,
+   "credit": {
+    "title": "Boney.wav",
+    "author": "Reg1n0ld",
+    "url": "https://freesound.org/people/Reg1n0ld/sounds/500652/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/500/500652_10846245-hq.mp3",
+   "stash": "scene9-500652.mp3",
+   "id": "scene9-500652"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 192.9,
+   "credit": {
+    "title": "The Dragon Emperor!",
+    "author": "thedragonemperor",
+    "url": "https://freesound.org/people/thedragonemperor/sounds/634769/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/634/634769_14005186-hq.mp3",
+   "stash": "scene9-634769.mp3",
+   "id": "scene9-634769"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 9,
+   "dur": 22.9,
+   "credit": {
+    "title": "Deep.wav",
+    "author": "Reg1n0ld",
+    "url": "https://freesound.org/people/Reg1n0ld/sounds/500657/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/500/500657_10846245-hq.mp3",
+   "stash": "scene9-500657.mp3",
+   "id": "scene9-500657"
+  },
+  {
+   "category": "scene9",
+   "mood": "終曲・收束",
+   "fit": 6,
+   "dur": 40.4,
+   "credit": {
+    "title": "Slow building synth - Riser Uplifter.wav",
+    "author": "WelvynZPorterSamples",
+    "url": "https://freesound.org/people/WelvynZPorterSamples/sounds/621849/",
+    "license": "CC0"
+   },
+   "preview": "https://cdn.freesound.org/previews/621/621849_13749321-hq.mp3",
+   "stash": "scene9-621849.mp3",
+   "id": "scene9-621849"
+  }
+ ]
+}
