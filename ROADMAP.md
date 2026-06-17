@@ -48,6 +48,18 @@
 > (跑 `npm run render-check -- --pkg packages/guandu/battlefield.json` 重生)。
 > 視覺/運鏡/節奏的「對不對」是人的工作 —— 這是「邊做邊驗」的驗收點。
 
+## P5 — 本機編輯器(WYSIWYG,dev server;設計見 docs/editor-mode-design.md)
+
+把唯讀觀看器升級成所見即所得的本機編輯器。公開 Pages 維持唯讀(不探測、不出現編輯 UI)。
+
+| 子階段 | 內容 | 狀態 |
+|---|---|---|
+| P5.0 | `tools/editor-server.mjs`(零依賴:save-script/save-subs/save-layer/set-act-music/regen-narration/gates API)+ `tools/fit-durations.mjs`(更新語音自動對齊幕長)+ generate.py 吃 narration/subs.json | ✅ ship |
+| P5.1(=使用者「3」) | index.html 編輯模式(僅 localhost 探測 editor-server 才出現):就地改旁白 → 「更新此幕語音」(edge-tts + 自動調幕長)、SUBS 破音字表、每幕配樂下拉、跑驗收;瀏覽器實測編輯態顯示+純展示隱藏+按鈕串通後端 | ✅ ship |
+| P5.2(=使用者「1」) | 座標編輯:地圖拖曳城/營/單位、拉路徑點 → 寫回(延伸 Shift picker) | 待做 |
+| P5.3(=使用者「2」) | 資訊文字就地編輯 | 待做 |
+| 未來 | 地形微調編輯 | — |
+
 ## Backlog / 已知待辦
 
 - [ ] **`RZ` 河中線函式是赤壁長江硬編碼**(`index.html` `const RZ=x=>18*sin(...)`):`marker followRiver`

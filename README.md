@@ -89,6 +89,21 @@ node tools/validate-data.mjs --pkg packages/guandu/battlefield.json
 > 機器三關保證「結構合法 + 引用完整 + 載入不炸」;但**畫面/聲音/編排的「對不對、好不好」是人的工作**。
 > 這條界線就是這個編輯器的核心:AI 編資料過機器關,人驗機器驗不了的。
 
+## 編輯器(本機編輯模式)
+
+公開 Pages 是唯讀觀看版;要**編輯**一場戰役,在本機起 dev server:
+
+```bash
+node tools/editor-server.mjs          # http://localhost:8090
+# 開 http://localhost:8090/?pkg=packages/<slug>/battlefield.json
+```
+
+只有經 editor-server 開(localhost)才出現編輯面板;純展示 / Pages 不顯示、也不探測。
+目前(Phase 3)可:就地改每幕**旁白** → 按「更新此幕語音」跑 edge-tts 並**自動對齊幕長**
+(雙聲變長變短都調)、維護**破音字 SUBS**、每幕**背景音樂**下拉(音樂庫)、一鍵**跑驗收**。
+所有編輯寫回 package 資料檔,仍過四道機器關。座標拖曳、資訊文字編輯為後續階段
+(設計見 [`docs/editor-mode-design.md`](docs/editor-mode-design.md))。
+
 ## 資料六層
 
 | 層 | 檔 | 內容 |
