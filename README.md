@@ -71,7 +71,7 @@ node tools/validate-data.mjs --pkg packages/guandu/battlefield.json
 2. **依序編**六層(`factions → terrain → structures → units → scene → audio`),對照 `docs/authoring/`。
 3. **過機器四關**(綠了才往下;都在 repo 根):
    ```
-   node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用(含 follow 鏡頭 unit)
+   node tools/validate-data.mjs --pkg packages/<slug>/battlefield.json   # schema + 跨檔引用 + 鏡頭/cue shape
    node tools/residue-scan.mjs  --pkg packages/<slug>/battlefield.json   # 無 chibi 殘留 + placeholder WARN
    node tools/render-check.mjs   --pkg packages/<slug>/battlefield.json   # 載入 + 逐幕截圖 + 0 console error
    node tools/audio-check.mjs    --pkg packages/<slug>/battlefield.json   # 旁白音長≤幕長 + 音訊素材解析

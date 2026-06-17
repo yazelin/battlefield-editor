@@ -95,9 +95,17 @@ else acts.forEach((a, i) => {
   // 鏡頭:director 每幀讀 shots,缺/空會在自動播映時 throw
   if (!Array.isArray(a.shots) || !a.shots.length) errs.push(`${at} 缺 shots(非空陣列)`);
   else a.shots.forEach((sh, j) => {
-    if (sh.kind && !SHOT_KINDS.includes(sh.kind)) errs.push(`${at}.shots[${j}] kind 非法: ${sh.kind}`);
-    // follow 鏡頭每幀讀 U[sh.unit].group.position,指向不存在的 unit 會在該幀 throw(render-check 不一定求值到)
-    if (sh.kind === 'follow' && !isUnit(sh.unit)) errs.push(`${at}.shots[${j}] follow unit 不存在: ${sh.unit}`);
+    // director 每幀依 kind 解參(index.html director()):缺欄位會在該幀 throw 或靜默凍結鏡頭。
+    // render-check 只取每幕前段截圖,撞不到後段 shot,所以這些 shape 由 validator 把關。
+    const sat = `${at}.shots[${j}]`;
+    const num = k => typeof sh[k] === 'number';
+    const vec3 = k => Array.isArray(sh[k]) && sh[k].length === 3 && sh[k].every(n => typeof n === 'number');
+    if (!sh.kind) { errs.push(`${sat} 缺 kind(line/orbit/follow)`); return; }
+    if (!SHOT_KINDS.includes(sh.kind)) { errs.push(`${sat} kind 非法: ${sh.kind}`); return; }
+    if (!num('dur')) errs.push(`${sat} dur 非數字`);
+    if (sh.kind === 'line') { for (const k of ['a', 'b', 'look']) if (!vec3(k)) errs.push(`${sat} line 缺/壞 ${k}(需長度3數字陣列)`); }
+    else if (sh.kind === 'orbit') { if (!vec3('c')) errs.push(`${sat} orbit 缺/壞 c`); for (const k of ['r', 'h', 'a0', 'a1']) if (!num(k)) errs.push(`${sat} orbit 缺/壞 ${k}`); }
+    else if (sh.kind === 'follow') { if (!isUnit(sh.unit)) errs.push(`${sat} follow unit 不存在: ${sh.unit}`); if (!vec3('off')) errs.push(`${sat} follow 缺/壞 off(需長度3數字陣列)`); }
   });
   // 戰力:key 必須是陣營,否則面板靜默跳過
   for (const fk of Object.keys(a.power || {})) if (!FACS.includes(fk)) errs.push(`${at}.power 含非陣營 key: ${fk}`);
@@ -131,11 +139,20 @@ else scenes.forEach((p, i) => {
   if (typeof p !== 'string') { errs.push(`audio.music.scenes[${i}] 非路徑字串`); return; }
   if (p && !existsSync(layer(p)) && !existsSync(resolve(ROOT, p))) errs.push(`audio.music.scenes[${i}] 路徑不存在: ${p}`);
 });
+const nActs = Array.isArray(acts) ? acts.length : 0;
 for (const [scene, list] of Object.entries(AUDIO.cues || {})) {
+  const k = Number(scene);
+  // 引擎讀 AUDIO.cues[幕索引](0-based);鍵錯位/越界 → 音效晚一幕、或永遠不觸發(靜默)
+  if (!Number.isInteger(k) || k < 0 || k >= nActs) errs.push(`audio.cues 鍵 "${scene}" 非合法幕索引(0-based,需 0..${nActs - 1})`);
   (list || []).forEach((e, j) => {
     audioCueCount++;
-    if (typeof e.at !== 'number') errs.push(`audio.cues[${scene}][${j}] at 非數`);
-    if (!AUDIO_CUE_TYPES.includes(e.type)) errs.push(`audio.cues[${scene}][${j}] type 非法: ${e.type}`);
+    const cat = `audio.cues[${scene}][${j}]`;
+    if (typeof e.at !== 'number') errs.push(`${cat} at 非數`);
+    if (!AUDIO_CUE_TYPES.includes(e.type)) errs.push(`${cat} type 非法: ${e.type}`);
+    // 各 type 在 dispatchAudioCue 解的 payload:缺欄位會在 cue 觸發時 throw
+    if (e.type === 'synth' && typeof e.inst !== 'string') errs.push(`${cat} synth 缺 inst`);
+    if (e.type === 'sfx' && typeof e.name !== 'string') errs.push(`${cat} sfx 缺 name`);
+    if (e.type === 'burst' && (typeof e.inst !== 'string' || typeof e.n !== 'number' || typeof e.interval !== 'number')) errs.push(`${cat} burst 缺 inst/n/interval`);
   });
 }
 
