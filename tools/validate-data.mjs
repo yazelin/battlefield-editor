@@ -137,7 +137,7 @@ const scenes = AUDIO.music?.scenes;
 if (!Array.isArray(scenes)) errs.push('audio.music.scenes 非陣列');
 else scenes.forEach((p, i) => {
   if (typeof p !== 'string') { errs.push(`audio.music.scenes[${i}] 非路徑字串`); return; }
-  if (p && !existsSync(layer(p)) && !existsSync(resolve(ROOT, p))) errs.push(`audio.music.scenes[${i}] 路徑不存在: ${p}`);
+  if (p && !existsSync(layer(p))) errs.push(`audio.music.scenes[${i}] 路徑不存在: ${p}(素材路徑 manifest 相對,別寫 packages/<slug>/…)`);
 });
 const nActs = Array.isArray(acts) ? acts.length : 0;
 for (const [scene, list] of Object.entries(AUDIO.cues || {})) {

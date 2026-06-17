@@ -82,11 +82,11 @@ index.html?pkg=packages/guandu/battlefield.json   # 載入官渡
    ```
    驗證器吃 `--pkg <manifest 路徑>` 即可驗**任何** package;不帶旗標時驗預設的 `packages/chibi/battlefield.json`。它比照引擎 `PKG_BASE`,把 manifest `data` 內的路徑當作相對於 manifest 所在資料夾來解析,檢查 factions / structures / terrain / units / scene / audio / battlefield 的必填欄位、型別、列舉值、id 唯一、manifest `data` 指到的檔存在,並做跨檔交叉引用(scene 引用的 unit / structure / faction / 陣營必須存在)。要 PASS。
    > **陣營白名單由 package 自己的 `factions.json` 推導**(`Object.keys(factions)`),不再寫死 `cao` / `sun` / `liu`。陣營 id 是任意字串——你可以為新戰役定義任何陣營鍵(如官渡的 `cao` / `yuan`),units / structures(camp)/ scene 只要引用到的陣營有在該 package 的 `factions.json` 出現即可。
-2. **地形重現**(只在改 `terrain.json` 時)
+2. **地形重現**(僅 chibi 專用,**不是新 package 的關卡**)
    ```bash
-   node tools/terrain-fit.mjs
+   node tools/terrain-fit.mjs   # 只比對 chibi 原始解析式地形的數值重現,不吃 --pkg
    ```
-   把參數化地形與基準函式逐格比對,印出 `mean|Δ|` 與 `max|Δ|`。改地形後確認誤差仍在可接受範圍(細節見 [terrain.md](terrain.md))。
+   這支是當初把 chibi 手寫解析地形參數化時的數值回歸工具(印 `mean|Δ|`/`max|Δ|`),**只對 chibi 有意義**。編新 package 不需要跑它;新戰場的地形對不對(城/營/單位有沒有沉河、河道走向)由第 3 步的瀏覽器目視把關(細節見 [terrain.md](terrain.md))。
 3. **視覺檢查(由人)**:在瀏覽器用 `?pkg=` 開對應 package(例:`index.html?pkg=packages/guandu/battlefield.json`),截圖檢查地形、河道、城/營/地名位置、陣營色、運鏡、單位是否符合意圖。**schema 過了不代表畫面對**——驗證器只看資料合法性,實際渲染仍要在瀏覽器以 `?pkg=` 目視確認,這一步由人把關。
 
 ## 4. 各格式指南

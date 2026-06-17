@@ -18,7 +18,10 @@ const MANIFEST = ai >= 0 ? resolve(process.cwd(), process.argv[ai + 1]) : resolv
 const BASE = dirname(MANIFEST);
 const slug = basename(BASE);
 const read = p => JSON.parse(readFileSync(p, 'utf8'));
-const hasAsset = p => !!p && (existsSync(resolve(BASE, p)) || existsSync(resolve(ROOT, p)));
+// 素材路徑一律 manifest 相對(比照引擎 assetUrl = PKG_BASE + p)。寫成 root-relative
+// (packages/<slug>/assets/…)會在此 resolve 成 double-prefix 而判定不存在 → 乾淨退件,
+// 不再讀檔 throw ENOENT;這正是引擎執行期會壞的同一條路徑。
+const hasAsset = p => !!p && existsSync(resolve(BASE, p));
 
 if (!existsSync(MANIFEST)) { console.error('FAIL\nmanifest 不存在: ' + MANIFEST); process.exit(1); }
 const BF = read(MANIFEST);

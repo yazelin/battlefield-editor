@@ -205,8 +205,8 @@ the ground without altering terrain height, so nothing on it moves.
 Run from the repo root after every edit:
 
 ```bash
-node tools/validate-data.mjs    # schema/shape check; must print PASS
-node tools/terrain-fit.mjs      # mean|Δ| vs the original analytic terrain
+node tools/validate-data.mjs    # schema/shape check; must print PASS (works on any --pkg)
+node tools/terrain-fit.mjs      # chibi-only regression (no --pkg); SKIP for a new package
 ```
 
 - `validate-data.mjs` checks structure: rivers present, each river has a
