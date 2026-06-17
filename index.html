@@ -463,8 +463,12 @@ body.editing #side{display:none}
 </style>
 <div id="editPanel">
   <h4>編輯模式 ✎ <span id="epSlug" style="color:#b9b08c;font-weight:400"></span></h4>
-  <div class="ep-act" id="epAct">第一幕</div>
-  <div style="color:#b9b08c">旁白(改完按「更新此幕語音」跑 edge-tts + 自動調幕長)</div>
+  <div class="ep-act" style="display:flex;align-items:center;gap:6px">
+    <button id="epPrev" style="padding:2px 9px;margin:0">◀</button>
+    <span id="epAct" style="flex:1;text-align:center">第一幕</span>
+    <button id="epNext" style="padding:2px 9px;margin:0">▶</button>
+  </div>
+  <div style="color:#b9b08c">編輯哪一幕 ↑ 選;俯視整場、拖曳可轉視角。旁白改完按「更新此幕語音」(edge-tts + 自動調幕長)</div>
   <textarea id="epNarr"></textarea>
   <div class="ep-act">背景音樂(換完重整頁面聽)</div>
   <select id="epMusic"></select>
@@ -1977,6 +1981,8 @@ loop();
   if(!ED) return;
   const slug=(PKG_URL.split('/')[1])||'';
   document.body.classList.add('editing');
+  // 進編輯模式 = 直接俯視整張戰場、自由運鏡、不自動播放(編哪幕由面板選,不跟著播放跑)
+  try{ document.getElementById('intro').classList.add('off'); setCinema(false); gotoPhase(0,true); playing=false; if(typeof bPlay!=='undefined')bPlay.textContent='播放'; window.__topdown(); }catch(e){}
   const $=id=>document.getElementById(id), st=m=>{$('epStatus').textContent=m;};
   $('epSlug').textContent=slug;
   let myCues={}, myScript=[];
@@ -2041,6 +2047,10 @@ loop();
     a.title=$('epTitle').value; a.era=$('epEra').value; a.narr=$('epInfo').value;
     if(phase===i){ const pt=document.getElementById('phTitle'); if(pt)pt.textContent=a.title; const pn=document.getElementById('phNarr'); if(pn)pn.textContent=a.narr; }
     const r=await post('/api/save-layer',{layer:PKG.data.scene,data:SCENE}); st(r.ok?'✓ 文字已寫回 scene':'✗ '+r.err); };
+
+  /* ── 換編輯中的幕(不依賴播放;切幕只換部署狀態,相機維持俯視/自由)── */
+  const goAct=d=>{ const cur=phase<0?0:phase, n=Math.max(0,Math.min(PHASES.length-1,cur+d)); gotoPhase(n,true); playing=false; sync(); syncT(); };
+  $('epPrev').onclick=()=>goAct(-1); $('epNext').onclick=()=>goAct(1);
 })();
 </script>
 </body>
