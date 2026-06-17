@@ -31,6 +31,19 @@ footer{margin-top:48px;text-align:center;color:var(--paper-dim);font-size:12px;l
 footer code{background:rgba(201,162,77,.1);border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--paper);font-family:ui-monospace,monospace;font-size:11.5px}
 footer a{color:var(--gold)}
 .loading{text-align:center;color:var(--paper-dim);letter-spacing:3px;padding:40px}
+details.guide{max-width:840px;margin:46px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(8px)}
+details.guide summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--gold)}
+details.guide summary::-webkit-details-marker{display:none}
+details.guide summary::before{content:"▸　"}
+details.guide[open] summary::before{content:"▾　"}
+.gbody{padding:2px 28px 26px;font-size:13.5px;line-height:1.9;color:var(--paper-dim);font-weight:300}
+.gbody h3{color:var(--paper);font-size:15px;letter-spacing:2px;margin:22px 0 8px;font-weight:700}
+.gbody h3:first-of-type{margin-top:4px}
+.gbody pre{background:#0e0c08;border:1px solid var(--line);border-radius:6px;padding:10px 14px;overflow-x:auto;font:12.5px/1.7 ui-monospace,monospace;color:var(--paper);margin:8px 0}
+.gbody code{background:rgba(201,162,77,.1);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font:12px ui-monospace,monospace;color:var(--paper)}
+.gbody b{color:var(--paper);font-weight:500}
+.gbody ul{margin:6px 0;padding-left:20px}.gbody li{margin:5px 0}
+.gbody a{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -41,8 +54,55 @@ footer a{color:var(--gold)}
     <div class="sub">每一場戰役都是一份資料 package,引擎只負責演出。換一份資料,就換一場戰役。<br>挑一場觀看 —— 不只赤壁,還有官渡、垓下、淝水。本機亦可編輯。</div>
   </header>
   <div class="grid" id="grid"><div class="loading">載 入 戰 場 列 表 ⋯</div></div>
+  <details class="guide">
+    <summary>如何使用戰場編輯器(自己編一場、加旁白與配樂)</summary>
+    <div class="gbody">
+      <h3>這是什麼</h3>
+      每一場戰役都是一份資料 package(<b>factions / terrain / structures / units / scene / audio</b> 六層 JSON),引擎 <code>play.html</code> 只負責演出。你可以「看」(上面任一場),也可以在本機「編輯」或從零「編一場新的」。公開網站是唯讀;編輯都在本機進行。
+
+      <h3>一、在本機開編輯器</h3>
+      <pre>node tools/editor-server.mjs
+# 開 http://localhost:8090/play.html?pkg=packages/&lt;slug&gt;/battlefield.json</pre>
+      只有本機經 editor-server 開才會出現編輯面板(公開站不會)。進去是<b>俯視整張戰場、自由運鏡</b>,右側面板用 <b>◀ ▶</b> 選要編哪一幕。
+
+      <h3>二、編輯面板能做什麼</h3>
+      <ul>
+        <li><b>旁白</b>:改該幕旁白文字 → 按「更新此幕語音」跑 edge-tts 重生語音 + 字幕,並<b>自動對齊幕長</b>(雙聲變長變短都調)。</li>
+        <li><b>破音字 SUBS</b>:台灣讀音;罕用字 / 破音字餵同音替身,重生時自動套用。</li>
+        <li><b>背景音樂</b>:每幕一個下拉,從音樂庫(74 首 CC0)挑。</li>
+        <li><b>座標</b>:選物件(城 / 營 / 單位)→ 填 x/z,或開「點圖設位置」後 Shift+點地圖 → 即時移動。</li>
+        <li><b>資訊文字</b>:幕標題 / 年代 / 敘述就地改。</li>
+        <li><b>跑驗收</b>:一鍵跑機器檢查。</li>
+      </ul>
+      所有編輯都寫回 package 資料檔(來源真實),重整頁面即生效。
+
+      <h3>三、從零新增一場戰場</h3>
+      <pre>node tools/new-package.mjs &lt;slug&gt; "顯示名"</pre>
+      產出最小骨架(本身就過機器關),接著<b>依序</b>編六層(對照 <code>docs/authoring/</code>):
+      <pre>factions → terrain → structures → units → scene → audio</pre>
+      編好會自動登錄到本首頁列表。每改一批跑機器四關(綠了才往下):
+      <pre>node tools/validate-data.mjs --pkg packages/&lt;slug&gt;/battlefield.json
+node tools/residue-scan.mjs  --pkg packages/&lt;slug&gt;/battlefield.json
+node tools/render-check.mjs   --pkg packages/&lt;slug&gt;/battlefield.json
+node tools/audio-check.mjs    --pkg packages/&lt;slug&gt;/battlefield.json</pre>
+
+      <h3>四、加旁白語音</h3>
+      旁白稿放 <code>packages/&lt;slug&gt;/narration/script.json</code>(每幕一段),跑:
+      <pre>/tmp/ttsenv/bin/python3 packages/&lt;slug&gt;/narration/generate.py</pre>
+      edge-tts 雙聲(男 / 女)生 mp3 + 句級字幕;台灣讀音,罕用字用 <code>SUBS</code> 替身。也可直接在編輯器改文字按「更新此幕語音」。<b>每幕長度要 ≥ 旁白長度</b>,否則會被切(編輯器重生會自動調,CLI 則用 <code>tools/fit-durations.mjs</code>)。
+
+      <h3>五、加背景音樂 / 音效</h3>
+      <pre>node tools/assign-music.mjs --list                       # 看音樂庫(74 首 CC0,依情緒分類 + 評分)
+node tools/assign-music.mjs &lt;slug&gt; &lt;一幕一首 id...&gt;        # 依幕序指派配樂
+node tools/assign-sfx.mjs   &lt;slug&gt; battlecry sword1 ...   # 指派音效</pre>
+      皆 CC0,自動複製素材 + 補 <code>CREDITS.md</code>。庫不夠用?在 <code>tools/music-library.json</code> / <code>sfx-library.json</code> append 一筆即可(整池與新曲都能被指派)。
+
+      <h3>界線:機器驗結構,人驗好壞</h3>
+      四道機器關保證「結構合法、跨檔引用完整、旁白不被切、載入不炸」;但<b>地點合不合理、運鏡好不好看、聲音貼不貼、史實對不對</b>由人判。完整的 AI 編寫流程見 <a href="https://github.com/yazelin/battlefield-editor/blob/main/skills/author-battlefield/SKILL.md">SKILL.md</a>。
+    </div>
+  </details>
   <footer>
-    AI 編寫資料、引擎演出、人驗收 —— 想自己編一場戰役?本機跑 <code>node tools/editor-server.mjs</code> 即可在瀏覽器就地編輯。<br>
+    AI 編寫資料、引擎演出、人驗收 —— 想自己編一場戰役?上面「如何使用」有完整步驟。<br>
     原始碼與說明見 <a href="https://github.com/yazelin/battlefield-editor">GitHub</a>。
   </footer>
 </div>
