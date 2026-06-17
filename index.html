@@ -4,7 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI 戰場編輯器 — 戰場列表</title>
-<meta name="description" content="資料驅動的 3D 歷史戰場引擎:赤壁、官渡、垓下、淝水…換一份資料就換一場戰役。AI 編寫、引擎演出、人驗收;本機可編輯。">
+<meta name="description" content="AI 戰場編輯器:資料驅動的 3D 歷史戰場引擎。每一場戰役都是一份資料,AI 編寫、引擎演出、人驗收。赤壁、官渡、垓下、淝水可看可編,開源。">
+<link rel="canonical" href="https://yazelin.github.io/battlefield-editor/">
+<meta name="theme-color" content="#0c0a07">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI 戰場編輯器">
+<meta property="og:url" content="https://yazelin.github.io/battlefield-editor/">
+<meta property="og:title" content="AI 戰場編輯器 — 資料驅動的 3D 歷史戰場引擎">
+<meta property="og:description" content="每一場戰役都是一份資料 package,引擎只負責演出;AI 編寫、人驗收。赤壁・官渡・垓下・淝水可看可編,開源。">
+<meta property="og:image" content="https://yazelin.github.io/battlefield-editor/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI 戰場編輯器 — 3D 歷史戰場引擎">
+<meta name="twitter:description" content="每一場戰役都是一份資料,AI 編寫、引擎演出、人驗收。赤壁・官渡・垓下・淝水可看可編。">
+<meta name="twitter:image" content="https://yazelin.github.io/battlefield-editor/og.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -60,7 +74,21 @@ details.guide[open] summary::before{content:"▾　"}
       <h3>這是什麼</h3>
       每一場戰役都是一份資料 package(<b>factions / terrain / structures / units / scene / audio</b> 六層 JSON),引擎 <code>play.html</code> 只負責演出。你可以「看」(上面任一場),也可以在本機「編輯」或從零「編一場新的」。公開網站是唯讀;編輯都在本機進行。
 
-      <h3>一、在本機開編輯器</h3>
+      <h3>推薦做法:交給 AI 編寫(從零做、大幅修改)</h3>
+      適合<b>從零做一整場、或大改</b>(重寫旁白、補一整幕、整場重配樂)。做法:把這個 repo 交給一個<b>能執行指令的 AI coding agent</b>(如 Claude Code) —— 它要實際持有這個 repo 並能跑 shell,才用得到 repo 裡的 scaffold / 驗證 / 旁白等工具;貼到一般聊天視窗沒有用(它碰不到工具)。叫它照 <code>skills/author-battlefield/SKILL.md</code> 走。<b>上面的「淝水之戰」就是這樣做出來的</b> —— 一個只拿到 repo 加一句話的 agent 自己編成、過四關。
+      <br><br><b>新增一場戰役</b>(貼給這樣的 agent):
+      <pre>在 battlefield-editor repo,照 skills/author-battlefield/SKILL.md
+做一場「淝水之戰(383,前秦苻堅 vs 東晉謝玄)」,約 8 幕,涵蓋
+投鞭斷流、洛澗夜襲、隔淝水對峙、秦軍後退失控、風聲鶴唳。
+依序編六層、過機器四關、配旁白與背景音樂;完成後自動上首頁。</pre>
+      <b>大幅修改既有戰役</b>(貼給 agent):
+      <pre>在 battlefield-editor repo,幫我把 packages/guandu 的第六幕旁白
+重寫得更生動、補一幕「白馬之圍」、整場配樂重配成更悲壯的;
+改完跑四道機器關確認全綠。</pre>
+      agent 會自己 scaffold、編資料、用 edge-tts 生旁白、從音樂庫指派配樂、跑驗收;機器關擋不到的(地點合理、運鏡、聲音、史實)再由你看一遍。
+      <br><br><b>小修 / 要精準位置:用編輯器更快,不必動 AI</b>。改幕標題、換某幕配樂、移動某座城 —— 直接在下面的編輯器選物件 → 改位置 / 文字 → 存檔。位置要精準就用 <b>Shift+點地圖</b>(會顯示並複製 <code>[x, z]</code>);真要叫 AI 改位置,也是把這個從編輯器取得的 <code>[x, z]</code> 給它寫入,而不是「南一點」(除非你只要大概位置)。
+
+      <h3>一、在本機編輯器手動調(小修最快)</h3>
       <pre>node tools/editor-server.mjs
 # 開 http://localhost:8090/play.html?pkg=packages/&lt;slug&gt;/battlefield.json</pre>
       只有本機經 editor-server 開才會出現編輯面板(公開站不會)。進去是<b>俯視整張戰場、自由運鏡</b>,右側面板用 <b>◀ ▶</b> 選要編哪一幕。
