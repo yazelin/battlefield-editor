@@ -6,7 +6,7 @@
 // 產出 packages/<slug>/ 的六層 JSON + battlefield.json + audio 空殼 + assets/ +
 // narration/script.json + narration/generate.py(edge-tts 旁白範本)。不覆蓋既有 package。
 
-import { mkdir, writeFile, access } from 'node:fs/promises';
+import { mkdir, writeFile, readFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join } from 'node:path';
 
@@ -213,11 +213,18 @@ await Promise.all([
   ...['assets/narration', 'assets/music', 'assets/sfx'].map(s => writeFile(join(dir, s, '.gitkeep'), '')),
 ]);
 
+// 登錄進首頁 gallery 列表(packages/index.json),index.html 就會列出這場新戰場
+try {
+  const idxPath = join(ROOT, 'packages', 'index.json');
+  const idx = JSON.parse(await readFile(idxPath, 'utf8').catch(() => '[]'));
+  if (!idx.includes(slug)) { idx.push(slug); await writeFile(idxPath, JSON.stringify(idx) + '\n'); }
+} catch { /* 沒有 index.json 不擋 scaffold */ }
+
 console.log(`OK 已建 packages/${slug}/(最小骨架,綠燈起步;紅/藍 placeholder 待改)`);
 console.log(`  驗證:   node tools/validate-data.mjs --pkg packages/${slug}/battlefield.json`);
 console.log(`  殘留檢:  node tools/residue-scan.mjs  --pkg packages/${slug}/battlefield.json`);
 console.log(`  渲染檢:  node tools/render-check.mjs   --pkg packages/${slug}/battlefield.json`);
 console.log(`  音訊檢:  node tools/audio-check.mjs    --pkg packages/${slug}/battlefield.json`);
-console.log(`  瀏覽器:  index.html?pkg=packages/${slug}/battlefield.json`);
+console.log(`  瀏覽器:  play.html?pkg=packages/${slug}/battlefield.json(首頁 index.html 會自動列出)`);
 console.log(`  接著依 docs/authoring/ 逐層編(factions→terrain→structures→units→scene→audio);`);
 console.log(`  旁白用 narration/generate.py(已備範本,改 SUBS 即可)。`);

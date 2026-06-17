@@ -14,7 +14,7 @@ GitHub Pages 是靜態的:線上頁面**不能寫 package 檔、也不能跑 edg
     `tools/fit-durations.mjs` 自動把幕長對齊新的雙聲長度 → 回傳新 cues + 調整摘要。
   - `GET /api/music-library`、`GET /api/sfx-library`、`POST /api/assign-music|assign-sfx`。
   - 存檔後可選擇順手跑 validate/audio-check 回報是否仍綠。
-- **`index.html` 編輯模式**:偵測自己是被 editor-server 開的(探測 `/api/ping`)才顯示編輯 UI;
+- **`play.html` 編輯模式**:偵測自己是被 editor-server 開的(探測 `/api/ping`)才顯示編輯 UI;
   **純展示 / Pages 模式下完全不出現編輯 UI**(觀看版乾淨)。
 
 ## 所見即所得(WYSIWYG)

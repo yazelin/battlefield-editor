@@ -1,5 +1,6 @@
 // 本機編輯器 dev server:服務 repo 靜態檔 + 提供編輯 API。
-// index.html 偵測到 /api/ping 才顯示編輯 UI;公開 Pages(無此 server)維持唯讀觀看版。
+// play.html 偵測到 editor-server(GET / 帶 x-bfe-editor 標頭)才顯示編輯 UI;公開 Pages 維持唯讀觀看版。
+// 首頁 / = index.html 戰場列表 gallery(靜態);各戰場在 /play.html?pkg=…。
 // 所有編輯寫回 package 的資料檔(唯一源頭),不在前端飄。零依賴(只用 node 內建)。
 //
 // 用法(在 repo 根執行;旁白重生會跑 edge-tts,本機需可連網/必要時停 sandbox):

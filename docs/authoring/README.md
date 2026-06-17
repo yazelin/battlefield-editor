@@ -2,7 +2,7 @@
 
 這裡是 battlefield-editor 的「戰場 package」編輯指南。給 **AI 與人共讀**:AI 依此知道要改哪些檔、怎麼改、怎麼自證;人依此驗收與微修。
 
-> 範圍:引擎已**完全資料驅動**(P2h 後不再寫死赤壁)。改 package 下的資料檔不會改變引擎行為,只改變引擎讀到的資料。一份引擎(`index.html`,單檔)可載入**任意**戰場 package。
+> 範圍:引擎已**完全資料驅動**(P2h 後不再寫死赤壁)。改 package 下的資料檔不會改變引擎行為,只改變引擎讀到的資料。一份引擎(`play.html`,單檔)可載入**任意**戰場 package。
 
 ## 1. 什麼是「戰場 package」
 
@@ -56,9 +56,9 @@ manifest 範例(赤壁,`packages/chibi/battlefield.json`):
 引擎用網址參數 `?pkg=` 選 package,指向某個 manifest:
 
 ```
-index.html                                        # 預設載入 packages/chibi/battlefield.json(赤壁)
-index.html?pkg=packages/chibi/battlefield.json    # 顯式指定赤壁
-index.html?pkg=packages/guandu/battlefield.json   # 載入官渡
+play.html                                        # 預設載入 packages/chibi/battlefield.json(赤壁)
+play.html?pkg=packages/chibi/battlefield.json    # 顯式指定赤壁
+play.html?pkg=packages/guandu/battlefield.json   # 載入官渡
 ```
 
 `?pkg` 的值就是 manifest 的路徑(相對引擎),引擎由此推出 `PKG_BASE` 再去讀同資料夾的 6 層。要新增一場戰役 = 建一個 `packages/<名稱>/` 資料夾、放好 6 層 + manifest,然後用 `?pkg=packages/<名稱>/battlefield.json` 載入,**不必動引擎**。
@@ -87,7 +87,7 @@ index.html?pkg=packages/guandu/battlefield.json   # 載入官渡
    node tools/terrain-fit.mjs   # 只比對 chibi 原始解析式地形的數值重現,不吃 --pkg
    ```
    這支是當初把 chibi 手寫解析地形參數化時的數值回歸工具(印 `mean|Δ|`/`max|Δ|`),**只對 chibi 有意義**。編新 package 不需要跑它;新戰場的地形對不對(城/營/單位有沒有沉河、河道走向)由第 3 步的瀏覽器目視把關(細節見 [terrain.md](terrain.md))。
-3. **視覺檢查(由人)**:在瀏覽器用 `?pkg=` 開對應 package(例:`index.html?pkg=packages/guandu/battlefield.json`),截圖檢查地形、河道、城/營/地名位置、陣營色、運鏡、單位是否符合意圖。**schema 過了不代表畫面對**——驗證器只看資料合法性,實際渲染仍要在瀏覽器以 `?pkg=` 目視確認,這一步由人把關。
+3. **視覺檢查(由人)**:在瀏覽器用 `?pkg=` 開對應 package(例:`play.html?pkg=packages/guandu/battlefield.json`),截圖檢查地形、河道、城/營/地名位置、陣營色、運鏡、單位是否符合意圖。**schema 過了不代表畫面對**——驗證器只看資料合法性,實際渲染仍要在瀏覽器以 `?pkg=` 目視確認,這一步由人把關。
 
 ## 4. 各格式指南
 
@@ -119,7 +119,7 @@ index.html?pkg=packages/guandu/battlefield.json   # 載入官渡
 
 ## 5. 全層已外部化
 
-P2h 後,6 層全部已從 `index.html` 抽出成 package 內的資料檔,引擎完全資料驅動,`pending` 為空:
+P2h 後,6 層全部已從 `play.html` 抽出成 package 內的資料檔,引擎完全資料驅動,`pending` 為空:
 
 - **scene(場景 / 時間軸)**:逐幕 `acts`(key / title / dur / env / shots / power / march / combat / set / scrubSet / fx)——運鏡、單位移動、計策、火攻事件都在這層。引用到的 unit / structure / 陣營都會被驗證器交叉檢查。
 - **audio manifest(音訊對應)**:`music.scenes`(各幕配樂路徑)+ `cues`(以場景分組的 synth / sfx / sword / burst 音效)。

@@ -11,7 +11,7 @@ description: Use when authoring or editing a battlefield-editor data package —
 
 ## 何時用
 - 從零做一個新戰場、或擴充/修改既有 package(如把最小包養成完整戰役)。
-- 不適用:改引擎能力(那是改 `index.html`,不是編資料)。
+- 不適用:改引擎能力(那是改 `play.html`,不是編資料)。
 
 ## 黃金準則
 1. **嚴格依相依順序編**(下游的 id 是上游定義的):`factions → terrain → structures → units → scene → audio`。下游引用的 id 沒在上游先定義 = validator 失敗。

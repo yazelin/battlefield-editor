@@ -1,6 +1,6 @@
 # 編寫 `packages/chibi/audio.json`
 
-給 AI 與人類編輯者的指南。本檔每個欄位都對應引擎(`index.html`)實際消費的資料,或 `schema/audio.schema.json` 的契約。**不要發明欄位或音效型別**——本指南沒列到的欄位,引擎會默默忽略,validator 也可能直接退件。
+給 AI 與人類編輯者的指南。本檔每個欄位都對應引擎(`play.html`)實際消費的資料,或 `schema/audio.schema.json` 的契約。**不要發明欄位或音效型別**——本指南沒列到的欄位,引擎會默默忽略,validator 也可能直接退件。
 
 ## `audio.json` 是什麼
 
@@ -26,7 +26,7 @@ const AUDIO = await (await fetch('packages/chibi/audio.json')).json();
 引擎播兩類聲音,分清楚很重要:
 
 - **mp3 資產**:放在 `assets/` 下的實體檔(配樂、旁白、刀劍 / 吶喊 / 鐵索錄音)。本 manifest 列的就是這些檔的路徑。
-- **程序合成器**:引擎用 Web Audio 即時合成、**沒有檔案**的樂器(如鼓 `drum`、爆音 `boom`、馬蹄、腳步、火場嗶剝、江水、風)。這些合成器**活在程式裡**(`index.html` 的 `BUILD` 表),manifest 不能新增 / 改它們,只能在 `cues` 裡用 `synth` 型別**引用**已存在的合成器(目前 cue 詞彙允許的合成樂器是 `drum` 與 `boom`)。
+- **程序合成器**:引擎用 Web Audio 即時合成、**沒有檔案**的樂器(如鼓 `drum`、爆音 `boom`、馬蹄、腳步、火場嗶剝、江水、風)。這些合成器**活在程式裡**(`play.html` 的 `BUILD` 表),manifest 不能新增 / 改它們,只能在 `cues` 裡用 `synth` 型別**引用**已存在的合成器(目前 cue 詞彙允許的合成樂器是 `drum` 與 `boom`)。
 
 > 規則:要播 mp3 → 該檔必須真的存在於 `assets/` 且列在 manifest;要播合成樂器 → 該樂器必須已在引擎 `BUILD` 裡。manifest 不創造任何新音色。
 
@@ -264,6 +264,6 @@ node tools/validate-data.mjs
 
    > 注意:validator 與 schema **都不會**檢查 `synth` / `burst` 的 `inst` 真的是 `drum` / `boom`、`sfx` 的 `name` 真的在 `sfx.files` 裡,也不檢查 `theme` 與各 `sfx` 檔的路徑是否存在——這些對應關係由你(編輯者)負責對齊。寫錯 `inst` / `name` 仍會過 validator,但引擎執行期會找不到對應的合成器或檔案而無聲(`sfx` 缺檔時部分還有合成備援)。
 
-2. 人類聽一遍:在瀏覽器開 `index.html`,逐幕走過去,**用耳朵**確認配樂在對的幕切換、旁白聲線與字幕對得上、事件音效(箭雨刀劍鼓、吶喊、鐵索、火攻音景)在對的秒響起、跨幕長音(吶喊 / 鐵索)有正常收掉。schema 過了不代表聲音對——這一步由人把關。
+2. 人類聽一遍:在瀏覽器開 `play.html`,逐幕走過去,**用耳朵**確認配樂在對的幕切換、旁白聲線與字幕對得上、事件音效(箭雨刀劍鼓、吶喊、鐵索、火攻音景)在對的秒響起、跨幕長音(吶喊 / 鐵索)有正常收掉。schema 過了不代表聲音對——這一步由人把關。
 
 > 提醒:本檔是純資料,改完不需重編譯,重新整理頁面即可載入新的 `audio.json`。cue 只接受 `synth / sfx / sword / burst` 四種 `type`,合成樂器只有 `drum` / `boom`——要新增音色或檔案型音效,得分別動引擎 `BUILD` 或在 `assets/sfx/` 放新檔並列進 `sfx.files`,不能只在 manifest 發明。

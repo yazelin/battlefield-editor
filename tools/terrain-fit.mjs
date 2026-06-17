@@ -13,7 +13,7 @@ function ground(x,z){const zc=RZ(x);let d=Math.abs(z-zc);const zr=RZ(150);
   else{const t=d-34;h=Math.min(t*0.18,4)+fbm(x*0.013+5,z*0.013)*Math.min(t*0.14,16);}
   h+=Math.max(0,Math.abs(z)-118)*0.22*(0.4+fbm(x*0.02,z*0.02+7));
   h+=24*Math.exp(-(((x-30)**2)/700+((z-44)**2)/180)); return h;}
-// ---- 生成器移植(與 index.html 同邏輯) ----
+// ---- 生成器移植(與 play.html 引擎同邏輯) ----
 function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
   const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
   return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}

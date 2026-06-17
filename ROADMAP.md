@@ -55,14 +55,14 @@
 | 子階段 | 內容 | 狀態 |
 |---|---|---|
 | P5.0 | `tools/editor-server.mjs`(零依賴:save-script/save-subs/save-layer/set-act-music/regen-narration/gates API)+ `tools/fit-durations.mjs`(更新語音自動對齊幕長)+ generate.py 吃 narration/subs.json | ✅ ship |
-| P5.1(=使用者「3」) | index.html 編輯模式(僅 localhost 探測 editor-server 才出現):就地改旁白 → 「更新此幕語音」(edge-tts + 自動調幕長)、SUBS 破音字表、每幕配樂下拉、跑驗收;瀏覽器實測編輯態顯示+純展示隱藏+按鈕串通後端 | ✅ ship |
+| P5.1(=使用者「3」) | play.html 編輯模式(僅 localhost 探測 editor-server 才出現):就地改旁白 → 「更新此幕語音」(edge-tts + 自動調幕長)、SUBS 破音字表、每幕配樂下拉、跑驗收;瀏覽器實測編輯態顯示+純展示隱藏+按鈕串通後端 | ✅ ship |
 | P5.2(=使用者「1」) | 座標編輯:選物件(單位 + 有 id 結構)→ Shift+點地圖 或 填 x/z → 即時移動(U.place / STRUCT.position)→ 存回 units/structures。延伸 Shift picker(加 `__editCoordSink` hook) | ✅ ship |
 | P5.3(=使用者「2」) | 資訊文字就地編輯:本幕 title/era/narr → 即時反映觀看畫面 + 存回 scene | ✅ ship |
 | 未來 | 路徑點(march/set path)拖曳、地形微調編輯 | 待做 |
 
 ## Backlog / 已知待辦
 
-- [ ] **`RZ` 河中線函式是赤壁長江硬編碼**(`index.html` `const RZ=x=>18*sin(...)`):`marker followRiver`
+- [ ] **`RZ` 河中線函式是赤壁長江硬編碼**(`play.html` `const RZ=x=>18*sin(...)`):`marker followRiver`
       只對赤壁正確,他包會把水標放錯位。應改成讀該包 `terrain.json` 河中線插值(需驗證赤壁標籤不位移)。
       暫解:非赤壁包水名直接給 `z`(官渡已改)。
 - [ ] **WDIR 風向常數**仍寫死在引擎(東南風);不阻擋任何 package,之後資料化到 `scene`/`meta`。

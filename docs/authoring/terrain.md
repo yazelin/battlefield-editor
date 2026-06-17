@@ -9,7 +9,7 @@ generator will silently ignore it).
 
 `terrain.json` is **not** a heightmap. It is a small **feature library** that a
 continuous generator (`terrainHeight(x,z)` and `terrainColor(x,z)` in
-`index.html`, mirrored exactly in `tools/terrain-fit.mjs`) reads to produce the
+`play.html`, mirrored exactly in `tools/terrain-fit.mjs`) reads to produce the
 3D heightfield + per-vertex colors on the fly.
 
 The generator walks a `world.segX × world.segZ` grid of vertices. For each

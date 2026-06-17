@@ -95,7 +95,7 @@ else acts.forEach((a, i) => {
   // 鏡頭:director 每幀讀 shots,缺/空會在自動播映時 throw
   if (!Array.isArray(a.shots) || !a.shots.length) errs.push(`${at} 缺 shots(非空陣列)`);
   else a.shots.forEach((sh, j) => {
-    // director 每幀依 kind 解參(index.html director()):缺欄位會在該幀 throw 或靜默凍結鏡頭。
+    // director 每幀依 kind 解參(play.html director()):缺欄位會在該幀 throw 或靜默凍結鏡頭。
     // render-check 只取每幕前段截圖,撞不到後段 shot,所以這些 shape 由 validator 把關。
     const sat = `${at}.shots[${j}]`;
     const num = k => typeof sh[k] === 'number';

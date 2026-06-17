@@ -5,7 +5,7 @@ text-only markers — that the scene builds from your package's `structures.json
 `packages/chibi/structures.json`)。It is the single
 source of truth for every walled city, tent camp, pass, and place label on the battlefield.
 
-No rebuild step is needed: `index.html` fetches the package's `structures.json` at load and builds
+No rebuild step is needed: `play.html` fetches the package's `structures.json` at load and builds
 each structure from its `type`. 路徑相對於該包 manifest 解析。Edit the JSON, reload the page.
 
 ---
@@ -188,13 +188,13 @@ manifest 所在目錄。沒帶 `--pkg` 就驗預設的 chibi 包。
 `PASS [<name>] — ...`。
 
 **Schema 過了不代表畫面對。** 驗證器只查 schema 與跨檔引用,不知道幾何外觀,所以一定要在瀏覽器
-做一次目視檢查:用 `index.html?pkg=<manifest>` 載入你改的那個資料包(預設 chibi 包可直接開
-`index.html`),確認新結構長對、火源/水名標籤位置正確。
+做一次目視檢查:用 `play.html?pkg=<manifest>` 載入你改的那個資料包(預設 chibi 包可直接開
+`play.html`),確認新結構長對、火源/水名標籤位置正確。
 
 **Also confirm the structure is not in water.** The validator does not know about footprints,
 so check that the terrain height stays above 0 (above the waterline) across the structure's
 footprint — sample the center and a ring at the footprint radius (≈13 for a city, ≈11 for a
-camp). Visually: reload `index.html?pkg=<manifest>` and confirm the new structure sits on
+camp). Visually: reload `play.html?pkg=<manifest>` and confirm the new structure sits on
 land, with no walls or tents poking up out of the river.
 
 A quick numeric check is to confirm every existing solid structure already reports a positive

@@ -70,7 +70,7 @@ async function main() {
     page.on('console', m => m.type() === 'error' && errs.push(m.text()));
     page.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
 
-    await page.goto(`${base}/index.html?pkg=${PKG}`, { waitUntil: 'load', timeout: 45000 });
+    await page.goto(`${base}/play.html?pkg=${PKG}`, { waitUntil: 'load', timeout: 45000 });
     await sleep(2500);
     meta = await page.evaluate(() => ({
       title: document.getElementById('brdTitle')?.textContent,
