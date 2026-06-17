@@ -1,0 +1,19 @@
+{
+  "structures": [
+    { "id": "shouyang",  "type": "city", "x": -120, "z": -40,  "label": "壽陽", "labelPos": [-120, -26], "labelClass": "big" },
+    { "id": "luokou",    "type": "city", "x": 235,  "z": 30,   "label": "洛口", "labelPos": [235, 44],   "labelClass": "big" },
+
+    { "id": "qinCamp", "type": "camp", "faction": "qin", "x": -75,  "z": 60 },
+    { "id": "qinFront",  "type": "camp", "faction": "qin", "x": -55,  "z": 130 },
+    { "id": "jinCamp", "type": "camp", "faction": "jin", "x": 95,   "z": 95 },
+
+    { "id": "feiCross", "type": "ferry", "x": 0, "z": 60, "rot": 1.5708, "label": "淝水渡", "labelPos": [18, 50], "labelClass": "water" },
+
+    { "type": "marker", "label": "八公山", "x": -160, "z": 70 },
+    { "type": "marker", "label": "洛澗",   "x": 205,  "z": -90, "labelClass": "water" },
+    { "type": "marker", "label": "淝水",   "x": -14,  "z": -70, "labelClass": "water" },
+    { "type": "marker", "label": "淝水",   "x": 4,    "z": 160, "labelClass": "water" },
+    { "type": "marker", "label": "淮河",   "x": -160, "z": -202, "labelClass": "water" },
+    { "type": "marker", "label": "淮河",   "x": 150,  "z": -214, "labelClass": "water" }
+  ]
+}

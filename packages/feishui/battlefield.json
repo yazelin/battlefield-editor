@@ -1,0 +1,31 @@
+{
+  "name": "淝水之戰 383",
+  "era": "東晉太元八年（西元 383）",
+  "description": "前秦苻堅傾國南下，東晉謝石、謝玄以八萬北府兵拒之於淝水。晉軍請秦稍退決戰，秦軍一退而潰，朱序陣後大呼、苻融戰死；晉軍渡水猛攻，秦軍風聲鶴唳、草木皆兵，百萬之師一戰瓦解。",
+  "engine": "battlefield-editor",
+  "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
+  "pending": [],
+  "meta": {
+    "title": "淝水之戰",
+    "subtitle": "東晉太元八年・西元三八三",
+    "docTitle": "淝水之戰 383 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "晉",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "太元八年",
+    "eraYear": "西元 383 年・淝水",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "東晉太元八年，前秦天王苻堅一統北方，遂傾國南下，步騎號稱百萬，欲混一南北。東晉以謝石為征討大都督、謝玄將北府精兵八萬西上拒秦，兩軍對峙於淝水。<br><br>本節目以 3D 運鏡重現這場以少勝多的決戰：前秦南下、壽陽陷落、洛澗夜襲、隔水對峙、請秦稍退、後退失控、晉軍渡擊、風聲鶴唳——百萬之師如何一戰瓦解。",
+      "footHtml": "兵力為史學估計・標注「史」者見於《晉書》《資治通鑑》，「演義」者出自傳說敷衍"
+    },
+    "finale": {
+      "title": "前秦瓦解",
+      "subtitle": "八萬破百萬・南北分立"
+    },
+    "timeline": {
+      "start": "太元八年 八月 南侵",
+      "mid": "戰 役 時 間 軸",
+      "end": "淝水 大捷"
+    }
+  }
+}

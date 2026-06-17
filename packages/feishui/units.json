@@ -1,0 +1,8 @@
+{ "units": [
+  {"id":"qinMain","kind":"army","faction":"qin","n":64,"name":"苻堅本軍","generals":"苻堅・張蚝・苻方","gait":"foot","start":{"x":-95,"z":-5,"visible":true},"info":["前秦中軍","苻堅自將大軍號稱百萬,先至者三十萬,屯壽陽、列陣淝水之西。"]},
+  {"id":"qinVan","kind":"army","faction":"qin","n":40,"name":"苻融前鋒","generals":"苻融・張蚝","gait":"foot","start":{"x":-50,"z":120,"visible":true},"info":["前秦前鋒","苻融督前鋒據淝水西岸,後撤失控、陣亡於亂軍之中。"]},
+  {"id":"qinLuo","kind":"army","faction":"qin","n":24,"name":"梁成洛澗軍","generals":"梁成・梁雲","gait":"foot","start":{"x":245,"z":-55,"visible":true},"info":["洛澗守軍","梁成將五萬屯洛澗,扼東來之路;劉牢之夜襲,梁成兄弟俱沒。"]},
+  {"id":"jinMain","kind":"army","faction":"jin","n":52,"name":"謝石中軍","generals":"謝石・謝琰・桓伊","gait":"foot","start":{"x":150,"z":80,"visible":true},"info":["東晉中軍","謝石為征討大都督,將八萬北府兵西上,陳於淝水之東。"]},
+  {"id":"jinVan","kind":"army","faction":"jin","n":36,"name":"謝玄前鋒","generals":"謝玄・劉牢之","gait":"foot","start":{"x":110,"z":150,"visible":false},"info":["北府前鋒","謝玄將精銳渡淝水決戰,乘秦軍亂而擊之,一戰而破。"]},
+  {"id":"jinLiu","kind":"army","faction":"jin","n":18,"name":"劉牢之奇兵","generals":"劉牢之（北府精騎）","gait":"cav","start":{"x":260,"z":40,"visible":false},"info":["洛澗奇兵","劉牢之將五千精兵夜渡洛澗,直搗梁成大營,斬將奪旗。"]}
+] }

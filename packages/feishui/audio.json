@@ -1,0 +1,200 @@
+{
+  "music": {
+    "scenes": [
+      "assets/music/scene1.mp3",
+      "assets/music/scene2.mp3",
+      "assets/music/scene3.mp3",
+      "assets/music/scene4.mp3",
+      "assets/music/scene5.mp3",
+      "assets/music/scene6.mp3",
+      "assets/music/scene7.mp3",
+      "assets/music/scene8.mp3"
+    ],
+    "theme": "assets/music/scene8.mp3"
+  },
+  "narration": {
+    "voices": [
+      "yunjhe",
+      "hsiaochen"
+    ],
+    "default": "yunjhe",
+    "voiceLabels": {
+      "yunjhe": "男聲",
+      "hsiaochen": "女聲"
+    },
+    "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
+    "cues": "assets/narration/cues.json"
+  },
+  "sfx": {
+    "dir": "assets/sfx",
+    "files": [
+      "battlecry",
+      "sword1",
+      "sword2",
+      "sword3",
+      "sword4"
+    ]
+  },
+  "cues": {
+    "0": [
+      {
+        "at": 4,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.4
+      },
+      {
+        "at": 14,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.45
+      },
+      {
+        "at": 22,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.4
+      }
+    ],
+    "1": [
+      {
+        "at": 4,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.4
+      },
+      {
+        "at": 12,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.35
+      },
+      {
+        "at": 22,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.35
+      }
+    ],
+    "2": [
+      {
+        "at": 9,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.6
+      },
+      {
+        "at": 11,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.6
+      },
+      {
+        "at": 14,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.5
+      },
+      {
+        "at": 20,
+        "type": "burst",
+        "inst": "drum",
+        "n": 4,
+        "interval": 0.45,
+        "v": 0.5
+      }
+    ],
+    "3": [
+      {
+        "at": 5,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.3
+      },
+      {
+        "at": 22,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.3
+      }
+    ],
+    "4": [
+      {
+        "at": 4,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.3
+      },
+      {
+        "at": 22,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.4
+      }
+    ],
+    "5": [
+      {
+        "at": 9,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.6
+      },
+      {
+        "at": 12,
+        "type": "burst",
+        "inst": "drum",
+        "n": 5,
+        "interval": 0.4,
+        "v": 0.6
+      },
+      {
+        "at": 15,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.5
+      }
+    ],
+    "6": [
+      {
+        "at": 8,
+        "type": "burst",
+        "inst": "drum",
+        "n": 6,
+        "interval": 0.4,
+        "v": 0.65
+      },
+      {
+        "at": 11,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.6
+      },
+      {
+        "at": 16,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.55
+      }
+    ],
+    "7": [
+      {
+        "at": 7,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.5
+      },
+      {
+        "at": 14,
+        "type": "synth",
+        "inst": "drum",
+        "v": 0.4
+      },
+      {
+        "at": 24,
+        "type": "synth",
+        "inst": "boom",
+        "v": 0.45
+      }
+    ]
+  }
+}

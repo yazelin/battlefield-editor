@@ -1,0 +1,4 @@
+{
+  "qin": { "name": "秦軍", "flag": "秦", "css": "qin", "col": "#c9a227", "dark": "#7a6012", "light": "#ecd383", "panel": "前秦軍", "legend": "前秦（苻堅）" },
+  "jin": { "name": "晉軍", "flag": "晉", "css": "jin", "col": "#2f8f8c", "dark": "#16524f", "light": "#8bd6d2", "panel": "東晉軍", "legend": "東晉（謝玄）" }
+}

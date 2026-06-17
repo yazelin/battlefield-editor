@@ -10,6 +10,7 @@
   - `chibi`(赤壁):9 幕 + 旁白語音 + 音樂 + 音效。
   - `guandu`(官渡):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂。
   - `gaixia`(垓下):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂;含烏江 ferry、淮河/長江雙河。
+  - `feishui`(淝水):8 幕 + 旁白語音(雙聲 + 字幕)+ 配樂 + 音效;**由零 context agent 照 SKILL 自動編成**(dogfood 驗證樣本),配樂/音效用音樂庫/音效庫指派。
 - `tools/validate-data.mjs --pkg <manifest>` 對兩包皆 PASS(含跨檔引用檢查)。
 - 素材路徑改為「相對 manifest 目錄」解析(`assetUrl`),每份 package 自足擁有 `assets/`。
 
