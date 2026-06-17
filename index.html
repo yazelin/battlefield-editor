@@ -475,6 +475,19 @@ body.editing #side{display:none}
     <button id="epSaveSubs">存 SUBS</button>
     <button id="epGates">跑驗收</button>
   </div>
+  <div class="ep-act">座標(選物件 → 開「點圖設位置」→ Shift+點地圖,或填 x/z)</div>
+  <select id="epObj"></select>
+  <div class="ep-row"><input id="epX" type="number" placeholder="x"><input id="epZ" type="number" placeholder="z"></div>
+  <div>
+    <button id="epPick">點圖設位置:關</button>
+    <button id="epApply">套用(預覽)</button>
+    <button id="epSaveXY">存座標</button>
+  </div>
+  <div class="ep-act">資訊文字(本幕)</div>
+  <input id="epTitle" placeholder="幕標題">
+  <input id="epEra" placeholder="年號 / era" style="margin-top:4px">
+  <textarea id="epInfo" style="height:58px;margin-top:4px" placeholder="情報面板敘述(scene.narr)"></textarea>
+  <button id="epSaveText">存文字</button>
   <div class="ep-status" id="epStatus">就緒。</div>
 </div>
 
@@ -1827,6 +1840,7 @@ function pickCoord(e){
   ray.setFromCamera(mouse,camera);
   if(!ray.ray.intersectPlane(PICK_PLANE,_pickPt))return;
   const x=Math.round(_pickPt.x),z=Math.round(_pickPt.z);
+  if(window.__editCoordSink){window.__editCoordSink(x,z);pickHud.textContent=`設位置 [${x}, ${z}]`;pickHud.style.opacity='1';clearTimeout(pickHud._t);pickHud._t=setTimeout(()=>pickHud.style.opacity='0',2500);return;}
   pickHud.textContent=`座標 [${x}, ${z}]　已複製`;pickHud.style.opacity='1';
   clearTimeout(pickHud._t);pickHud._t=setTimeout(()=>pickHud.style.opacity='0',2500);
   if(navigator.clipboard)navigator.clipboard.writeText(`[${x}, ${z}]`).catch(()=>{});
@@ -1992,6 +2006,40 @@ loop();
   $('epSaveSubs').onclick=async()=>{ let subs; try{ subs=JSON.parse($('epSubs').value||'{}'); }catch{ return st('✗ SUBS 不是合法 JSON'); }
     const r=await post('/api/save-subs',{subs}); st(r.ok?'✓ SUBS 已存(下次更新語音生效)':'✗ '+r.err); };
   $('epGates').onclick=async()=>{ st('驗收中…'); const r=await post('/api/gates',{}); st(`${r.validate}\n${r.audio}`); };
+
+  /* ── 座標編輯(單位 + 有 id 的結構;即時預覽 + 寫回)── */
+  const objList=()=>[
+    ...UNITS.units.map(u=>({k:'u:'+u.id,t:`單位 ${u.id}${u.name?' '+u.name:''}`})),
+    ...STRUCT_DATA.structures.filter(s=>s.id&&STRUCT[s.id]).map(s=>({k:'s:'+s.id,t:`${s.type} ${s.label||s.id}`}))];
+  $('epObj').innerHTML=objList().map(o=>`<option value="${o.k}">${o.t}</option>`).join('');
+  const curObj=()=>{ const v=$('epObj').value||''; return {k:v.slice(0,1),id:v.slice(2)}; };
+  const fillXY=()=>{ const {k,id}=curObj();
+    if(k==='u'){ const u=UNITS.units.find(x=>x.id===id),s=(u&&u.start)||{}; $('epX').value=s.x??0; $('epZ').value=s.z??0; }
+    else { const s=STRUCT_DATA.structures.find(x=>x.id===id); $('epX').value=s?.x??0; $('epZ').value=s?.z??0; } };
+  $('epObj').onchange=fillXY; fillXY();
+  const gy=(x,z)=>typeof ground==='function'?Math.max(ground(x,z),0):0;
+  const applyXY=()=>{ const {k,id}=curObj(),x=+$('epX').value,z=+$('epZ').value;
+    if(k==='u'){ const u=UNITS.units.find(o=>o.id===id); if(u){u.start=u.start||{};u.start.x=x;u.start.z=z;} if(U[id]&&U[id].place)U[id].place(x,z); }
+    else { const s=STRUCT_DATA.structures.find(o=>o.id===id); if(s){s.x=x;s.z=z;} if(STRUCT[id])STRUCT[id].position.set(x,gy(x,z),z); }
+    st(`✓ ${id} → [${x}, ${z}](預覽;按存座標寫回)`); };
+  $('epApply').onclick=applyXY;
+  let pickOn=false;
+  $('epPick').onclick=()=>{ pickOn=!pickOn; $('epPick').textContent='點圖設位置:'+(pickOn?'開':'關');
+    window.__editCoordSink=pickOn?((x,z)=>{$('epX').value=x;$('epZ').value=z;applyXY();}):null; };
+  $('epSaveXY').onclick=async()=>{ st('存座標…');
+    const a=await post('/api/save-layer',{layer:PKG.data.units,data:UNITS});
+    const b=await post('/api/save-layer',{layer:PKG.data.structures,data:STRUCT_DATA});
+    st(a.ok&&b.ok?'✓ 座標已寫回 units/structures':'✗ '+(a.err||b.err)); };
+
+  /* ── 資訊文字(本幕 title/era/narr)── */
+  let shownT=-1;
+  const syncT=()=>{ const i=phase<0?0:phase; if(i===shownT)return; shownT=i; const a=PHASES[i]||{};
+    $('epTitle').value=a.title||''; $('epEra').value=a.era||''; $('epInfo').value=a.narr||''; };
+  setInterval(syncT,400); syncT();
+  $('epSaveText').onclick=async()=>{ const i=shownT<0?0:shownT,a=PHASES[i]; if(!a)return;
+    a.title=$('epTitle').value; a.era=$('epEra').value; a.narr=$('epInfo').value;
+    if(phase===i){ const pt=document.getElementById('phTitle'); if(pt)pt.textContent=a.title; const pn=document.getElementById('phNarr'); if(pn)pn.textContent=a.narr; }
+    const r=await post('/api/save-layer',{layer:PKG.data.scene,data:SCENE}); st(r.ok?'✓ 文字已寫回 scene':'✗ '+r.err); };
 })();
 </script>
 </body>

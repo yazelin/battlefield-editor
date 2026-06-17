@@ -99,9 +99,14 @@ node tools/editor-server.mjs          # http://localhost:8090
 ```
 
 只有經 editor-server 開(localhost)才出現編輯面板;純展示 / Pages 不顯示、也不探測。
-目前(Phase 3)可:就地改每幕**旁白** → 按「更新此幕語音」跑 edge-tts 並**自動對齊幕長**
-(雙聲變長變短都調)、維護**破音字 SUBS**、每幕**背景音樂**下拉(音樂庫)、一鍵**跑驗收**。
-所有編輯寫回 package 資料檔,仍過四道機器關。座標拖曳、資訊文字編輯為後續階段
+編輯面板可:
+- **旁白**:就地改每幕旁白 → 「更新此幕語音」跑 edge-tts 並**自動對齊幕長**(雙聲變長變短都調)、維護**破音字 SUBS**。
+- **背景音樂**:每幕下拉從音樂庫挑(74 首)。
+- **座標**:選物件(單位 / 有 id 結構)→ Shift+點地圖 或 填 x/z → **即時移動** → 存回 units/structures。
+- **資訊文字**:本幕 title/era/敘述就地改 → 即時反映畫面 → 存回 scene。
+- 一鍵**跑驗收**(validate + audio-check)。
+
+所有編輯寫回 package 資料檔、仍過四道機器關。路徑點拖曳與地形微調為後續
 (設計見 [`docs/editor-mode-design.md`](docs/editor-mode-design.md))。
 
 ## 資料六層
