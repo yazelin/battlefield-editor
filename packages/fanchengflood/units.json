@@ -1,0 +1,94 @@
+{
+  "units": [
+    {
+      "id": "guanArmy",
+      "kind": "army",
+      "faction": "guan",
+      "n": 90,
+      "name": "關羽本隊",
+      "generals": "關羽・關平",
+      "gait": "foot",
+      "start": {
+        "x": 62,
+        "z": -86,
+        "visible": true
+      },
+      "info": [
+        "荊州主力,自南圍樊城襄陽",
+        "關羽率荊州兵自江陵北上,水陸並進,圍曹仁於樊城、圍呂常於襄陽。"
+      ]
+    },
+    {
+      "id": "weiArmy",
+      "kind": "army",
+      "faction": "wei",
+      "n": 160,
+      "name": "于禁七軍",
+      "generals": "于禁・龐德",
+      "gait": "foot",
+      "start": {
+        "x": -113,
+        "z": -200,
+        "visible": true
+      },
+      "info": [
+        "曹操所遣援樊七軍",
+        "于禁自宛城督七軍南下救樊城,屯於城西北低地;龐德為先鋒。"
+      ]
+    },
+    {
+      "id": "guanFleet",
+      "kind": "fleet",
+      "faction": "guan",
+      "n": 18,
+      "name": "關羽水軍樓船",
+      "generals": "荊州水師",
+      "start": {
+        "x": 253,
+        "z": 152,
+        "visible": false,
+        "formation": "loose"
+      },
+      "info": [
+        "荊州大船,乘水而戰",
+        "關羽素治荊州水軍,洪水大至,乘大船順流圍攻沒頂的七軍,魏軍無所逃避。"
+      ]
+    },
+    {
+      "id": "weiVanguard",
+      "kind": "army",
+      "faction": "wei",
+      "n": 30,
+      "name": "龐德先鋒",
+      "generals": "龐德",
+      "gait": "foot",
+      "start": {
+        "x": -92,
+        "z": -136,
+        "visible": true
+      },
+      "info": [
+        "于禁前鋒・白馬將軍",
+        "龐德常乘白馬,羽軍呼為白馬將軍;抬櫬決死出戰,曾親與關羽交鋒,一箭射中關羽前額。"
+      ]
+    },
+    {
+      "id": "weiXuhuang",
+      "kind": "army",
+      "faction": "wei",
+      "n": 80,
+      "name": "徐晃援軍",
+      "generals": "徐晃",
+      "gait": "foot",
+      "start": {
+        "x": -46,
+        "z": -231,
+        "visible": false
+      },
+      "info": [
+        "曹操後遣之援樊軍",
+        "徐晃自宛城經偃城南下,聲東擊西,破關羽於樊城外的圍頭、四冢屯,樊圍遂解。"
+      ]
+    }
+  ]
+}

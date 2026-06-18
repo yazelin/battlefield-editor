@@ -1,0 +1,42 @@
+{
+  "name": "水淹七軍 219",
+  "era": "東漢建安二十四年(219)",
+  "description": "襄樊之役——關羽趁漢水暴漲水淹于禁七軍,擒于禁、斬龐德,威震華夏",
+  "engine": "battlefield-editor",
+  "data": {
+    "factions": "factions.json",
+    "terrain": "terrain.json",
+    "structures": "structures.json",
+    "scene": "scene.json",
+    "audio": "audio.json",
+    "units": "units.json"
+  },
+  "pending": [],
+  "meta": {
+    "tags": [
+      "三國",
+      "水攻",
+      "圍城"
+    ],
+    "title": "水淹七軍",
+    "subtitle": "建安二十四年・西元二一九",
+    "docTitle": "水淹七軍 219 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "水",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "建安二十四年",
+    "eraYear": "西元 219 年・襄樊漢水",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "建安二十四年,關羽自江陵北上,圍曹仁於樊城。曹操遣于禁督七軍救援,屯於城西北低地;先鋒龐德抬櫬決死,一箭射中關羽前額。八月霖雨,漢水暴溢——一夜洪流,七軍盡沒,關羽乘大船而至,擒于禁、斬龐德,威震華夏。然而盟友孫權背盟,遣呂蒙白衣渡江、抄襲關羽後方荊州,徐晃又自北解圍——盛極而衰,荊州危局已成。<br><br>本節目以 3D 運鏡重現襄樊全程:屯營、決戰、水淹、解圍。"
+    },
+    "finale": {
+      "title": "盛極而衰",
+      "subtitle": "威震華夏一時・荊州危局已成"
+    },
+    "timeline": {
+      "start": "建安二十四年 秋七月",
+      "mid": "戰 役 時 間 軸",
+      "end": "建安二十四年 冬"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "music": {
+    "scenes": [
+      "assets/music/scene1.mp3",
+      "assets/music/scene2.mp3",
+      "assets/music/scene3.mp3",
+      "assets/music/scene4.mp3",
+      "assets/music/scene5.mp3",
+      "assets/music/scene6.mp3",
+      "assets/music/scene7.mp3"
+    ],
+    "theme": "assets/music/scene7.mp3"
+  },
+  "narration": {
+    "voices": [
+      "yunjhe",
+      "hsiaochen"
+    ],
+    "default": "yunjhe",
+    "voiceLabels": {
+      "yunjhe": "男聲",
+      "hsiaochen": "女聲"
+    },
+    "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
+    "cues": "assets/narration/cues.json"
+  },
+  "sfx": {
+    "dir": "assets/sfx",
+    "files": []
+  },
+  "cues": {}
+}

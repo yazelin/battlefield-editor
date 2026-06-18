@@ -82,7 +82,7 @@ else UNITS.forEach((u, i) => {
 });
 
 // ── scene(逐幕 + 跨檔交叉引用)──
-const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire'];
+const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire', 'flood'];
 const SET_RESERVED = ['chains', 'wind'];
 const isUnit = id => UNIT_IDS.has(id), isStruct = id => STRUCT_IDS.has(id);
 const SCENE = readAbs(layer(BF.data.scene));
@@ -126,6 +126,7 @@ else acts.forEach((a, i) => {
     if (!FX_TYPES.includes(e.type)) errs.push(`${at}.fx[${j}] type 非法: ${e.type}`);
     if (e.type === 'ignite' && !isUnit(e.unit)) errs.push(`${at}.fx[${j}] ignite unit 不存在: ${e.unit}`);
     if (e.type === 'campFire' && !isStruct(e.camp)) errs.push(`${at}.fx[${j}] campFire camp 不存在: ${e.camp}`);
+    if (e.type === 'flood' && typeof e.to !== 'number') errs.push(`${at}.fx[${j}] flood 缺 to(水面目標高度，數值)`);
   });
 });
 

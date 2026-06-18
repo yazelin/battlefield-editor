@@ -11,6 +11,7 @@
   - `guandu`(官渡):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂。
   - `gaixia`(垓下):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂;含烏江 ferry、淮河/長江雙河。
   - `feishui`(淝水):8 幕 + 旁白語音(雙聲 + 字幕)+ 配樂 + 音效;**由零 context agent 照 SKILL 自動編成**(dogfood 驗證樣本),配樂/音效用音樂庫/音效庫指派。
+  - `fanchengflood`(水淹七軍 219):7 幕 + 旁白語音(雙聲)+ 配樂;**新 `flood` 水攻特效**(水面動畫上升/退去、船隨水浮、Gaussian 盆地)。完整襄樊弧線:圍城→龐德射額決戰→秋雨→水淹七軍→于禁降龐德死→威震華夏(巔峰)→徐晃解圍+呂蒙襲荊州(盛極而衰)。**待補:戰鬥音效、旁白發音人耳校**。
 - `tools/validate-data.mjs --pkg <manifest>` 對兩包皆 PASS(含跨檔引用檢查)。
 - 素材路徑改為「相對 manifest 目錄」解析(`assetUrl`),每份 package 自足擁有 `assets/`。
 
@@ -58,7 +59,8 @@
 | P5.1(=使用者「3」) | play.html 編輯模式(僅 localhost 探測 editor-server 才出現):就地改旁白 → 「更新此幕語音」(edge-tts + 自動調幕長)、SUBS 破音字表、每幕配樂下拉、跑驗收;瀏覽器實測編輯態顯示+純展示隱藏+按鈕串通後端 | ✅ ship |
 | P5.2(=使用者「1」) | 座標編輯:選物件(單位 + 有 id 結構)→ Shift+點地圖 或 填 x/z → 即時移動(U.place / STRUCT.position)→ 存回 units/structures。延伸 Shift picker(加 `__editCoordSink` hook) | ✅ ship |
 | P5.3(=使用者「2」) | 資訊文字就地編輯:本幕 title/era/narr → 即時反映觀看畫面 + 存回 scene | ✅ ship |
-| 未來 | 路徑點(march/set path)拖曳、地形微調編輯 | 待做 |
+| P5.4 | **水攻調校閉環 + 全面編輯**:💧水位預覽滑桿、⛰️地形高斯 bump 即時挖塑(buildTerrain 重建)、🚩路徑 v2(出生點=綠色第0點可拖、軍隊箭頭同步)、**地圖直接拖曳**(路徑點/城營/單位)、⚔️部隊屬性(名稱/將領/數量/兵種/說明)、🚩陣營(旗/顏色)、面板收成分頁(地圖/單位/內容/驗收)、切幕放該幕旁白;fetch 加 res.ok 防 404 parse | ✅ ship |
+| 未來 | 路徑曲線/march 箭頭獨立編輯、每場獨立 OG/SEO 殼 | 待做 |
 
 ## Backlog / 已知待辦
 
