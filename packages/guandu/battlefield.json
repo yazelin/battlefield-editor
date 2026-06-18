@@ -6,6 +6,7 @@
   "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
   "pending": [],
   "meta": {
+    "tags": ["三國", "火攻", "以寡擊眾"],
     "title": "官渡之戰",
     "subtitle": "建安五年・西元二〇〇",
     "docTitle": "官渡之戰 200 — 全 3D 戰場重現｜歷史特別節目",

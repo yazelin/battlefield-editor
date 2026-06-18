@@ -40,7 +40,13 @@ a.card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 14
 .cname{font-weight:700;font-size:23px;letter-spacing:3px;margin:2px 0 6px;padding-right:46px}
 .cera{font-size:11.5px;letter-spacing:2px;color:var(--gold-dim);margin-bottom:12px}
 .cdesc{font-size:12.5px;line-height:1.8;color:var(--paper-dim);font-weight:300;min-height:66px}
+.ctags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ctag{font-size:10.5px;letter-spacing:1px;color:var(--gold-dim);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
 .cgo{margin-top:14px;font-size:12px;letter-spacing:2px;color:var(--gold)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 24px}
+.chip{font-family:inherit;font-size:12px;letter-spacing:1px;color:var(--paper-dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 14px;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+.chip:hover{color:var(--paper);border-color:var(--gold-dim)}
+.chip.on{color:var(--bg);background:var(--gold);border-color:var(--gold);font-weight:700}
 footer{margin-top:48px;text-align:center;color:var(--paper-dim);font-size:12px;line-height:2;letter-spacing:1px}
 footer code{background:rgba(201,162,77,.1);border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--paper);font-family:ui-monospace,monospace;font-size:11.5px}
 footer a{color:var(--gold)}
@@ -67,6 +73,7 @@ details.guide[open] summary::before{content:"▾　"}
     <h1>AI 戰場編輯器</h1>
     <div class="sub">每一場戰役都是一份資料 package,引擎只負責演出。換一份資料,就換一場戰役。<br>挑一場觀看 —— 不只赤壁,還有官渡、垓下、淝水。本機亦可編輯。</div>
   </header>
+  <div class="filters" id="filters"></div>
   <div class="grid" id="grid"><div class="loading">載 入 戰 役 列 表 ⋯</div></div>
   <details class="guide">
     <summary>如何使用戰場編輯器(自己編一場、加旁白與配樂)</summary>
@@ -137,6 +144,7 @@ node tools/assign-sfx.mjs   &lt;slug&gt; battlecry sword1 ...   # 指派音效</
 <script>
 (async () => {
   const grid = document.getElementById('grid');
+  const filters = document.getElementById('filters');
   let slugs = [];
   try { slugs = await (await fetch('packages/index.json')).json(); }
   catch { grid.innerHTML = '<div class="loading">找不到 packages/index.json</div>'; return; }
@@ -145,19 +153,33 @@ node tools/assign-sfx.mjs   &lt;slug&gt; battlecry sword1 ...   # 指派音效</
       const m = await (await fetch(`packages/${slug}/battlefield.json`)).json();
       const meta = m.meta || {};
       return { slug, name: meta.title || m.name || slug, era: meta.eraYear || m.era || '',
-        desc: m.description || '', seal: meta.seal || (meta.title || m.name || slug).slice(0, 1) };
+        desc: m.description || '', seal: meta.seal || (meta.title || m.name || slug).slice(0, 1),
+        tags: Array.isArray(meta.tags) ? meta.tags : [] };
     } catch { return null; }
   }));
   const live = cards.filter(Boolean);
   if (!live.length) { grid.innerHTML = '<div class="loading">尚無可載入的戰役</div>'; return; }
+  const allTags = [...new Set(live.flatMap(c => c.tags))];
+  filters.innerHTML = `<button class="chip on" data-tag="">全部</button>` +
+    allTags.map(t => `<button class="chip" data-tag="${t}">${t}</button>`).join('');
   grid.innerHTML = live.map(c => `
-    <a class="card" href="play.html?pkg=packages/${c.slug}/battlefield.json">
+    <a class="card" data-tags="${c.tags.join('|')}" href="play.html?pkg=packages/${c.slug}/battlefield.json">
       <div class="seal">${c.seal}</div>
       <div class="cname">${c.name}</div>
       <div class="cera">${c.era}</div>
       <div class="cdesc">${c.desc}</div>
+      ${c.tags.length ? `<div class="ctags">${c.tags.map(t => `<span class="ctag">${t}</span>`).join('')}</div>` : ''}
       <div class="cgo">進入戰役 →</div>
     </a>`).join('');
+  filters.addEventListener('click', e => {
+    const btn = e.target.closest('.chip'); if (!btn) return;
+    filters.querySelectorAll('.chip').forEach(b => b.classList.toggle('on', b === btn));
+    const tag = btn.dataset.tag;
+    grid.querySelectorAll('.card').forEach(card => {
+      const tags = card.dataset.tags ? card.dataset.tags.split('|') : [];
+      card.style.display = (!tag || tags.includes(tag)) ? '' : 'none';
+    });
+  });
 })();
 </script>
 </body>

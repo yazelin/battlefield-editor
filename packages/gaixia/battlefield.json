@@ -6,6 +6,7 @@
   "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
   "pending": [],
   "meta": {
+    "tags": ["楚漢", "圍城"],
     "title": "垓下之戰",
     "subtitle": "漢五年・西元前二〇二",
     "docTitle": "垓下之戰 前202 — 全 3D 戰場重現｜歷史特別節目",
