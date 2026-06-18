@@ -930,6 +930,18 @@ const windMat=new THREE.LineBasicMaterial({color:0x9fd8d8,transparent:true,opaci
 const windLines=new THREE.LineSegments(windGeo,windMat);windLines.frustumCulled=false;scene.add(windLines);
 const WDIR=V3(-0.78,0,-0.63).normalize();    // 東南風 → 吹向西北
 
+/* ════════ rain 大雨/霖雨(set.rain 控制,0..1;落下的雨絲)════════ */
+const RAIN_N=700;
+let rainTarget=0,rainCur=0;
+const RAIN_SLANT=2.4;                         // 風吹的斜度
+const rainGeo=new THREE.BufferGeometry();
+const rainPos=new Float32Array(RAIN_N*6);
+const rainDat=[];
+for(let i=0;i<RAIN_N;i++)rainDat.push({x:(Math.random()-.5)*660,y:Math.random()*95,z:(Math.random()-.5)*480,v:120+Math.random()*95});
+rainGeo.setAttribute('position',new THREE.BufferAttribute(rainPos,3));
+const rainMat=new THREE.LineBasicMaterial({color:0xbcc8d6,transparent:true,opacity:0});
+const rainLines=new THREE.LineSegments(rainGeo,rainMat);rainLines.frustumCulled=false;scene.add(rainLines);
+
 /* ════════ arrows (volleys) ════════ */
 function arrowPool(fire){
   const g=new THREE.ConeGeometry(.22,3.2,4);g.rotateX(Math.PI/2);
@@ -1748,6 +1760,7 @@ function applySet(s,inst){
     const d=s[id];
     if(id==='chains'){chainsOn=d;continue;}
     if(id==='wind'){windTarget=d?1:0;continue;}
+    if(id==='rain'){rainTarget=(typeof d==='number')?d:(d?1:0);continue;}
     // 結構(城/營/隘):可見性 + 火源 fire/smoke 控制
     if(STRUCT[id]){
       if(d&&typeof d==='object'){
@@ -1792,7 +1805,7 @@ function gotoPhase(i,viaScrub=false){
         if(s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0xd9cdab);});
       u.state='normal';if(u.setFormation)u.setFormation('loose');
     }
-    windTarget=0;chainsOn=false;
+    windTarget=0;rainTarget=0;chainsOn=false;
     initPlace();
     for(let k=0;k<i;k++){applySet(PHASES[k].set,true);applySet(PHASES[k].scrubSet,true);}
     // water level: 從基準起,把先前各幕的 flood fx 直接跳到位(scrub 才正確)
@@ -2033,6 +2046,20 @@ function loop(){
       windPos[i*6+3]=w.x-WDIR.x*L;windPos[i*6+4]=w.y;windPos[i*6+5]=w.z-WDIR.z*L;
     }
     windGeo.attributes.position.needsUpdate=true;
+  }
+  // rain
+  rainCur=lerp(rainCur,rainTarget,dt*1.1);
+  rainMat.opacity=rainCur*0.42;
+  if(rainCur>0.02){
+    for(let i=0;i<RAIN_N;i++){
+      const r=rainDat[i];
+      r.y-=r.v*rdt; r.x+=RAIN_SLANT*rdt*7;
+      if(r.y<0){r.y=72+Math.random()*28;r.x=(Math.random()-.5)*660;r.z=(Math.random()-.5)*480;}
+      const len=5+r.v*0.03;
+      rainPos[i*6]=r.x;rainPos[i*6+1]=r.y;rainPos[i*6+2]=r.z;
+      rainPos[i*6+3]=r.x-RAIN_SLANT;rainPos[i*6+4]=r.y-len;rainPos[i*6+5]=r.z;
+    }
+    rainGeo.attributes.position.needsUpdate=true;
   }
   // volleys
   updateVolleys();

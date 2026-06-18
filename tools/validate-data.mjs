@@ -83,7 +83,7 @@ else UNITS.forEach((u, i) => {
 
 // ── scene(逐幕 + 跨檔交叉引用)──
 const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire', 'flood'];
-const SET_RESERVED = ['chains', 'wind'];
+const SET_RESERVED = ['chains', 'wind', 'rain'];
 const isUnit = id => UNIT_IDS.has(id), isStruct = id => STRUCT_IDS.has(id);
 const SCENE = readAbs(layer(BF.data.scene));
 const acts = SCENE.acts;
