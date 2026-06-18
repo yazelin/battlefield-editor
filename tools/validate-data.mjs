@@ -129,6 +129,8 @@ else acts.forEach((a, i) => {
     if (e.type === 'flood' && typeof e.to !== 'number') errs.push(`${at}.fx[${j}] flood 缺 to(水面目標高度，數值)`);
     if (e.type === 'flood' && e.region !== undefined && !(Array.isArray(e.region) && e.region.length === 4 && e.region.every(n => typeof n === 'number')))
       errs.push(`${at}.fx[${j}] flood region 需為 4 數字 [中心x, 中心z, 半徑x, 半徑z](省略=全域)`);
+    if (e.type === 'flood' && e.from !== undefined && !(Array.isArray(e.from) && e.from.length === 2 && e.from.every(n => typeof n === 'number')))
+      errs.push(`${at}.fx[${j}] flood from 需為 2 數字 [決堤口x, z](水鋒起點,需配合 region;省略=整區一起漲)`);
   });
 });
 

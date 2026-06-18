@@ -492,6 +492,7 @@ body.editing #side{right:320px}   /* 編輯面板在右,把羅盤/圖例移到�
     <div class="ep-row" style="display:flex;gap:6px"><input id="epFloodAt" type="number" placeholder="第幾秒起" style="flex:1"><input id="epFloodDur" type="number" placeholder="漲幾秒" style="flex:1"></div>
     <div class="ep-row" style="display:flex;gap:6px;align-items:center"><span style="width:50px;color:#b9b08c">範圍</span><input id="epFloodCx" type="number" placeholder="中心x" style="flex:1"><input id="epFloodCz" type="number" placeholder="中心z" style="flex:1"></div>
     <div class="ep-row" style="display:flex;gap:6px"><input id="epFloodRx" type="number" placeholder="半徑x(空=全域)" style="flex:1"><input id="epFloodRz" type="number" placeholder="半徑z" style="flex:1"><button id="epFloodCtr">點圖設中心:關</button></div>
+    <div class="ep-row" style="display:flex;gap:6px;align-items:center"><span style="width:50px;color:#b9b08c">決堤口</span><input id="epFloodFx" type="number" placeholder="水鋒起點x(空=不推進)" style="flex:1"><input id="epFloodFz" type="number" placeholder="z" style="flex:1"><button id="epFloodBreach">點圖設決堤口:關</button></div>
     <div><button id="epFloodSet">設本幕洪水</button><button id="epFloodClr">清除</button><button id="epFloodSave">存洪水</button></div>
     <div class="ep-act">地形・高斯凹凸 ⛰️(挖盆地 / 隆丘;搭配水位滑桿用)</div>
     <select id="epBump"></select>
@@ -1833,7 +1834,9 @@ function dispatchFx(e){
     case 'ignite': if(U[e.unit])U[e.unit].setState('burn'); if(e.shake)shake(e.shake); break;
     case 'shake':  shake(e.mag); break;
     case 'campFire': { const fe=fireEmitters[e.camp]; if(fe)fe.target=1; break; }
-    case 'flood': floodAnim={from:waterU.uFloodY.value,to:e.to,start:T,dur:e.dur||6}; if(e.region)waterU.uReg.value.set(e.region[0],e.region[1],e.region[2],e.region[3]); break;
+    case 'flood': floodAnim={from:waterU.uFloodY.value,to:e.to,start:T,dur:e.dur||6};
+      if(e.region){ if(e.from){ floodAnim.reg0=[e.from[0],e.from[1],12,12]; floodAnim.reg1=e.region.slice(); waterU.uReg.value.set(e.from[0],e.from[1],12,12); }   // 帶 from=決堤口:region 從小水窪長成全區(水鋒推進)
+        else waterU.uReg.value.set(e.region[0],e.region[1],e.region[2],e.region[3]); } break;
   }
 }
 function gotoPhase(i,viaScrub=false){
@@ -2110,6 +2113,8 @@ function loop(){
   waterU.uT.value=T;
   if(floodAnim){const p=Math.min(1,(T-floodAnim.start)/floodAnim.dur);
     waterU.uFloodY.value=floodAnim.from+(floodAnim.to-floodAnim.from)*p;
+    if(floodAnim.reg0){const a=floodAnim.reg0,b=floodAnim.reg1,pf=Math.min(1,p*1.6);   // 招1:水鋒(範圍)比水位快,先漫到城、水位在後面才漲上來
+      waterU.uReg.value.set(a[0]+(b[0]-a[0])*pf,a[1]+(b[1]-a[1])*pf,a[2]+(b[2]-a[2])*pf,a[3]+(b[3]-a[3])*pf);}
     if(p>=1)floodAnim=null;}
   if(editWater!==null)waterU.uFloodY.value=editWater;   // 編輯預覽覆蓋(只動水位;區域由 flood 控制項設)
   // march arrow chevrons
@@ -2168,23 +2173,27 @@ loop();
   /* ── 本幕洪水 fx(type:flood):漲到/起時/時長 +(可選)區域橢圓;即時水位+區域預覽,寫回 scene ── */
   const floodAct=()=>SCENE.acts[phase<0?0:phase];
   const floodFx=()=>{ const a=floodAct(); return (a.fx||[]).find(f=>f.type==='flood'); };
-  let floodShown=-2, fcPick=false;
+  let floodShown=-2, fcPick=false, bcPick=false;
   const floodReg=()=>{ const rx=parseFloat($('epFloodRx').value), rz=parseFloat($('epFloodRz').value);   // 半徑都有才算區域,否則全域
     if(rx>0&&rz>0)return [parseFloat($('epFloodCx').value)||0, parseFloat($('epFloodCz').value)||0, rx, rz]; return null; };
   const applyRegPreview=()=>{ const r=floodReg(); if(r)waterU.uReg.value.set(r[0],r[1],r[2],r[3]); else waterU.uReg.value.set(0,0,1e4,1e4); };
   const fillFlood=()=>{ const f=floodFx(), to=f?f.to:0, rg=f&&f.region;
     $('epFloodTo').value=to; $('epFloodToV').textContent=(+to).toFixed(1);
     $('epFloodAt').value=f?(f.at??2):2; $('epFloodDur').value=f?(f.dur??10):10;
-    $('epFloodCx').value=rg?rg[0]:''; $('epFloodCz').value=rg?rg[1]:''; $('epFloodRx').value=rg?rg[2]:''; $('epFloodRz').value=rg?rg[3]:''; };
+    $('epFloodCx').value=rg?rg[0]:''; $('epFloodCz').value=rg?rg[1]:''; $('epFloodRx').value=rg?rg[2]:''; $('epFloodRz').value=rg?rg[3]:'';
+    const fm=f&&f.from; $('epFloodFx').value=fm?fm[0]:''; $('epFloodFz').value=fm?fm[1]:''; };
   const showWater=v=>{ editWater=v; applyRegPreview(); $('epWater').value=v; $('epWaterV').textContent=v<=0.06?'靜止':v.toFixed(2)+'m'; };
   $('epFloodTo').oninput=()=>{ const v=parseFloat($('epFloodTo').value); $('epFloodToV').textContent=v.toFixed(1); showWater(v); };
   for(const id of ['epFloodCx','epFloodCz','epFloodRx','epFloodRz']) $(id).oninput=()=>showWater(parseFloat($('epFloodTo').value)||0.05);   // 改範圍即時預覽
   $('epFloodCtr').onclick=()=>{ const on=!fcPick; offOtherPicks(); fcPick=on; $('epFloodCtr').textContent='點圖設中心:'+(fcPick?'開':'關');
     window.__editCoordSink=fcPick?((x,z)=>{ $('epFloodCx').value=x; $('epFloodCz').value=z; showWater(parseFloat($('epFloodTo').value)||0.05); st(`💧 範圍中心 [${x},${z}]`); }):null; };
+  $('epFloodBreach').onclick=()=>{ const on=!bcPick; offOtherPicks(); bcPick=on; $('epFloodBreach').textContent='點圖設決堤口:'+(bcPick?'開':'關');
+    window.__editCoordSink=bcPick?((x,z)=>{ $('epFloodFx').value=x; $('epFloodFz').value=z; st(`💧 決堤口 [${x},${z}](水鋒起點;需配合範圍)`); }):null; };
   $('epFloodSet').onclick=()=>{ const a=floodAct(),i=phase<0?0:phase; a.fx=(a.fx||[]).filter(f=>f.type!=='flood');
     const to=parseFloat($('epFloodTo').value)||0, at=parseFloat($('epFloodAt').value)||2, dur=parseFloat($('epFloodDur').value)||10, rg=floodReg();
-    const fx={at,type:'flood',to,dur}; if(rg)fx.region=rg; a.fx.push(fx); showWater(to);
-    st(`💧 第${i+1}幕洪水 → 漲到${to} / 第${at}s起 / ${dur}s / ${rg?'範圍['+rg+']':'全域'}(預覽;按存洪水寫回)`); };
+    const bx=parseFloat($('epFloodFx').value), bz=parseFloat($('epFloodFz').value), brk=(rg&&Number.isFinite(bx)&&Number.isFinite(bz))?[bx,bz]:null;   // from 只在有範圍時有意義
+    const fx={at,type:'flood',to,dur}; if(rg)fx.region=rg; if(brk)fx.from=brk; a.fx.push(fx); showWater(to);
+    st(`💧 第${i+1}幕洪水 → 漲到${to} / 第${at}s起 / ${dur}s / ${rg?'範圍['+rg+']':'全域'}${brk?' / 決堤口['+brk+']推進':''}(預覽;按存洪水寫回)`); };
   $('epFloodClr').onclick=()=>{ const a=floodAct(); if(a.fx)a.fx=a.fx.filter(f=>f.type!=='flood'); waterU.uReg.value.set(0,0,1e4,1e4); showWater(0.05); fillFlood(); st('💧 已清除本幕洪水(按存洪水寫回)'); };
   $('epFloodSave').onclick=async()=>{ st('存洪水…'); const r=await post('/api/save-layer',{layer:PKG.data.scene,data:SCENE}); st(r.ok?'✓ 洪水已寫回 scene.json':'✗ '+r.err); };
   setInterval(()=>{ const i=phase<0?0:phase; if(i!==floodShown){ floodShown=i; fillFlood(); } },400);
@@ -2282,7 +2291,7 @@ loop();
     if(Array.isArray(pts)){ curActSet()[$('epPathU').value]={...curActSet()[$('epPathU').value],path:pts}; syncMarch(); drawPath(); st('🚩 路徑(文字)已套用預覽'); } }
     catch{ st('✗ 路徑不是合法 JSON'); } };
   let pPick=false, sPick=false;
-  const offOtherPicks=()=>{ if(pickOn){pickOn=false;$('epPick').textContent='點圖設位置:關';} if(bPick){bPick=false;$('epBPick').textContent='點圖設中心:關';} if(rPick){rPick=false;$('epRPick').textContent='點圖加點:關';} if(fcPick){fcPick=false;$('epFloodCtr').textContent='點圖設中心:關';} };
+  const offOtherPicks=()=>{ if(pickOn){pickOn=false;$('epPick').textContent='點圖設位置:關';} if(bPick){bPick=false;$('epBPick').textContent='點圖設中心:關';} if(rPick){rPick=false;$('epRPick').textContent='點圖加點:關';} if(fcPick){fcPick=false;$('epFloodCtr').textContent='點圖設中心:關';} if(bcPick){bcPick=false;$('epFloodBreach').textContent='點圖設決堤口:關';} };
   $('epPathPick').onclick=()=>{ pPick=!pPick; if(pPick){sPick=false;$('epPathStart').textContent='移出生點:關';}
     $('epPathPick').textContent='點圖加點:'+(pPick?'開':'關'); if(pPick)offOtherPicks();
     window.__editCoordSink=pPick?((x,z)=>{ curPath().push([x,z]); syncMarch(); drawPath(); st(`🚩 加途經點 [${x},${z}]`); }):null; };
