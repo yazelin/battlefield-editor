@@ -6,6 +6,7 @@
   "data": { "factions": "factions.json", "terrain": "terrain.json", "structures": "structures.json", "scene": "scene.json", "audio": "audio.json", "units": "units.json" },
   "pending": [],
   "meta": {
+    "tags": ["三國", "火攻", "水戰", "以寡擊眾"],
     "title": "赤壁之戰",
     "subtitle": "建安十三年・西元二〇八",
     "docTitle": "赤壁之戰 208 — 全 3D 戰場重現｜歷史特別節目",

@@ -25,6 +25,11 @@
       "type": "object",
       "description": "戰役 UI 文案，由引擎 applyMeta() 在啟動時套用到 DOM",
       "properties": {
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "戰役分類標籤，供戰役列表頁篩選。兩條軸：時代（三國／楚漢／東晉十六國…）+ 看點機制（火攻／水戰／圍城／以寡擊眾／武將單挑…）"
+        },
         "title": { "type": "string" },
         "subtitle": { "type": "string" },
         "docTitle": { "type": "string" },
