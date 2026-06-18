@@ -1,0 +1,73 @@
+{
+  "structures": [
+    {
+      "id": "fancheng",
+      "type": "city",
+      "x": 0,
+      "z": -74,
+      "label": "樊城",
+      "labelPos": [
+        0,
+        -60
+      ],
+      "labelClass": "big"
+    },
+    {
+      "id": "xiangyang",
+      "type": "city",
+      "x": 10,
+      "z": 28,
+      "label": "襄陽",
+      "labelPos": [
+        10,
+        42
+      ],
+      "labelClass": "big"
+    },
+    {
+      "id": "weiCamp",
+      "type": "camp",
+      "faction": "wei",
+      "x": -113,
+      "z": -104,
+      "label": "于禁七軍大營",
+      "labelPos": [
+        -113,
+        -90
+      ]
+    },
+    {
+      "id": "guanCamp",
+      "type": "camp",
+      "faction": "guan",
+      "x": 88,
+      "z": -92,
+      "label": "圍頭(關羽圍營)",
+      "labelPos": [
+        88,
+        -78
+      ]
+    },
+    {
+      "type": "marker",
+      "label": "偃城",
+      "x": -30,
+      "z": -205,
+      "labelClass": "big"
+    },
+    {
+      "type": "marker",
+      "label": "漢水",
+      "x": 165,
+      "z": 55,
+      "labelClass": "water"
+    },
+    {
+      "type": "marker",
+      "label": "罾口川低地",
+      "x": -55,
+      "z": -158,
+      "labelClass": "water"
+    }
+  ]
+}

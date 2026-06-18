@@ -31,7 +31,7 @@
               "required": ["at", "type"],
               "properties": {
                 "at": { "type": "number" },
-                "type": { "enum": ["volley", "ignite", "shake", "campFire"] }
+                "type": { "enum": ["volley", "ignite", "shake", "campFire", "flood"] }
               }
             }
           }

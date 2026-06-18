@@ -20,10 +20,12 @@ const slug = basename(dir);
 const RESIDUE = [
   // 單位 id
   'caoNavy', 'caoRen', 'caoMain', 'sunFleet', 'hgFleet', 'liuArmy', 'liuFleet',
-  // 結構 id
-  'campWulin', 'campChibi', 'huarongPass', 'xiangyang', 'jiangling', 'xiakou', 'chaisang',
-  // 地名 / 典故字串(只列赤壁專屬;像「長江」這種跨戰役共用的地理特徵不列,會誤判)
+  // 結構 id(只列赤壁專屬;襄陽/江陵/夏口/柴桑等是跨戰役共用大城,不列,否則像水淹七軍會誤判)
+  'campWulin', 'campChibi', 'huarongPass',
+  // 地名 / 典故字串(只列赤壁專屬;像「長江」「襄陽」這種跨戰役共用的地理不列,會誤判)
   '赤壁', '烏林', '華容', '連環計', '鐵索連環', '八十萬', '東風', '黃蓋', '周瑜',
+  // 赤壁專屬頁連結(red-cliffs-3d 才有的頁;複製到別包 = 死連結)
+  'classic.html', 'audition.html', '無聲原版', '選曲記錄',
 ];
 
 if (slug === 'chibi') { console.log('SKIP — chibi(赤壁)本身,殘留字屬合法'); process.exit(0); }

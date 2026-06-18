@@ -1,0 +1,22 @@
+{
+  "guan": {
+    "name": "關羽荊州軍",
+    "flag": "關",
+    "css": "guan",
+    "col": "#3e8b54",
+    "dark": "#1f5233",
+    "light": "#86c79b",
+    "panel": "關羽荊州軍",
+    "legend": "關羽軍"
+  },
+  "wei": {
+    "name": "曹魏于禁七軍",
+    "flag": "魏",
+    "css": "wei",
+    "col": "#4a6da8",
+    "dark": "#233a63",
+    "light": "#8fb4e0",
+    "panel": "于禁七軍",
+    "legend": "魏軍"
+  }
+}
