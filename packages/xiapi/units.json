@@ -1,0 +1,58 @@
+{
+  "units": [
+    {
+      "id": "caoArmy",
+      "kind": "army",
+      "faction": "cao",
+      "n": 120,
+      "name": "曹操本隊",
+      "generals": "曹操・荀攸・郭嘉",
+      "gait": "foot",
+      "start": {
+        "x": -298,
+        "z": -65,
+        "visible": true
+      },
+      "info": [
+        "東征主力,圍下邳",
+        "建安三年曹操親征呂布,野戰連勝,圍呂布於下邳。"
+      ]
+    },
+    {
+      "id": "liuArmy",
+      "kind": "army",
+      "faction": "liu",
+      "n": 44,
+      "name": "劉備軍",
+      "generals": "劉備・關羽・張飛",
+      "gait": "foot",
+      "start": {
+        "x": 3,
+        "z": 0,
+        "visible": true
+      },
+      "info": [
+        "依附曹操的盟軍",
+        "呂布奪其徐州,劉備走依曹操,從征下邳。"
+      ]
+    },
+    {
+      "id": "luArmy",
+      "kind": "army",
+      "faction": "lu",
+      "n": 80,
+      "name": "呂布守軍",
+      "generals": "呂布・高順・陳宮",
+      "gait": "cav",
+      "start": {
+        "x": 10,
+        "z": -34,
+        "visible": true
+      },
+      "info": [
+        "困守下邳的呂布軍",
+        "呂布有勇無謀,陳宮獻策不用;困守孤城下邳。"
+      ]
+    }
+  ]
+}

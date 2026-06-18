@@ -18,8 +18,8 @@ const slug = basename(dir);
 
 // 赤壁(chibi)專屬、高辨識度的殘留字:出現在別包 = 沒改乾淨
 const RESIDUE = [
-  // 單位 id
-  'caoNavy', 'caoRen', 'caoMain', 'sunFleet', 'hgFleet', 'liuArmy', 'liuFleet',
+  // 單位 id(只列赤壁專屬水師/陸軍名;`liuArmy` 是劉備通用陸軍、跨戰役共用,不列,否則劉備參戰的別場會誤判)
+  'caoNavy', 'caoRen', 'caoMain', 'sunFleet', 'hgFleet', 'liuFleet',
   // 結構 id(只列赤壁專屬;襄陽/江陵/夏口/柴桑等是跨戰役共用大城,不列,否則像水淹七軍會誤判)
   'campWulin', 'campChibi', 'huarongPass',
   // 地名 / 典故字串(只列赤壁專屬;像「長江」「襄陽」這種跨戰役共用的地理不列,會誤判)
