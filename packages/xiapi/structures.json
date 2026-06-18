@@ -1,0 +1,41 @@
+{
+  "structures": [
+    {
+      "id": "xiapi",
+      "type": "city",
+      "x": 0,
+      "z": 0,
+      "label": "下邳城",
+      "labelPos": [
+        0,
+        16
+      ],
+      "labelClass": "big"
+    },
+    {
+      "id": "baimen",
+      "type": "pass",
+      "x": -1,
+      "z": 34,
+      "label": "白門樓",
+      "labelPos": [
+        0,
+        40
+      ]
+    },
+    {
+      "type": "marker",
+      "label": "泗水",
+      "x": -180,
+      "z": 72,
+      "labelClass": "water"
+    },
+    {
+      "type": "marker",
+      "label": "沂水",
+      "x": 0,
+      "z": -170,
+      "labelClass": "water"
+    }
+  ]
+}

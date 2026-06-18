@@ -1,0 +1,42 @@
+{
+  "name": "水淹下邳 198",
+  "era": "東漢建安三年(198)",
+  "description": "徐州下邳——曹操引沂、泗二水決堤灌城,水淹呂布,擒殺於白門樓",
+  "engine": "battlefield-editor",
+  "data": {
+    "factions": "factions.json",
+    "terrain": "terrain.json",
+    "structures": "structures.json",
+    "scene": "scene.json",
+    "audio": "audio.json",
+    "units": "units.json"
+  },
+  "pending": [],
+  "meta": {
+    "tags": [
+      "三國",
+      "水攻",
+      "圍城"
+    ],
+    "title": "水淹下邳",
+    "subtitle": "建安三年・西元一九八",
+    "docTitle": "水淹下邳 198 — 全 3D 戰場重現｜歷史特別節目",
+    "seal": "邳",
+    "broadcastTag": "歷史特別節目・全 3D 戰場重現",
+    "era": "建安三年",
+    "eraYear": "西元 198 年・徐州下邳",
+    "intro": {
+      "tag": "歷史特別節目・3D 戰場重現",
+      "bodyHtml": "呂布反覆無信,趁劉備在外奪了徐州、據下邳;劉備走依曹操。建安三年,曹操親征呂布,連敗之,圍於下邳堅城。久攻不下,曹操納荀攸、郭嘉之計,引沂、泗二水決堤灌城——下邳成澤國。城中部將叛變獻城,呂布被擒於白門樓;劉備提丁原、董卓之鑑,曹操遂縊殺呂布。<br><br>本節目以 3D 運鏡重現下邳全程:奪州、東征、圍城、決水、白門樓。"
+    },
+    "finale": {
+      "title": "反覆者亡",
+      "subtitle": "水淹下邳・呂布身死白門樓"
+    },
+    "timeline": {
+      "start": "建安元年",
+      "mid": "戰 役 時 間 軸",
+      "end": "建安三年 十二月"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "cao": {
+    "name": "曹操軍",
+    "flag": "曹",
+    "css": "cao",
+    "col": "#3d7de0",
+    "dark": "#1f3d70",
+    "light": "#8fb6ec",
+    "panel": "曹操軍",
+    "legend": "曹軍"
+  },
+  "liu": {
+    "name": "劉備軍",
+    "flag": "劉",
+    "css": "liu",
+    "col": "#3fae6a",
+    "dark": "#1f5e38",
+    "light": "#86c79b",
+    "panel": "劉備軍",
+    "legend": "劉軍"
+  },
+  "lu": {
+    "name": "呂布軍",
+    "flag": "呂",
+    "css": "lu",
+    "col": "#d4742c",
+    "dark": "#7d3f17",
+    "light": "#e8a86e",
+    "panel": "呂布軍",
+    "legend": "呂軍"
+  }
+}

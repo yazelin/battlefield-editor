@@ -13,10 +13,20 @@
 import { createServer } from 'node:http';
 import { readFile, mkdir, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join, extname, basename } from 'node:path';
 
+// 收集一個 PID 的整棵子孫進程(趁進程樹還活著時呼叫);用於 backstop 強制清理。
+function procTree(pid) {
+  const out = [pid];
+  try { for (const k of execSync(`pgrep -P ${pid}`, { encoding: 'utf8' }).split('\n').filter(Boolean)) out.push(...procTree(+k)); } catch {}
+  return out;
+}
+
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const USERDATA = join(tmpdir(), 'bfe-rendercheck-' + process.pid);   // 本次 chrome 專屬 profile;清理時用它精準 pkill 整實例
 const ai = process.argv.indexOf('--pkg');
 const PKG = ai >= 0 ? process.argv[ai + 1] : 'packages/chibi/battlefield.json';
 const SLUG = basename(dirname(PKG)) || 'pkg';
@@ -60,12 +70,13 @@ async function main() {
   const base = `http://localhost:${port}`;
 
   const errs = [], titles = [];
-  let browser, meta = {}, ok = false;
+  let browser, chromePid, meta = {}, ok = false;
   try {
-    browser = await puppeteer.launch({ executablePath: chromePath(), headless: 'new',
+    browser = await puppeteer.launch({ executablePath: chromePath(), headless: 'new', userDataDir: USERDATA,
       args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader',
         '--ignore-gpu-blocklist', '--enable-webgl', '--window-size=1280,720'],
       defaultViewport: { width: 1280, height: 720 } });
+    chromePid = browser.process()?.pid;
     const page = await browser.newPage();
     page.on('console', m => m.type() === 'error' && errs.push(m.text()));
     page.on('pageerror', e => errs.push('PAGEERROR ' + e.message));
@@ -87,7 +98,12 @@ async function main() {
     }
     ok = meta.nodes > 0 && errs.length === 0 && meta.canvas;
   } finally {
-    if (browser) await browser.close().catch(() => {});   // 一定關瀏覽器,避免洩漏 chrome 進程耗盡資源
+    // 三重清理:① 正常 close ② SIGKILL 收集到的進程樹 ③ 用本實例專屬 user-data-dir 精準 pkill 殘留(renderer/gpu 等 close 收不乾淨的孤兒)
+    const tree = chromePid ? procTree(chromePid) : [];
+    if (browser) await browser.close().catch(() => {});
+    for (const pid of tree) { try { process.kill(pid, 'SIGKILL'); } catch {} }
+    try { execSync(`pkill -9 -f ${USERDATA}`); } catch {}
+    try { await rm(USERDATA, { recursive: true, force: true }); } catch {}
     server.close();
   }
 

@@ -3,16 +3,17 @@
 本檔是此 repo 的進度與待辦單一來源。引擎抽出的完整設計脈絡在 red-cliffs-3d 的
 `docs/superpowers/specs/`(P3 design、P2g findings、P2h plan)。
 
-## 現況(2026-06-17)
+## 現況(2026-06-19)
 
 引擎已**完全資料驅動**,從 [`red-cliffs-3d`](https://github.com/yazelin/red-cliffs-3d) 抽出成本 repo。
-- 三份範例 package 皆通過 headless 瀏覽器驗證(swiftshader WebGL,0 console error):
+- 六份範例 package 皆通過 headless 瀏覽器驗證(swiftshader WebGL,0 console error):
   - `chibi`(赤壁):9 幕 + 旁白語音 + 音樂 + 音效。
   - `guandu`(官渡):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂。
   - `gaixia`(垓下):8 幕 + 旁白語音(雙聲 + 字幕)+ 音效 + 配樂;含烏江 ferry、淮河/長江雙河。
   - `feishui`(淝水):8 幕 + 旁白語音(雙聲 + 字幕)+ 配樂 + 音效;**由零 context agent 照 SKILL 自動編成**(dogfood 驗證樣本),配樂/音效用音樂庫/音效庫指派。
   - `fanchengflood`(水淹七軍 219):7 幕 + 旁白語音(雙聲)+ 配樂;**新 `flood` 水攻特效**(水面動畫上升/退去、船隨水浮、Gaussian 盆地)。完整襄樊弧線:圍城→龐德射額決戰→秋雨→水淹七軍→于禁降龐德死→威震華夏(巔峰)→徐晃解圍+呂蒙襲荊州(盛極而衰)。**待補:戰鬥音效、旁白發音人耳校**。
-- `tools/validate-data.mjs --pkg <manifest>` 對兩包皆 PASS(含跨檔引用檢查)。
+  - `xiapi`(水淹下邳 198):6 幕 + 旁白語音(雙聲)+ 配樂;曹操引沂泗灌城、劉備前驅、呂布白門樓殞命。**地形對照三國志11大地圖**(泗水西來主河 + 沂水北支於城西南匯流,城在東岸非孤島);此戰場驅動了 P5.5 的河道走向/本幕洪水/事件卡錯開等編輯功能。
+- `tools/validate-data.mjs --pkg <manifest>` 對各包皆 PASS(含跨檔引用檢查)。
 - 素材路徑改為「相對 manifest 目錄」解析(`assetUrl`),每份 package 自足擁有 `assets/`。
 
 ### 抽出時的演進(對照 red-cliffs-3d)
@@ -60,7 +61,8 @@
 | P5.2(=使用者「1」) | 座標編輯:選物件(單位 + 有 id 結構)→ Shift+點地圖 或 填 x/z → 即時移動(U.place / STRUCT.position)→ 存回 units/structures。延伸 Shift picker(加 `__editCoordSink` hook) | ✅ ship |
 | P5.3(=使用者「2」) | 資訊文字就地編輯:本幕 title/era/narr → 即時反映觀看畫面 + 存回 scene | ✅ ship |
 | P5.4 | **水攻調校閉環 + 全面編輯**:💧水位預覽滑桿、⛰️地形高斯 bump 即時挖塑(buildTerrain 重建)、🚩路徑 v2(出生點=綠色第0點可拖、軍隊箭頭同步)、**地圖直接拖曳**(路徑點/城營/單位)、⚔️部隊屬性(名稱/將領/數量/兵種/說明)、🚩陣營(旗/顏色)、面板收成分頁(地圖/單位/內容/驗收)、切幕放該幕旁白;fetch 加 res.ok 防 404 parse | ✅ ship |
-| 未來 | 路徑曲線/march 箭頭獨立編輯、每場獨立 OG/SEO 殼 | 待做 |
+| P5.5(水淹下邳驅動) | **🌊河道走向編輯**(centerline 節點地圖上拖改流向、加/刪末點、河寬河深滑桿,放開重挖地形;`_dense` 同步重算)、**💧本幕洪水授權**(每幕設 `flood` to/at/dur,拖「漲到」即時用水位預覽看)、**事件卡同幕自動錯開**(投影重疊時逐幀往下推開,連卡帶指標線一起移,不破壞 CSS2D 定位)、`render-check` chrome 孤兒進程 backstop(三重清理:close→SIGKILL 進程樹→專屬 user-data-dir pkill) | ✅ ship |
+| 未來 | 導向式洪水(水自決堤口沿河道灌入,非整面上升)、事件卡手動擺位、每場獨立 OG/SEO 殼 | 待做 |
 
 ## Backlog / 已知待辦
 

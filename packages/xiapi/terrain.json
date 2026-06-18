@@ -1,0 +1,146 @@
+{
+  "world": {
+    "W": 640,
+    "H": 620,
+    "segX": 214,
+    "segZ": 206
+  },
+  "colorRamp": [
+    {
+      "maxH": 0,
+      "color": "#2c3b3f"
+    },
+    {
+      "maxH": 1.4,
+      "color": "#6f6a3f",
+      "lerpTo": "#857a48",
+      "by": "ramp",
+      "from": 0,
+      "span": 1.4
+    },
+    {
+      "maxH": 7,
+      "color": "#7d7448",
+      "lerpTo": "#90854f",
+      "by": "fbm"
+    },
+    {
+      "maxH": null,
+      "color": "#9a8c5d",
+      "lerpTo": "#b3a987",
+      "by": "ramp",
+      "from": 7,
+      "span": 12
+    }
+  ],
+  "rivers": [
+    {
+      "id": "sishui",
+      "_note": "泗水:西來主河,自西北沿城西/西南繞,合流後折東南入海(對照三國志11大地圖:水在城西,陸在城東通海陵港)",
+      "centerline": [
+        [
+          -324,
+          -248
+        ],
+        [
+          -185,
+          -120
+        ],
+        [
+          -120,
+          -32
+        ],
+        [
+          -98,
+          4
+        ],
+        [
+          -68,
+          75
+        ],
+        [
+          -15,
+          125
+        ],
+        [
+          154,
+          192
+        ],
+        [
+          305,
+          300
+        ]
+      ],
+      "halfWidth": 18,
+      "depth": -6,
+      "bankSlope": 0.2,
+      "bankCap": 5,
+      "bankFbm": {
+        "scale": 0.012,
+        "xOff": 5,
+        "ampRate": 0.05,
+        "ampCap": 1.5
+      }
+    },
+    {
+      "id": "yishui",
+      "_note": "沂水:北來支流,自北沿城西下,於城西南與泗水匯流(沂泗合流)",
+      "centerline": [
+        [
+          -20,
+          -310
+        ],
+        [
+          -14,
+          -200
+        ],
+        [
+          -45,
+          -124
+        ],
+        [
+          -54,
+          -52
+        ],
+        [
+          -86,
+          -12
+        ]
+      ],
+      "halfWidth": 16,
+      "depth": -5,
+      "bankSlope": 0.2,
+      "bankCap": 5,
+      "bankFbm": {
+        "scale": 0.012,
+        "xOff": 7,
+        "ampRate": 0.05,
+        "ampCap": 1.5
+      }
+    }
+  ],
+  "bumps": [
+    {
+      "id": "xiapiBasin",
+      "center": [
+        0,
+        0
+      ],
+      "height": -2.2,
+      "radius": [
+        74,
+        104
+      ],
+      "tint": {
+        "color": "#56603c",
+        "threshold": 0.12,
+        "gain": 1.4,
+        "max": 0.55,
+        "minH": -2,
+        "maxH": 4
+      }
+    }
+  ],
+  "bands": [],
+  "regions": []
+}
