@@ -1,36 +1,119 @@
 {
-  "world": { "W": 620, "H": 540, "segX": 210, "segZ": 188 },
+  "world": {
+    "W": 620,
+    "H": 540,
+    "segX": 210,
+    "segZ": 188
+  },
   "colorRamp": [
-    { "maxH": 0, "color": "#2c3b3f" },
-    { "maxH": 1.4, "color": "#6f6a3f", "lerpTo": "#857a48", "by": "ramp", "from": 0, "span": 1.4 },
-    { "maxH": 7, "color": "#7d7448", "lerpTo": "#90854f", "by": "fbm" },
-    { "maxH": null, "color": "#9a8c5d", "lerpTo": "#b3a987", "by": "ramp", "from": 7, "span": 12 }
+    {
+      "maxH": 0,
+      "color": "#2c3b3f"
+    },
+    {
+      "maxH": 1.4,
+      "color": "#6f6a3f",
+      "lerpTo": "#857a48",
+      "by": "ramp",
+      "from": 0,
+      "span": 1.4
+    },
+    {
+      "maxH": 7,
+      "color": "#7d7448",
+      "lerpTo": "#90854f",
+      "by": "fbm"
+    },
+    {
+      "maxH": null,
+      "color": "#9a8c5d",
+      "lerpTo": "#b3a987",
+      "by": "ramp",
+      "from": 7,
+      "span": 12
+    }
   ],
   "rivers": [
     {
       "id": "hanshui",
-      "centerline": [ [-300, -15], [-90, -28], [20, -34], [140, -8], [230, 110], [300, 240] ],
+      "centerline": [
+        [
+          -311,
+          -14
+        ],
+        [
+          -90,
+          -28
+        ],
+        [
+          20,
+          -34
+        ],
+        [
+          140,
+          -8
+        ],
+        [
+          230,
+          110
+        ],
+        [
+          309,
+          256
+        ]
+      ],
       "halfWidth": 30,
       "depth": -8,
       "bankSlope": 0.2,
       "bankCap": 5,
-      "bankFbm": { "scale": 0.012, "xOff": 7, "ampRate": 0.05, "ampCap": 3.5 }
+      "bankFbm": {
+        "scale": 0.012,
+        "xOff": 7,
+        "ampRate": 0.05,
+        "ampCap": 3.5
+      }
     }
   ],
   "bumps": [
     {
       "id": "fanchengMound",
-      "center": [0, -74],
+      "center": [
+        0,
+        -74
+      ],
       "height": 11,
-      "radius": [50, 38],
-      "tint": { "color": "#9a8f60", "threshold": 0.2, "gain": 1.3, "max": 0.5, "minH": 0.5, "maxH": 16 }
+      "radius": [
+        50,
+        38
+      ],
+      "tint": {
+        "color": "#9a8f60",
+        "threshold": 0.2,
+        "gain": 1.3,
+        "max": 0.5,
+        "minH": 0.5,
+        "maxH": 16
+      }
     },
     {
       "id": "zengkouBasin",
-      "center": [-85, -103],
+      "center": [
+        -85,
+        -103
+      ],
       "height": -4.4,
-      "radius": [104, 70],
-      "tint": { "color": "#4e5836", "threshold": 0.1, "gain": 1.5, "max": 0.68, "minH": -3, "maxH": 4 }
+      "radius": [
+        104,
+        70
+      ],
+      "tint": {
+        "color": "#4e5836",
+        "threshold": 0.1,
+        "gain": 1.5,
+        "max": 0.68,
+        "minH": -3,
+        "maxH": 4
+      }
     }
   ],
   "bands": [],
