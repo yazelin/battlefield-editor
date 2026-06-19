@@ -40,8 +40,17 @@ for (const [k, v] of Object.entries(FAC)) {
 // ── structures ──
 const S = readAbs(layer(BF.data.structures)).structures;
 const TYPES = ['city', 'camp', 'pass', 'marker', 'ferry'], STRUCT_IDS = new Set();
+const modelErr = (o, tag) => {   // 可替換模型(glTF):model=路徑字串且檔案存在、modelScale/modelY=數字
+  if (o.model !== undefined) {
+    if (typeof o.model !== 'string') errs.push(`${tag} model 非路徑字串`);
+    else if (!existsSync(layer(o.model))) errs.push(`${tag} model 路徑不存在: ${o.model}(素材相對 manifest;glb 慣例放 assets/models/)`);
+  }
+  if (o.modelScale !== undefined && typeof o.modelScale !== 'number') errs.push(`${tag} modelScale 非數字`);
+  if (o.modelY !== undefined && typeof o.modelY !== 'number') errs.push(`${tag} modelY 非數字`);
+};
 S.forEach((s, i) => {
   if (!TYPES.includes(s.type)) errs.push(`structures[${i}] type 非法: ${s.type}`);
+  modelErr(s, `structures[${i}]`);
   if (typeof s.x !== 'number') errs.push(`structures[${i}] x 非數字`);
   if (!(s.type === 'marker' && s.followRiver) && typeof s.z !== 'number') errs.push(`structures[${i}] z 非數字`);
   if (s.type === 'camp' && !FACS.includes(s.faction)) errs.push(`structures[${i}] camp faction 非法: ${s.faction}`);
@@ -75,6 +84,7 @@ if (!Array.isArray(UNITS) || !UNITS.length) errs.push('units.units 非非空陣�
 else UNITS.forEach((u, i) => {
   unitCount++;
   for (const f of ['id', 'kind', 'faction', 'n']) if (!(f in u)) errs.push(`units[${i}] 缺 ${f}`);
+  modelErr(u, `units[${i}]`);
   if (!UNIT_KINDS.includes(u.kind)) errs.push(`units[${i}] kind 非法: ${u.kind}`);
   if (!FACS.includes(u.faction)) errs.push(`units[${i}] faction 非法: ${u.faction}`);
   if (typeof u.n !== 'number') errs.push(`units[${i}] n 非數字`);

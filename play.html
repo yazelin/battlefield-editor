@@ -589,6 +589,8 @@ body.editing #side{right:320px}   /* 編輯面板在右,把羅盤/圖例移到�
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 
 const PKG_URL = new URLSearchParams(location.search).get('pkg') || 'packages/chibi/battlefield.json';
 const PKG = await (await fetch(PKG_URL)).json();
@@ -1153,6 +1155,7 @@ class Army extends Unit{
     super(id,fac,'army');
     const geo=new THREE.CylinderGeometry(.22,.5,1.8,5);geo.translate(0,.9,0);
     const im=new THREE.InstancedMesh(geo,new THREE.MeshLambertMaterial({color:FAC[fac].col}),n);
+    this.instanced=im;
     const cols=Math.ceil(Math.sqrt(n*1.7)),M=new THREE.Matrix4();
     for(let i=0;i<n;i++){
       const r=Math.floor(i/cols),c=i%cols;
@@ -1162,6 +1165,8 @@ class Army extends Unit{
     this.group.add(im);
     this.group.add(makeBanner(fac,true));
   }
+  // 換每兵造型:glb 幾何蓋掉內建圓柱(保留隊形矩陣 + 陣營色 Lambert)
+  setModel(url,scale){ loadGLB(url).then(g=>{ const ge=glbGeometry(g,scale||1); if(ge){ this.instanced.geometry.dispose(); this.instanced.geometry=ge; } }).catch(e=>console.warn('單位模型載入失敗:',url,e)); }
 }
 
 class Fleet extends Unit{
@@ -1257,6 +1262,28 @@ function locLabel(txt,x,z,cls=''){
   const o=new CSS2DObject(d);o.position.set(x,Math.max(ground(x,z),0)+(cls.includes('water')?2:10),z);
   scene.add(o);return o;
 }
+/* ════════ 可替換模型(glTF;物件不指定 model 就用內建造型,完全向後相容)════════ */
+const _glbCache=new Map();
+function loadGLB(url){ if(!_glbCache.has(url)) _glbCache.set(url, new Promise((res,rej)=>new GLTFLoader().load(url,res,undefined,rej))); return _glbCache.get(url); }
+// 結構:glb 載入後藏掉內建造型、把模型掛進(已定位好的)group;火源等之後才掛,捕捉當下 children 不會動到它
+function applyStructModel(group,url,scale,yOff){
+  const builtIn=[...group.children];
+  loadGLB(url).then(g=>{ builtIn.forEach(c=>c.visible=false);
+    const m=g.scene.clone(true), s=scale||1; m.scale.set(s,s,s); if(yOff)m.position.y=yOff; group.add(m);
+  }).catch(e=>console.warn('結構模型載入失敗:',url,e));
+}
+// 單位:glb 各 mesh 幾何合成一個(套世界矩陣、只留 position/normal),縮放後給 InstancedMesh 當「每兵造型」
+function glbGeometry(g,scale){
+  const geos=[]; g.scene.updateMatrixWorld(true);
+  g.scene.traverse(o=>{ if(o.isMesh){ const ge=o.geometry.clone(); ge.applyMatrix4(o.matrixWorld);
+    for(const a of Object.keys(ge.attributes)) if(a!=='position'&&a!=='normal') ge.deleteAttribute(a);
+    if(!ge.attributes.normal) ge.computeVertexNormals(); geos.push(ge); } });
+  if(!geos.length) return null;
+  const geo = geos.length>1 ? mergeGeometries(geos,false) : geos[0];
+  if(scale&&scale!==1) geo.scale(scale,scale,scale);
+  return geo;
+}
+
 /* ════════ structures catalog(資料驅動) ════════ */
 const STRUCT_BUILDERS = {
   city: s => makeCity(s.x, s.z),
@@ -1277,6 +1304,7 @@ for (const s of STRUCT_DATA.structures) {
   let g;
   try { g = build(s); } catch (e) { console.warn('結構建構失敗,跳過:', s, e); continue; }
   if (s.id) STRUCT[s.id] = g;
+  if (s.model) applyStructModel(g, assetUrl(s.model), s.modelScale, s.modelY);   // 指定 model 就用 glTF 蓋掉內建造型
   if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
 }
 // 火源 emitter:對宣告 fire 的結構附加(資料驅動,取代寫死的 campWulinFire)
@@ -1290,6 +1318,7 @@ const U={};
 for(const u of UNITS.units){
   U[u.id] = u.kind==='army' ? new Army(u.id,u.faction,u.n) : new Fleet(u.id,u.faction,u.n, u.fireShip?{fireShip:true}:{});
   U[u.id].setLabel(u.name, u.generals);
+  if(u.model && U[u.id].setModel) U[u.id].setModel(assetUrl(u.model), u.modelScale);   // 指定 model 就換造型(目前支援 army;fleet 之後)
 }
 // 連環:對宣告 chainable 的艦隊建鎖鏈(無則跳過)
 for(const u of UNITS.units){ if(u.chainable && U[u.id]) buildChains(U[u.id]); }
