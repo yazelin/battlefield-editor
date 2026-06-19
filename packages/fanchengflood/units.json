@@ -27,8 +27,8 @@
       "generals": "于禁・龐德",
       "gait": "foot",
       "start": {
-        "x": -113,
-        "z": -200,
+        "x": -87,
+        "z": -263,
         "visible": true
       },
       "info": [
@@ -63,8 +63,8 @@
       "generals": "龐德",
       "gait": "foot",
       "start": {
-        "x": -92,
-        "z": -136,
+        "x": -71,
+        "z": -233,
         "visible": true
       },
       "info": [
