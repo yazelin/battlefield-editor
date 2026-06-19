@@ -42,7 +42,7 @@ node tools/new-package.mjs <slug> "顯示名"
 - **terrain**:`world` 尺寸要容得下所有點(留邊);河 `centerline` ≥2 控制點(引擎以 Catmull 加密);丘陵/區塊/色帶。**結構不可沉在河裡**(城/營要離河中線 > 半寬 + footprint)。
 - **structures**:`city`/`camp`/`pass`/`marker`/`ferry`。camp 需 `faction`(本包陣營);`fire` 掛火源(需 id);**ferry 渡口刻意放岸邊水緣**(`rot` 轉向水側)。水名標籤直接給 `z`(別用 `followRiver`,`RZ` 目前是赤壁硬編碼)。
 - **units**:`army`/`fleet`;`faction` 為本包陣營;`start{x,z,visible,formation?}`;`gait`(cav/foot);`info[short,long]`。
-- **scene**:多幕。每幕 `key/title/dur/env`(env ∈ day/cold/dusk/night/inferno/dawn)+ **非空 `shots`**(line/orbit/follow)+ `power`(key 為陣營)+ `set`/`march`/`fx`/`events`/`strat`/`combat`/`finale`。**`dur` 要 ≥ 該幕旁白音長 + 緩衝**(否則旁白被切)。set/fx 引用的 unit/structure/camp 必須存在。
+- **scene**:多幕。每幕 `key/title/dur/env`(env ∈ day/cold/dusk/night/inferno/dawn)+ **非空 `shots`**(line/orbit/follow)+ `power`(key 為陣營)+ `set`/`march`/`fx`/`events`/`strat`/`combat`/`finale`。**`dur` 要 ≥ 該幕旁白音長**(否則旁白被切,audio-check 會擋);但 `dur` 只是**上限** —— 自動播映時引擎會在「旁白 + 動作 + 洪水 + 事件」都做完後自動提早換幕、收掉尾巴空轉,所以 **`dur` 設寬鬆即可、不必精算幕長**(要某幕刻意停久設 `hold:true`)。set/fx 引用的 unit/structure/camp 必須存在。
 - **audio**:`music.scenes` 長度 = 幕數,`music.scenes[i]` 與 `pathPattern {n}` 是 **1-based**(scene1=第一幕);音效 `cues` 鍵是 **0-based 幕索引**(`"0"`=第一幕)——兩者別錯位。synth 音效(drum/boom/burst)零素材即可;mp3 素材路徑相對 manifest 目錄(放 `assets/`)。**每幕 `dur` 要 ≥ 該幕旁白較長那條人聲 + 緩衝**,否則旁白被切(`audio-check` 會擋)。
 - **manifest `meta.tags`**(供戰役列表頁篩選,必填):兩條軸,先時代後看點——時代(`三國`／`楚漢`／`東晉十六國`…)+ 看點機制(`火攻`／`水戰`／`圍城`／`以寡擊眾`／`武將單挑`…)。沿用既有詞彙別自造同義詞(例:已有 `火攻` 就別寫 `火計`)。
 - **manifest `meta.intro`**(開場字卡,選填):`tag`/`bodyHtml`/`footHtml`。**`footHtml` 有通用預設(史/演義 tag 說明),不必寫**;要寫就**對齊該戰役朝代**——「演義」來源:三國→三國演義、楚漢→《史記》、東晉→《晉書》。**絕對別從赤壁複製** `classic.html`／`audition.html`／「無聲原版」／「選曲記錄」那兩個連結(那是 red-cliffs-3d 專屬頁,別包會死連結;residue-scan 會擋)。
