@@ -64,8 +64,8 @@
 | P5.5(水淹下邳驅動) | **🌊河道走向編輯**(centerline 節點地圖上拖改流向、加/刪末點、河寬河深滑桿,放開重挖地形;`_dense` 同步重算)、**💧本幕洪水授權**(每幕設 `flood` to/at/dur,拖「漲到」即時用水位預覽看)、**事件卡同幕自動錯開**(投影重疊時逐幀往下推開,連卡帶指標線一起移,不破壞 CSS2D 定位)、`render-check` chrome 孤兒進程 backstop(三重清理:close→SIGKILL 進程樹→專屬 user-data-dir pkill) | ✅ ship |
 | P5.6(區域洪水) | **`flood` 可限定區域**:水面 shader 改為頂點位移(細分網格 + 橢圓 `region` 遮罩,`smoothstep` 平滑收邊),洪水只在 `region` 內隆到 `to`、外面維持原位 —— 解掉「全域整面上漲、不相干的水也跟著漲」。`uReg` 預設超大半徑=全域(舊 flood 向後相容);船浮/量測走 JS 鏡像 `waterYAt`;編輯器「本幕洪水」加範圍(中心點圖設、半徑、即時預覽)。實測:城/匯流口淹到 4.0,泗水出海口・沂水北源維持 0.05 不漲 | ✅ ship |
 | P5.7(水鋒推進) | **`flood` 動態 region（潰堤流入感）**:加可選 `from`(決堤口),洪水橢圓**從決堤口的小水窪一邊長大、一邊往城推進**,`smoothstep` 邊緣即推進的水鋒;**招1**水鋒比水位快(`region` 進度 `p*1.6`,先漫到城、水位在後面追)、**招2**決堤口可挪離河道往乾地(初灘落乾地、衝入感更強);scrub 跳末態=全區。編輯器「本幕洪水」加決堤口(點圖設)。實測:p=15% 決堤口已濕但城心仍乾(0.05)、p=45% 城心剛到、p=90% 全淹 → 水鋒由缺口推進 | ✅ ship |
-| P5.8(可替換模型) | **glTF 模型替換**:單位 / 結構指 `model:"assets/models/x.glb"`(+ `modelScale`/`modelY`)就用 GLTFLoader 載入蓋掉內建造型——**結構**=藏內建、掛 glb 進已定位 group;**陸軍**=glb 各 mesh 幾何合成一個餵 InstancedMesh(保留隊形矩陣 + 陣營色 Lambert);沒指就用內建(向後相容)。`tools/make-test-glb.mjs` 手刻最小合法 glb(JSON chunk 空白補齊)當測試素材;`validate-data` 檢查 model 路徑存在。實測:下邳城→方尖碑、劉備軍兵卒→小方尖碑(留綠)、呂布軍無 model 仍圓柱。**待續:水師(Fleet)逐船換、編輯器 model 欄位** | ✅ ship |
-| 未來 | 真・導向式洪水(水有**速度**、繞地勢流動而非橢圓擴張)、水師 glTF + 編輯器 model 欄位、事件卡手動擺位、每場獨立 OG/SEO 殼 | 待做 |
+| P5.8(可替換模型) | **glTF 模型替換**:單位 / 結構指 `model:"assets/models/x.glb"`(+ `modelScale`/`modelY`)就用 GLTFLoader 載入蓋掉內建造型——**結構**=藏內建、掛 glb 進已定位 group;**陸軍**=glb 各 mesh 幾何合成一個餵 InstancedMesh(保留隊形矩陣 + 陣營色 Lambert);**水師**=每艘船 mesh 換成 glb clone(保留傾覆/沉沒;glb 無帆 → 燃燒不變帆色)。沒指就用內建(向後相容)。`tools/make-test-glb.mjs` 手刻最小合法 glb(JSON chunk 空白補齊)當測試素材;`validate-data` 檢查 model 路徑存在;**編輯器**「座標/模型」可選物件填 glb 路徑 + 縮放、即時換。實測:下邳城→方尖碑、劉備軍兵卒→小方尖碑(留綠)、呂布軍無 model 仍圓柱、caoNavy(24 船)setModel 零 error | ✅ ship |
+| 未來 | 真・導向式洪水(水有**速度**、繞地勢流動而非橢圓擴張)、事件卡手動擺位、每場獨立 OG/SEO 殼 | 待做 |
 
 ## Backlog / 已知待辦
 
