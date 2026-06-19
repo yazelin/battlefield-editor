@@ -3,8 +3,8 @@
     {
       "id": "fancheng",
       "type": "city",
-      "x": 0,
-      "z": -74,
+      "x": 13,
+      "z": -91,
       "label": "樊城",
       "labelPos": [
         0,
@@ -15,8 +15,8 @@
     {
       "id": "xiangyang",
       "type": "city",
-      "x": 10,
-      "z": 28,
+      "x": 6,
+      "z": 58,
       "label": "襄陽",
       "labelPos": [
         10,
@@ -28,8 +28,8 @@
       "id": "weiCamp",
       "type": "camp",
       "faction": "wei",
-      "x": -113,
-      "z": -104,
+      "x": -66,
+      "z": -143,
       "label": "于禁七軍大營",
       "labelPos": [
         -113,
