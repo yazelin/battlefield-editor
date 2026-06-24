@@ -50,6 +50,9 @@ a.card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 14
 footer{margin-top:48px;text-align:center;color:var(--paper-dim);font-size:12px;line-height:2;letter-spacing:1px}
 footer code{background:rgba(201,162,77,.1);border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--paper);font-family:ui-monospace,monospace;font-size:11.5px}
 footer a{color:var(--gold)}
+.social-icons{display:flex;justify-content:center;gap:18px;margin-top:14px}
+.social-icons a{color:var(--paper-dim);display:inline-flex;transition:color .2s,transform .2s}
+.social-icons a:hover{color:var(--gold);transform:scale(1.15) rotate(-6deg)}
 .loading{text-align:center;color:var(--paper-dim);letter-spacing:3px;padding:40px}
 details.guide{max-width:840px;margin:46px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(8px)}
 details.guide summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--gold)}
@@ -139,6 +142,11 @@ node tools/assign-sfx.mjs   &lt;slug&gt; battlecry sword1 ...   # 指派音效</
   <footer>
     AI 編寫資料、引擎演出、人驗收 —— 想自己編一場戰役?上面「如何使用」有完整步驟。<br>
     原始碼與說明見 <a href="https://github.com/yazelin/battlefield-editor">GitHub</a>。
+    <nav class="social-icons">
+      <a href="https://github.com/yazelin/battlefield-editor" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+      <a href="https://www.facebook.com/yaze.lin.gm" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a>
+      <a href="https://buymeacoffee.com/yazelin" target="_blank" rel="noopener" title="請我喝咖啡" aria-label="Buy me a coffee"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 3h13a1 1 0 0 1 1 1v2h2a3 3 0 0 1 0 6h-2.2A6 6 0 0 1 12 16H9a6 6 0 0 1-6-6V4a1 1 0 0 1 1-1Zm14 5v2h2a1 1 0 0 0 0-2h-2ZM3 19h16v2H3z"/></svg></a>
+    </nav>
   </footer>
 </div>
 <script>
