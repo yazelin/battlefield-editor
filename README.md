@@ -59,6 +59,7 @@ tools/sfx-library.json    CC0 音效庫目錄(22 個;同結構)
 tools/assign-music.mjs  從音樂庫依「幕→曲」指派配樂(local→海選 stash→preview 下載)
 tools/assign-sfx.mjs    從音效庫指派音效到 package
 tools/make-test-glb.mjs 產最小合法 .glb(可替換模型 glTF 管線的測試素材)
+tools/trailer/           零成本宣傳片管線(錄自動播映→edge-tts 旁白→Gemini 驗音→ffmpeg 合成 16:9/9:16/4:5;見該目錄 README)
 skills/author-battlefield/SKILL.md   AI 編寫戰場的可執行流程
 ```
 
